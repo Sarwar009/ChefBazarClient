@@ -9,13 +9,11 @@ import useAddToFavorites from "../../hooks/useAddToFavorites";
 export default function MostLovedFoods() {
   const [mostLoved, setMostLoved] = useState([]);
   const [loading, setLoading] = useState(true);
-  const API_URL = import.meta.env.VITE_API_URL;
   const { user } = useAuth();
   const { addToFavorites } = useAddToFavorites();
 
   const navigate = useNavigate();
-
-  
+  const API_URL = import.meta.env.VITE_API_URL;
    
 
   useEffect(() => {
@@ -61,6 +59,7 @@ const handleAddToFavorites = (meal) => {
         <div className=" grid md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2 gap-8">
           {mostLoved.map((meal) => (
               <MealCard
+              key={meal._id}
             meal={meal}
             handleOrder={handleOrder}
             addToFavorites={handleAddToFavorites}
