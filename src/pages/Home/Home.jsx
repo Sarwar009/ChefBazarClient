@@ -15,9 +15,10 @@ const Home = () => {
       <Silder />
       <Hero />
       <DailyMeals />
+      <HomePageFreeDelivery />
       <TrandingMeals />
       <MostLovedFoods />
-      <HomePageFreeDelivery />
+      
       <BestSellers />
       <WhyChooseus />
       <Reviews />

@@ -5,8 +5,6 @@ const MealDetailsBtn = ({ mealId }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  if (!mealId || !mealId) return null;
-
   const handleDetails = () => {
     if (!user) {
       navigate('/login');

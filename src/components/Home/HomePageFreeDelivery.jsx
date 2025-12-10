@@ -8,9 +8,9 @@ export default function HomePageFreeDelivery() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.5 }}
       transition={{ duration: 1, ease: "easeOut" }}
-    className="bg-linear-to-r from-blue-500 via-blue-600 to-indigo-600">
+    className="bg-linear-to-r from-blue-500 rounded-3xl text-white text-center shadow-xl  via-blue-600 to-indigo-600 mt-8">
       <section
-      className="max-w-6xl mx-auto px-6 py-20 rounded-3xl  text-white text-center shadow-xl"
+      className="max-w-6xl mx-auto px-6 py-20"
       
     >
       <h2 className="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-lg">

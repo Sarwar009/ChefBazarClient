@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import MealCard from "../Shared/Mealcard/MealCard";
@@ -14,32 +15,31 @@ export default function MostLovedFoods() {
 
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
-   
 
   useEffect(() => {
-  async function  fetchMeals() {
-    try {
-    const res = await axios.get(`${API_URL}/meals`)
+    async function fetchMeals() {
+      try {
+        const res = await axios.get(`${API_URL}/meals`);
+        
 
-    const topFavorites = [...res.data]
-  .sort((a, b) => b.foodRating - a.foodRating)
-  .slice(0, 4);
-  setMostLoved(topFavorites);
-  setLoading(false);
-   } catch (error) {
-    console.error("Error fetching most loved foods:", error);
-    setLoading(false);
-  }
-  }
-  fetchMeals();
- }, [API_URL]);
-
-
-const handleAddToFavorites = (meal) => {
-  addToFavorites(meal, user);
-};
+        const topFavorites = [...res.data]
+          .sort((a, b) => b.foodRating - a.foodRating)
+          .slice(0, 6);
+        setMostLoved(topFavorites);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching most loved foods:", error);
+        setLoading(false);
+      }
+    }
+    fetchMeals();
+  }, [API_URL]);
 
   
+
+  const handleAddToFavorites = (meal) => {
+    addToFavorites(meal, user);
+  };
 
   if (loading) return <LoadingSpinner />;
 
@@ -54,13 +54,17 @@ const handleAddToFavorites = (meal) => {
         </p>
         <div className=" grid md:grid-cols-3 gap-8">
           {mostLoved.map((meal) => (
+            <motion.div
+              whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            >
               <MealCard
-              key={meal._id}
-            meal={meal}
-            addToFavorites={handleAddToFavorites}
-            />
+                key={meal._id}
+                meal={meal}
+                addToFavorites={handleAddToFavorites}
+              />
+            </motion.div>
           ))}
-
         </div>
       </div>
     </section>

@@ -28,6 +28,8 @@ const Order = () => {
   const price = selectedMeal.foodPrice;
   const chefId = selectedMeal.chefId;
   const foodId = selectedMeal._id;
+  const foodImage = selectedMeal.foodImage;
+  const foodRating = selectedMeal.foodRating;
 
   const totalPrice = price * quantity;
   
@@ -46,6 +48,8 @@ const Order = () => {
     }
 
     const orderData = {
+      foodRating,
+      foodImage,
       foodId,
       mealName,
       price,

@@ -1,12 +1,11 @@
 import React from 'react';
-
 import { motion } from "framer-motion";
-import { FaRegHeart} from 'react-icons/fa'
-import MealDetailsBtn from '../Button/MealDetailsBtn'
-import OrderBtn from '../Button/OrderBtn'
+import { FaHeart} from 'react-icons/fa'
 import axios from 'axios';
 import useAuth from '../../../hooks/useAuth';
 import toast from 'react-hot-toast';
+import MealDetailsBtn from '../Button/MealDetailsBtn';
+import OrderBtn from '../Button/OrderBtn';
 
 const MealCard = ({meal}) => {
   const {user} = useAuth();
@@ -16,7 +15,7 @@ const MealCard = ({meal}) => {
   try {
     const res = await axios.post(`${BackenAPI}/favorites`, {
       userEmail: user.email,
-      mealId: selectedMeal._id,       // MongoDB meal id
+      mealId: selectedMeal._id,       
       mealName: selectedMeal.mealName,
       chefId: selectedMeal.chefId,
       chefName: selectedMeal.chefName,
@@ -35,7 +34,6 @@ const MealCard = ({meal}) => {
     toast.error("Failed to add favorite!");
   }
 }
-  
 
     return (
         <motion.div
@@ -48,7 +46,7 @@ const MealCard = ({meal}) => {
                   onClick={() => addToFavorites(meal)}
                   title="add to favorites"
                 >
-                  <FaRegHeart size={24} />
+                  <FaHeart size={24} />
                 </button>
               {/* Image with hover zoom */}
               <div className="relative h-56 w-full overflow-hidden">
@@ -76,9 +74,7 @@ const MealCard = ({meal}) => {
                   </span>
                   </div>
                 </div>
-                <div className=" flex items-center justify-between">
                   <MealDetailsBtn mealId={meal._id} />
-                </div>
               </div>
             </motion.div>
     );

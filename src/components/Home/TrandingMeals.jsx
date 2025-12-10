@@ -1,65 +1,81 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
-
-
-const trendingMeals = [
-  { id: 1, name: "Vegan Salad Bowl", chef: "Chef Lina", price: 180, image: "https://i.ibb.co/0tXgkB9/vegan-salad.jpg", rating: 4.9 },
-  { id: 2, name: "Pasta Carbonara", chef: "Chef Arif", price: 220, image: "https://i.ibb.co/7yybGqN/pasta.jpg", rating: 4.7 },
-  { id: 3, name: "Sushi Platter", chef: "Chef Mina", price: 300, image: "https://i.ibb.co/k2rZbMH/sushi.jpg", rating: 4.8 },
-  { id: 4, name: "Grilled Chicken", chef: "Chef Rina", price: 250, image: "https://i.ibb.co/k2rZbMH/sushi.jpg", rating: 4.6 },
-  { id: 5, name: "Beef Steak", chef: "Chef Karim", price: 350, image: "https://i.ibb.co/k2rZbMH/sushi.jpg", rating: 4.9 },
-  { id: 6, name: "Fish Curry", chef: "Chef Nabila", price: 280, image: "https://i.ibb.co/k2rZbMH/sushi.jpg", rating: 4.7 },
-];
+import axios from "axios";
+import MealDetailsBtn from "../Shared/Button/MealDetailsBtn";
+import { useNavigate } from "react-router";
 
 export default function TrendingMeals() {
+  const [trendingMeals, setTrendingMeals] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL;
 
-  const ref = useRef(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const el = ref.current;
-    gsap.fromTo(
-      el.querySelectorAll(".tranding-meal-card"),
-      { opacity: 0, y: 40, stagger: 0.08 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.08,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 85%"
-        }
+    async function fetchTrending() {
+      try {
+        const res = await axios.get(`${API_URL}/orders`);
+        console.log(res.data);
+        
+        // count total quantity per meal
+        const countMap = {};
+
+        res.data.forEach((order) => {
+          const id = order.foodId;
+          if (countMap[id]) {
+            countMap[id].quantity += order.quantity; // sum total quantity
+          } else {
+            countMap[id] = {
+              ...order,
+              quantity: order.quantity, // initial quantity
+            };
+          }
+        });
+
+        // convert to array and sort by quantity
+        const sorted = Object.values(countMap)
+          .sort((a, b) => b.quantity - a.quantity)
+          .slice(0, 6);
+
+        setTrendingMeals(sorted);
+      } catch (err) {
+        console.error("Failed to fetch trending meals:", err);
       }
-    );
-  }, []);
+    }
+
+    fetchTrending();
+  }, [API_URL]);
 
   return (
-    <section className="py-8 px-4 max-w-6xl mx-auto" ref={ref}>
-      <div className="container mx-auto">
-        <h2 className="text-3xl font-bold mb-4 text-center">Trending Meals</h2>
-        <p className="text-center mb-12 text-gray-500">Check out what’s trending among food lovers</p>
-        <div className="grid md:grid-cols-4 gap-6">
-          {trendingMeals.map(meal => (
-            <motion.div
-              key={meal.id}
-              whileHover={{ scale: 1.08 }}
-              className="tranding-meal-card min-w-[220px] bg-orange-50 rounded-xl shadow-lg overflow-hidden cursor-pointer"
-            >
-              <img src={meal.image} alt={meal.name} className="w-full h-48 object-cover"/>
-              <div className="p-4">
-                <h3 className="font-semibold text-lg">{meal.name}</h3>
-                <p className="text-gray-500 text-sm">{meal.chef}</p>
-                <p className="mt-2 font-bold text-orange-600">৳ {meal.price}</p>
-                <p className="text-yellow-500">⭐ {meal.rating}</p>
+    <section className="py-8 px-4 max-w-6xl mx-auto">
+      <h2 className="text-3xl font-bold mb-4 text-center">Trending Meals</h2>
+      <p className="text-center mb-12 text-gray-500">
+        Most ordered by our customers
+      </p>
+      <div className="grid md:grid-cols-3 gap-6">
+        {trendingMeals.map((meal) => (
+          <motion.div
+            key={meal.foodId}
+            whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            onClick={()=> navigate(`meals/${meal.foodId}`)}
+            className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer"
+          >
+            <img
+              src={meal.foodImage}
+              alt={meal.mealName}
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-4">
+              <h3 className="font-semibold text-lg">{meal.mealName}</h3>
+              <p className="text-gray-500 text-sm">{meal.chefName}</p>
+              <div className="flex justify-between">
+                
+              <p className="mt-2 font-bold text-orange-600">৳ {meal.price}</p>
+              <p className="mt-2 font-bold text-orange-600">⭐ {meal.foodRating}</p>
               </div>
-            </motion.div>
-          ))}
-        </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
