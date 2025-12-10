@@ -3,13 +3,15 @@ import React from 'react';
 import { motion } from "framer-motion";
 import { FaRegHeart} from 'react-icons/fa'
 import MealDetailsBtn from '../Button/MealDetailsBtn'
+import OrderBtn from '../Button/OrderBtn'
 import axios from 'axios';
 import useAuth from '../../../hooks/useAuth';
 import toast from 'react-hot-toast';
 
-const MealCard = ({meal, handleOrder}) => {
+const MealCard = ({meal}) => {
   const {user} = useAuth();
   const BackenAPI = import.meta.env.VITE_API_URL;
+  
     const addToFavorites = async (selectedMeal) => {
   try {
     const res = await axios.post(`${BackenAPI}/favorites`, {
@@ -64,6 +66,7 @@ const MealCard = ({meal, handleOrder}) => {
                   <h3 className="text-xl font-bold text-gray-900 mb-1">
                     {meal.mealName}
                   </h3>
+                  <p>{meal.foodDescription}</p>
                   <p className="text-gray-500 text-sm mb-2">{meal.chef}</p>
                   <div className="text-orange-600 font-bold text-lg mb-2 flex items-center justify-between mt-3">
                   
@@ -73,13 +76,8 @@ const MealCard = ({meal, handleOrder}) => {
                   </span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between mt-3">
+                <div className=" flex items-center justify-between">
                   <MealDetailsBtn mealId={meal._id} />
-                  <button 
-                   onClick={()=> handleOrder(meal._id)}
-                   className="mt-5 px-5 py-2 bg-linear-to-r from-blue-500 to-indigo-600 text-white rounded-full font-semibold shadow-lg hover:scale-105 transition-transform cursor-pointer">
-                    Order
-                  </button>
                 </div>
               </div>
             </motion.div>

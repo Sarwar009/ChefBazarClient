@@ -2,20 +2,42 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
+import { useLocation } from "react-router";
+import OrderModal from "../../components/Modal/OrderModal";
 
-const Order = ({ selectedMeal }) => {
+const Order = () => {
   const { user } = useAuth();
+  const location = useLocation();
 
+  // hooks ALWAYS go first
   const [quantity, setQuantity] = useState(1);
   const [userAddress, setUserAddress] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
-  // auto-filled fields
+  const selectedMeal = location.state;
+
+  // NOW return condition below hooks
+  if (!selectedMeal) return <p>No meal selected!</p>;
+
+  const BackendApI = import.meta.env.VITE_API_URL;
+  
+
+  // auto values
   const mealName = selectedMeal.mealName;
-  const price = selectedMeal.price;
+  // const image = selectedMeal.foodImage;
+  const price = selectedMeal.foodPrice;
   const chefId = selectedMeal.chefId;
   const foodId = selectedMeal._id;
 
   const totalPrice = price * quantity;
+  
+   const openModal = () => {
+    if (!userAddress.trim()) {
+      toast.error("Please enter delivery address!");
+      return;
+    }
+    setModalOpen(true);
+  };
 
   const handleOrderConfirm = async () => {
     if (!userAddress.trim()) {
@@ -23,30 +45,28 @@ const Order = ({ selectedMeal }) => {
       return;
     }
 
-    // Show total price message (simple)
-    toast(`Total price: $${totalPrice}`);
-
     const orderData = {
       foodId,
       mealName,
       price,
       quantity,
       chefId,
-      paymentStatus: "Pending",
       userEmail: user?.email,
       userAddress,
+      paymentStatus: "Pending",
       orderStatus: "pending",
       orderTime: new Date().toISOString(),
     };
 
     try {
-      await axios.post("http://localhost:5000/orders", orderData);
+      await axios.post(`${BackendApI}/orders`, orderData);
       toast.success("Order placed successfully!");
     } catch (error) {
       toast.error("Something went wrong!");
       console.log(error);
-      
     }
+    
+      setModalOpen(false)
   };
 
   return (
@@ -56,22 +76,12 @@ const Order = ({ selectedMeal }) => {
       <div className="space-y-4">
         <div>
           <label className="font-semibold">Meal Name</label>
-          <input
-            type="text"
-            value={mealName}
-            readOnly
-            className="w-full p-2 border rounded-md bg-gray-100"
-          />
+          <input value={mealName} readOnly className="w-full p-2 border rounded-md bg-gray-100" />
         </div>
 
         <div>
           <label className="font-semibold">Price</label>
-          <input
-            type="text"
-            value={price}
-            readOnly
-            className="w-full p-2 border rounded-md bg-gray-100"
-          />
+          <input value={totalPrice} readOnly className="w-full p-2 border rounded-md bg-gray-100" />
         </div>
 
         <div>
@@ -87,22 +97,12 @@ const Order = ({ selectedMeal }) => {
 
         <div>
           <label className="font-semibold">Chef ID</label>
-          <input
-            type="text"
-            value={chefId}
-            readOnly
-            className="w-full p-2 border rounded-md bg-gray-100"
-          />
+          <input value={chefId} readOnly className="w-full p-2 border rounded-md bg-gray-100" />
         </div>
 
         <div>
           <label className="font-semibold">Your Email</label>
-          <input
-            type="text"
-            value={user?.email}
-            readOnly
-            className="w-full p-2 border rounded-md bg-gray-100"
-          />
+          <input value={user?.email} readOnly className="w-full p-2 border rounded-md bg-gray-100" />
         </div>
 
         <div>
@@ -117,12 +117,18 @@ const Order = ({ selectedMeal }) => {
         </div>
 
         <button
-          onClick={handleOrderConfirm}
+          onClick={openModal}
           className="w-full bg-green-600 text-white py-2 rounded-md font-semibold"
         >
           Confirm Order
         </button>
       </div>
+      <OrderModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        handleOrderConfirm={handleOrderConfirm}
+        totalPrice={totalPrice}
+      />
     </div>
   );
 };

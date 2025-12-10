@@ -18,7 +18,7 @@ const MealDetailsBtn = ({ mealId }) => {
   return (
     <button
       onClick={handleDetails}
-      className="mt-5 px-5 py-2 bg-linear-to-r from-emerald-500 to-lime-500 text-white rounded-full font-semibold shadow-lg hover:scale-105 transition-transform cursor-pointer"
+      className="px-5 py-2 bg-linear-to-r from-emerald-500 to-lime-500 text-white rounded-full font-semibold shadow-lg hover:scale-105 transition-transform cursor-pointer"
     >
       See Details
     </button>

@@ -9,6 +9,8 @@ import { MdDeleteForever  } from "react-icons/md";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import useAddToFavorites from "../../hooks/useAddToFavorites";
 
+import OrderBtn from '../../components/Shared/Button/OrderBtn'
+
 export default function MealDetails() {
   const { user } = useAuth();
   const { id } = useParams();
@@ -151,16 +153,15 @@ const handleDeleteReview = async (reviewId) => {
           </div>
 
           <div className="flex gap-4 mt-6">
-            <button
+            {/* <button
               onClick={() => navigate(`/order/${meal._id}`)}
-              className="px-6 py-3 bg-linear-to-r from-emerald-500 to-lime-500 text-white rounded-full font-semibold shadow hover:scale-105 transition"
             >
-              Order Now
-            </button>
-
+              
+            </button> */}
+              <OrderBtn  meal={meal}/>
             <button
               onClick={handleAddToFavorites}
-              className="px-6 py-3 bg-orange-500 text-white rounded-full font-semibold shadow hover:scale-105 transition"
+              className="mt-5 px-5 py-2 bg-linear-to-r from-emerald-500 to-lime-500 text-white rounded-full font-semibold shadow-lg hover:scale-105 transition-transform cursor-pointer"
             >
               Add to Favorite ❤️
             </button>

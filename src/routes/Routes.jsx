@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
                   </PrivateRoute>,
       },
       {
-        path: '/order',
+        path: '/order/:id',
         element: <PrivateRoute>
           <Order />
         </PrivateRoute>

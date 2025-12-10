@@ -33,11 +33,7 @@ export default function MostLovedFoods() {
   }
   fetchMeals();
  }, [API_URL]);
-const handleOrder = (mealId) => {
-  console.log("Order meal with ID:", mealId);
-  navigate(`/order/${mealId}`);
-  // Implement order functionality here
-};
+
 
 const handleAddToFavorites = (meal) => {
   addToFavorites(meal, user);
@@ -56,12 +52,11 @@ const handleAddToFavorites = (meal) => {
         <p className="text-center mb-12">
           Our users’ favorite meals that they can’t stop loving
         </p>
-        <div className=" grid md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2 gap-8">
+        <div className=" grid md:grid-cols-3 gap-8">
           {mostLoved.map((meal) => (
               <MealCard
               key={meal._id}
             meal={meal}
-            handleOrder={handleOrder}
             addToFavorites={handleAddToFavorites}
             />
           ))}
