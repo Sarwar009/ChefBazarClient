@@ -24,7 +24,7 @@ export default function DailyMeals() {
       }
     };
     fetchMeals();
-  }, []);
+  }, [API_URL]);
 
   console.log(meals);
   

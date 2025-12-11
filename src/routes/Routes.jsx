@@ -8,13 +8,13 @@ import { createBrowserRouter } from "react-router";
 import Meals from "../pages/Meals/Meals";
 import MealDetails from "../pages/MealDetails/MealDetails";
 import FavoritesPage from "../pages/Favorites/Favorites";
-import { Dashboard } from "../pages/Dashboard/Dashboard";
 import Order from "../pages/Order/Order";
 import AdminStatistics from "../components/Dashboard/Statistics/AdminStatistics";
 import ManageUser from "../components/Dashboard/ManageUser/ManageUser";
 import ManageRequest from "../components/Dashboard/ManageReq/ManageReq";
 import UserProfile from "../components/Dashboard/UserProfile";
 import MyProfile from "../components/Dashboard/MyProfile";
+import Dashboard from '../pages/Dashboard/Dashboard'
 
 export const router = createBrowserRouter([
   {
@@ -76,13 +76,13 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "admin/request",
+    path: "request",
     element: <PrivateRoute>
       <ManageRequest />
     </PrivateRoute>
   },
   {
-    path: 'admin/users',
+    path: 'manage-users',
     element: (
       <PrivateRoute>
         <ManageUser />
