@@ -53,6 +53,7 @@ export default function MealDetails() {
     addToFavorites(meal, user);
   }
 
+console.log(user.uid);
 
 
  // Submit new review
@@ -60,8 +61,13 @@ const submitReview = async (e) => {
   e.preventDefault();
   const form = e.target;
 
+  const user_Id = localStorage.getItem('userId')
+  console.log(user_Id);
+  
+
   const newReview = {
     foodId: meal._id,
+    userId: user_Id,
     reviewerName: user.displayName,
     reviewerImage: user.photoURL,
     rating: parseInt(form.rating.value),

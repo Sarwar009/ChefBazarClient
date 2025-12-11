@@ -15,6 +15,9 @@ import ManageRequest from "../components/Dashboard/ManageReq/ManageReq";
 import UserProfile from "../components/Dashboard/UserProfile";
 import MyProfile from "../components/Dashboard/MyProfile";
 import Dashboard from '../pages/Dashboard/Dashboard'
+import DashboardRedirector from "../components/Dashboard/DashboardRedirector";
+import MyOrders from "../components/Dashboard/User/MyOrders";
+import MyReview from "../components/Dashboard/User/MyReview";
 
 export const router = createBrowserRouter([
   {
@@ -66,42 +69,64 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      
       {
-    index: true,
-    element: (
-      <PrivateRoute>
-        <AdminStatistics />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: "request",
-    element: <PrivateRoute>
-      <ManageRequest />
-    </PrivateRoute>
-  },
-  {
-    path: 'manage-users',
-    element: (
-      <PrivateRoute>
-        <ManageUser />
-      </PrivateRoute>
-    )
-  },
-  {
-    path: 'my-profile',
-    element: <PrivateRoute>
-      <MyProfile />
-    </PrivateRoute>
-  },
-  {
-    path: "update-profile",
-    element: <PrivateRoute>
-      <UserProfile />
-    </PrivateRoute>
-  }
-
+        index: true,
+        element: <PrivateRoute>
+          <DashboardRedirector />
+        </PrivateRoute>
+      },
+      {
+        path: "statistics",
+        element: (
+          <PrivateRoute requiredRole="admin">
+            <AdminStatistics />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "request",
+        element: <PrivateRoute requiredRole="admin">
+          <ManageRequest />
+        </PrivateRoute>
+      },
+      {
+        path: 'manage-users',
+        element: (
+          <PrivateRoute requiredRole="admin">
+            <ManageUser />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "my-orders",
+        element: <PrivateRoute>
+          <MyOrders />
+        </PrivateRoute>
+      },
+      {
+        path: "my-review",
+        element: <PrivateRoute>
+          <MyReview />
+        </PrivateRoute>
+      },
+      {
+        path: "favorites-meals",
+        element: <PrivateRoute>
+          <MyReview />
+        </PrivateRoute>
+      },
+      {
+        path: 'my-profile',
+        element: <PrivateRoute>
+          <MyProfile />
+        </PrivateRoute>
+      },
+      {
+        path: "update-profile",
+        element: <PrivateRoute>
+          <UserProfile />
+        </PrivateRoute>
+      }
     ]
   },
 ]);

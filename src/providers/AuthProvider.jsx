@@ -104,6 +104,7 @@ const AuthProvider = ({ children }) => {
         try {
           const res = await axios.post(`${API_URL}/jwt`, { email: currentUser.email });
           localStorage.setItem("accessToken", res.data.token);
+          localStorage.setItem("userId", res.data._id);
           setRole(res.data.role);
         } catch (err) {
           console.error(err);
