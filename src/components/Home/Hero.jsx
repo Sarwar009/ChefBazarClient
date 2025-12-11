@@ -17,16 +17,33 @@ export default function Hero() {
       {/* Main content */}
       <motion.div
         className="max-w-4xl mx-auto text-center z-10"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
       >
-        <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+        <motion.h1
+          className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+        >
           Fresh Home-Cooked Meals <br className="hidden md:block" /> Delivered Daily
-        </h1>
-        <p className="text-lg text-gray-700 mb-8">
+        </motion.h1>
+        <motion.p
+          className="text-lg text-gray-700 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+        >
           Discover healthy, delicious meals prepared by local chefs. Order anytime and enjoy homemade flavors delivered straight to your door.
-        </p>
+        </motion.p>
 
         <motion.button
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
+          whileTap={{ scale: 0.98 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.9, ease: "easeOut" }}
           className="px-8 py-4 bg-linear-to-r from-emerald-500 to-lime-500 text-white font-semibold rounded-full shadow-lg hover:shadow-2xl transition-all duration-300"
         >
           Explore Meals

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import MealCard from "../Shared/Mealcard/MealCard";
 import LoadingSpinner from "../Shared/LoadingSpinner";
@@ -13,7 +12,6 @@ export default function MostLovedFoods() {
   const { user } = useAuth();
   const { addToFavorites } = useAddToFavorites();
 
-  const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -55,8 +53,9 @@ export default function MostLovedFoods() {
         <div className=" grid md:grid-cols-3 gap-8">
           {mostLoved.map((meal) => (
             <motion.div
-              whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+              whileHover={{ y: -8, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25, duration: 0.3 }}
             >
               <MealCard
                 key={meal._id}

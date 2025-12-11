@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import { useLocation } from "react-router";
 import OrderModal from "../../components/Modal/OrderModal";
+import Swal from "sweetalert2";
 
 const Order = () => {
   const { user } = useAuth();
@@ -15,27 +15,32 @@ const Order = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const selectedMeal = location.state;
+  // const navigate = useNavigate()
 
   // NOW return condition below hooks
   if (!selectedMeal) return <p>No meal selected!</p>;
 
   const BackendApI = import.meta.env.VITE_API_URL;
-  
 
   // auto values
   const mealName = selectedMeal.mealName;
   // const image = selectedMeal.foodImage;
   const price = selectedMeal.foodPrice;
   const chefId = selectedMeal.chefId;
+  const chefName = selectedMeal.chefName;
   const foodId = selectedMeal._id;
   const foodImage = selectedMeal.foodImage;
   const foodRating = selectedMeal.foodRating;
 
   const totalPrice = price * quantity;
-  
-   const openModal = () => {
+
+  const openModal = () => {
     if (!userAddress.trim()) {
-      toast.error("Please enter delivery address!");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please enter delivery address!",
+      });
       return;
     }
     setModalOpen(true);
@@ -43,12 +48,17 @@ const Order = () => {
 
   const handleOrderConfirm = async () => {
     if (!userAddress.trim()) {
-      toast.error("Please enter delivery address!");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please enter delivery address!",
+      });
       return;
     }
 
     const orderData = {
       foodRating,
+      chefName,
       foodImage,
       foodId,
       mealName,
@@ -64,13 +74,23 @@ const Order = () => {
 
     try {
       await axios.post(`${BackendApI}/orders`, orderData);
-      toast.success("Order placed successfully!");
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "Order placed successfully!",
+      });
     } catch (error) {
-      toast.error("Something went wrong!");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
       console.log(error);
     }
+
+    setModalOpen(false);
     
-      setModalOpen(false)
+    // navigate('/my-orders')
   };
 
   return (
@@ -80,12 +100,20 @@ const Order = () => {
       <div className="space-y-4">
         <div>
           <label className="font-semibold">Meal Name</label>
-          <input value={mealName} readOnly className="w-full p-2 border rounded-md bg-gray-100" />
+          <input
+            value={mealName}
+            readOnly
+            className="w-full p-2 border rounded-md bg-gray-100"
+          />
         </div>
 
         <div>
           <label className="font-semibold">Price</label>
-          <input value={totalPrice} readOnly className="w-full p-2 border rounded-md bg-gray-100" />
+          <input
+            value={totalPrice}
+            readOnly
+            className="w-full p-2 border rounded-md bg-gray-100"
+          />
         </div>
 
         <div>
@@ -101,12 +129,20 @@ const Order = () => {
 
         <div>
           <label className="font-semibold">Chef ID</label>
-          <input value={chefId} readOnly className="w-full p-2 border rounded-md bg-gray-100" />
+          <input
+            value={chefId}
+            readOnly
+            className="w-full p-2 border rounded-md bg-gray-100"
+          />
         </div>
 
         <div>
           <label className="font-semibold">Your Email</label>
-          <input value={user?.email} readOnly className="w-full p-2 border rounded-md bg-gray-100" />
+          <input
+            value={user?.email}
+            readOnly
+            className="w-full p-2 border rounded-md bg-gray-100"
+          />
         </div>
 
         <div>

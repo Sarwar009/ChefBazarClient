@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import MealDetailsBtn from "../Shared/Button/MealDetailsBtn";
 import { useNavigate } from "react-router";
 
 export default function TrendingMeals() {
@@ -55,10 +54,11 @@ export default function TrendingMeals() {
         {trendingMeals.map((meal) => (
           <motion.div
             key={meal.foodId}
-            whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            whileHover={{ y: -8, scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25, duration: 0.3 }}
             onClick={()=> navigate(`meals/${meal.foodId}`)}
-            className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer"
+            className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
           >
             <img
               src={meal.foodImage}
@@ -67,7 +67,7 @@ export default function TrendingMeals() {
             />
             <div className="p-4">
               <h3 className="font-semibold text-lg">{meal.mealName}</h3>
-              <p className="text-gray-500 text-sm">{meal.chefName}</p>
+              <j6 className="text-sm">{meal.chefName}</j6>
               <div className="flex justify-between">
                 
               <p className="mt-2 font-bold text-orange-600">৳ {meal.price}</p>

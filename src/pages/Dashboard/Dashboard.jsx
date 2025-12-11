@@ -1,3 +1,4 @@
+import Sidebar from "../../components/Dashboard/Sidebar/Sidebar";
 import useAuth from "../../hooks/useAuth";
 
 
@@ -9,12 +10,7 @@ export const Dashboard = () => {
 
   return (
     <div>
-      <h1>Welcome, {user.displayName}</h1>
-      <p>Your role: {role}</p>
-
-      {role === "admin" && <p>admin</p>}
-      {role === "seller" && <p>seller</p>}
-      {role === "user" && <p>user</p>}
+      <Dashboard />
     </div>
   );
 };
