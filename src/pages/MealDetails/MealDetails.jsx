@@ -21,34 +21,57 @@ export default function MealDetails() {
   }, [id, API_URL]);
 
   const onSubmit = (data) => {
-    if (!user) return navigate("/login");
-    axios
-      .post(
-        `${API_URL}/reviews`,
-        { foodId: id, ...data },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` } }
-      )
-      .then((res) => {
-        Swal.fire("Success", "Review submitted successfully!", "success");
+  if (!user) return navigate("/login");
+
+  console.log(data);
+  
+  // Prepare review payload
+  const reviewPayload = {
+  foodId: id,
+  foodImage: meal.foodImage,
+  mealName: meal.mealName,
+  foodCategory: meal.foodCategory,
+  chefName: meal.chefName,
+  reviewerName: user.displayName || user.name || "User",
+  reviewerEmail: user.email || "",
+  reviewerImage: user.photoURL || user.image || "",
+  rating: data.rating,
+  comment: data.comment,
+  date: new Date().toISOString(),
+};
+
+
+  // Post review to backend
+  axios
+    .post(`${API_URL}/reviews`, reviewPayload, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+    .then((res) => {
+      Swal.fire("Success", "Review submitted successfully!", "success");
+      reset(); // clear form
+
+      // If backend returns insertedId, add review to state
+      const insertedId = res.data.insertedId;
+      if (insertedId) {
         setReviews((prev) => [
           ...prev,
-          res.data.insertedId
-            ? {
-                ...data,
-                reviewerName: user.displayName,
-                reviewerImage: user.photoURL,
-                date: new Date(),
-              }
-            : {},
+          { _id: insertedId, ...reviewPayload },
         ]);
-        reset();
-        
-      });
-  };
+      } else {
+        // fallback: refetch reviews from backend
+        axios.get(`${API_URL}/reviews/${id}`).then((res) => setReviews(res.data));
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      Swal.fire("Error", "Failed to submit review", "error");
+    });
+}; console.log(user, 'user');
 
-      console.log(localStorage.getItem("accessToken"));
-      
-        console.log(user, 'user');
+console.log(reviews, 'review');
+
 
   if (!meal)
     return (

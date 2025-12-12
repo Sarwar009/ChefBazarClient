@@ -39,12 +39,6 @@ export default function Order() {
 
   const onSubmit = (data) => {
     if (!user) return;
-    // const quantity = data.quantity || 1;
-    // const price = meal.price || 0;
-
-    // const calculatedPrice = price * quantity;
-
-    // setTotalPrice(calculatedPrice);
 
     Swal.fire({
       title: `Total Price: ${totalPrice}`,

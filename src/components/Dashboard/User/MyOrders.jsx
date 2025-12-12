@@ -3,9 +3,10 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import LoadingSpinner from "../../Shared/LoadingSpinner";
 
 export default function MyOrders() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [orders, setOrders] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -21,6 +22,9 @@ export default function MyOrders() {
       .then((res) => setOrders(res.data))
       .catch(() => console.log("Failed to load orders"));
   }, [user]);
+  
+  console.log(user.email);
+  
 
   const handleCancel = (id) => {
     Swal.fire({
@@ -53,12 +57,10 @@ export default function MyOrders() {
     });
   };
 
-  if (!orders.length)
-    return (
-      <p className="text-center text-gray-500 mt-20 text-xl">
-        No orders yet...
-      </p>
-    );
+  
+
+    if(loading) return <LoadingSpinner />
+    
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -66,7 +68,8 @@ export default function MyOrders() {
         My Orders
       </h2>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+        orders.length > 0 ? <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {orders.map((order) => (
           <motion.div
             key={order._id}
@@ -77,7 +80,7 @@ export default function MyOrders() {
           >
             {/* Meal Image */}
             <img
-              src={order.mealImage}
+              src={order.foodImage}
               alt={order.mealName}
               className="w-full h-44 object-cover rounded-lg shadow"
             />
@@ -90,7 +93,7 @@ export default function MyOrders() {
             </p>
 
             <p className="text-green-600 mt-1 font-semibold">
-              Total Price: ${order.price * order.quantity}
+              Total Price: {order.price * order.quantity} taka
             </p>
 
             <p className="text-gray-600 mt-1">
@@ -125,7 +128,8 @@ export default function MyOrders() {
             )}
           </motion.div>
         ))}
-      </div>
+      </div> : <p>No order yet</p>
+      }
     </div>
   );
 }
