@@ -37,7 +37,7 @@ const AdminMenu = () => {
         {/* List item */}
         <li>
           <button
-            onClick={() => navigate ('/dashboard')}
+            onClick={() => navigate ('/dashboard/chef-statistics')}
             className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
             data-tip="statistics"
           >
