@@ -14,10 +14,12 @@ export default function MealsPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const mealRes = await axios.get(`${API_URL}/meals/`);
+        const mealRes = await axios.get(`${API_URL}/meals`);
         setMeals(mealRes.data);
         setOriginalMeals(mealRes.data);
         setLoading(false);
+        console.log(mealRes.data);
+        
       } catch (err) {
         console.error("Error loading details:", err);
         setLoading(false);
