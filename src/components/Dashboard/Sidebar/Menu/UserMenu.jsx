@@ -47,7 +47,7 @@ const UserMenu = () => {
                           <button
                             onClick={() => navigate ('/dashboard/favorites-meals')}
                             className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                            data-tip="my review"
+                            data-tip="favorites meals"
                           >
                             <FontAwesomeIcon icon={faHeartCircleCheck} className="text-2xl" />
                             <span className="is-drawer-close:hidden">Favorites Meals</span>

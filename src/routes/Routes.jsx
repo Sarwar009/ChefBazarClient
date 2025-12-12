@@ -21,7 +21,6 @@ import MyReview from "../components/Dashboard/User/MyReview";
 import ManageOrder from "../components/Dashboard/Chef/ManageOrder";
 import CreateMeal from "../components/Dashboard/Chef/CreateMeal";
 import MyMeals from "../components/Dashboard/Chef/MyMeals";
-import ChefStatistics from "../components/Dashboard/Statistics/ChefStatistics";
 
 export const router = createBrowserRouter([
   {
@@ -90,14 +89,6 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute requiredRole="admin">
             <ManageUser />
-          </PrivateRoute>
-        )
-      },
-      {
-        path: 'chef-statistics',
-        element: (
-          <PrivateRoute requiredRole="chef">
-            <ChefStatistics />
           </PrivateRoute>
         )
       },
