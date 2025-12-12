@@ -45,7 +45,7 @@ const UserMenu = () => {
                         </li>
                         <li>
                           <button
-                            onClick={() => navigate ('/dashboard/my-favorites')}
+                            onClick={() => navigate ('/dashboard/favorites-meals')}
                             className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                             data-tip="my review"
                           >

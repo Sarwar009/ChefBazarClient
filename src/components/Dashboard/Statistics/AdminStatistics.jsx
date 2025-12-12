@@ -1,115 +1,49 @@
-// src/pages/dashboard/PlatformStatistics.jsx
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import useAuth from "../../../hooks/useAuth";
-import LoadingSpinner from "../../Shared/LoadingSpinner";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell } from "recharts";
 
-export default function PlatformStatistics() {
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [totalUser, setTotalUser] = useState(0);
-  const [pendingOrder, setpPendingOrder] = useState(0);
-  const [delivered, setDelivared] = useState(0)
-
-  const {role} = useAuth()
-
+export default function PlatformStats() {
+  const [stats, setStats] = useState({});
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const res = await axios.get(`${API_URL}/orders`);
-            const orders = res.data;
+    axios.get(`${API_URL}/admin/stats`, { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } })
+      .then((res) => setStats(res.data));
+  }, []);
 
-            if (orders && orders.length > 0) {
-                const totalPrice = orders.reduce((sum, order) => sum + order.price, 0);
-                setTotalAmount(totalPrice);
-                const pendingOrders = orders.filter(
-                    (order) => order.orderStatus === 'pending' 
-                );
-                const totalPendingCount = pendingOrders.length; 
-                setpPendingOrder(totalPendingCount);
-
-                const delivaredOrders = orders.filter(
-                    (order) => order.orderStatus === 'delivered' 
-                );
-                const totalDelivered = delivaredOrders.length; 
-                setDelivared(totalDelivered);
-                
-            } else {
-                setTotalAmount(0);
-                setpPendingOrder(0);
-                setDelivared(0)
-            }
-        } catch (error) {
-            console.error("Error", error);
-            setTotalAmount(0);
-            setpPendingOrder(0);
-                setDelivared(0)
-        }
-    };
-    fetchData();
-}, [API_URL]);
-
-  // ...
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("accessToken");
-      try {
-        if(role === 'admin') {
-          const res = await axios.get(`${API_URL}/users`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const users = res.data;
-        const userCount = users.length;
-        
-        setTotalUser(userCount);
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          console.error('401 Error'
-          );
-        } else {
-          console.error(error);
-        }
-        setTotalUser(0);
-      }
-    };
-    fetchUser();
-  }, [API_URL, role]);
+  const paymentsData = [{ name: "Payments", amount: stats.totalPayments || 0 }];
+  const ordersData = [
+    { name: "Pending", value: stats.ordersPending || 0 },
+    { name: "Delivered", value: stats.ordersDelivered || 0 },
+  ];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45 }}
-      className="bg-white rounded-2xl shadow-md p-6"
-    >
+    <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">Platform Statistics</h2>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="p-4 border rounded-lg">
-          <div className="text-sm text-gray-500">Total Payments</div>
-          <div className="text-2xl font-bold">৳ {totalAmount}</div>
+      <div className="grid md:grid-cols-2 gap-4">
+        <div className="border p-4 rounded">
+          <h3 className="font-bold mb-2">Total Payments</h3>
+          <BarChart width={300} height={200} data={paymentsData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="amount" fill="#8884d8" />
+          </BarChart>
         </div>
 
-        <div className="p-4 border rounded-lg">
-          <div className="text-sm text-gray-500">Total Users</div>
-          <div className="text-2xl font-bold">{totalUser}</div>
-        </div>
-
-        <div className="p-4 border rounded-lg">
-          <div className="text-sm text-gray-500">Orders Pending</div>
-          <div className="text-2xl font-bold">{pendingOrder}</div>
-        </div>
-
-        <div className="p-4 border rounded-lg">
-          <div className="text-sm text-gray-500">Orders Delivered</div>
-          <div className="text-2xl font-bold">{delivered}</div>
+        <div className="border p-4 rounded">
+          <h3 className="font-bold mb-2">Orders</h3>
+          <PieChart width={300} height={200}>
+            <Pie dataKey="value" data={ordersData} cx={150} cy={100} outerRadius={80} label>
+              <Cell fill="#8884d8" />
+              <Cell fill="#82ca9d" />
+            </Pie>
+          </PieChart>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
+
+

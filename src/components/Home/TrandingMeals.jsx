@@ -67,7 +67,7 @@ export default function TrendingMeals() {
             />
             <div className="p-4">
               <h3 className="font-semibold text-lg">{meal.mealName}</h3>
-              <j6 className="text-sm">{meal.chefName}</j6>
+              <h6 className="text-sm">{meal.chefName}</h6>
               <div className="flex justify-between">
                 
               <p className="mt-2 font-bold text-orange-600">৳ {meal.price}</p>

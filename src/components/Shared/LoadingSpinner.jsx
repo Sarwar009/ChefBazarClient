@@ -1,17 +1,11 @@
-import { ScaleLoader } from 'react-spinners'
-
-const LoadingSpinner = ({ smallHeight }) => {
+export default function LoadingSpinner() {
   return (
-    <div
-      className={` ${smallHeight ? 'h-[250px]' : 'h-[70vh]'}
-      flex 
-      flex-col 
-      justify-center 
-      items-center `}
-    >
-      <ScaleLoader size={100} color='lime' />
+    <div className="flex justify-center items-center h-screen">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid"></div>
     </div>
-  )
+  );
 }
 
-export default LoadingSpinner
+
+
+
