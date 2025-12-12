@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { MdDeleteForever } from "react-icons/md";
-import MealDetailsBtn from "../../components/Shared/Button/MealDetailsBtn";
-import LoadingSpinner from "../../components/Shared/LoadingSpinner";
+import useAuth from "../../../hooks/useAuth";
+import LoadingSpinner from "../../Shared/LoadingSpinner";
+import MealDetailsBtn from "../../Shared/Button/MealDetailsBtn";
 
 export default function FavoritesPage() {
   const { user } = useAuth();

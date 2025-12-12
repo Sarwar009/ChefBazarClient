@@ -1,8 +1,6 @@
-import Container from "../Container";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import avatarImg from "../../../assets/images/placeholder.jpg";
-import logo from "../../../assets/images/chefBazar.png";
 const Navbar = () => {
   const { user, logOut } = useAuth();
 
@@ -45,7 +43,7 @@ const Navbar = () => {
           </ul>
         </div>
         <a className="btn btn-ghost text-xl">
-          <img src={logo} width="100" height="100" />
+          <h3 className="bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">Chef Bazaar</h3>
         </a>
       </div>
       <div className="navbar-center hidden lg:flex">
@@ -55,7 +53,7 @@ const Navbar = () => {
         <div className="hidden md:block px-3">
           {/* Avatar */}
           <img
-            className="rounded-full"
+            className="rounded-full w-10 h-10"
             referrerPolicy="no-referrer"
             src={user && user.photoURL ? user.photoURL : avatarImg}
             alt="profile"
@@ -63,9 +61,6 @@ const Navbar = () => {
             width="40"
           />
         </div>
-        <Link to='favorites' className="btn btn-outline btn-sm ml-2">
-          Favorites
-        </Link>
 
         {
           user ? (

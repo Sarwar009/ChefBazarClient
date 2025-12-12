@@ -7,7 +7,6 @@ import MainLayout from "../layouts/MainLayout";
 import { createBrowserRouter } from "react-router";
 import Meals from "../pages/Meals/Meals";
 import MealDetails from "../pages/MealDetails/MealDetails";
-import FavoritesPage from "../pages/Favorites/Favorites";
 import Order from "../pages/Order/Order";
 import AdminStatistics from "../components/Dashboard/Statistics/AdminStatistics";
 import ManageUser from "../components/Dashboard/ManageUser/ManageUser";
@@ -17,7 +16,11 @@ import MyProfile from "../components/Dashboard/MyProfile";
 import Dashboard from '../pages/Dashboard/Dashboard'
 import DashboardRedirector from "../components/Dashboard/DashboardRedirector";
 import MyOrders from "../components/Dashboard/User/MyOrders";
+import Favoritesmeal from "../components/Dashboard/User/FavoritesMeals";
 import MyReview from "../components/Dashboard/User/MyReview";
+import ManageOrder from "../components/Dashboard/Chef/ManageOrder";
+import CreateMeal from "../components/Dashboard/Chef/CreateMeal";
+import MyMeals from "../components/Dashboard/Chef/MyMeals";
 
 export const router = createBrowserRouter([
   {
@@ -38,14 +41,6 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MealDetails />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/favorites",
-        element: (
-          <PrivateRoute>
-            <FavoritesPage />
           </PrivateRoute>
         ),
       },
@@ -98,6 +93,30 @@ export const router = createBrowserRouter([
         )
       },
       {
+        path: 'manage-orders',
+        element: (
+          <PrivateRoute requiredRole="chef">
+            <ManageOrder />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: 'create-meal',
+        element: (
+          <PrivateRoute requiredRole="chef">
+            <CreateMeal />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: 'my-meals',
+        element: (
+          <PrivateRoute requiredRole="chef">
+            <MyMeals />
+          </PrivateRoute>
+        )
+      },
+      {
         path: "my-orders",
         element: <PrivateRoute>
           <MyOrders />
@@ -112,7 +131,7 @@ export const router = createBrowserRouter([
       {
         path: "favorites-meals",
         element: <PrivateRoute>
-          <MyReview />
+          <Favoritesmeal />
         </PrivateRoute>
       },
       {

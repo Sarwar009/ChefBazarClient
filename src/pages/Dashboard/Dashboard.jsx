@@ -6,7 +6,7 @@ import useAuth from "../../hooks/useAuth";
 
 import UserMenu from "../../components/Dashboard/Sidebar/Menu/UserMenu";
 import AdminMenu from "../../components/Dashboard/Sidebar/Menu/AdminMenu";
-// import ChefMenu from "../../components/Dashboard/Sidebar/Menu/ChefMenu";
+import ChefMenu from "../../components/Dashboard/Sidebar/Menu/ChefMenu";
 
 export default function Dashboard() {
   const { user, role } = useAuth();
@@ -19,8 +19,8 @@ export default function Dashboard() {
     switch (role) {
       case "admin":
         return <AdminMenu />;
-      // case "chef":
-      //   return <ChefMenu />;
+      case "chef":
+        return <ChefMenu />;
       case "user":
         return <UserMenu />;
       default:
