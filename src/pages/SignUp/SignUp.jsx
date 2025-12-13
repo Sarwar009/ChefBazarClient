@@ -10,7 +10,7 @@ const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
-  const from = location.state || '/'
+  const from = location.state?.from?.pathname || '/';
 
   const {
     register,
@@ -20,30 +20,31 @@ const SignUp = () => {
   console.log(errors);
   
 
-  const onSubmit = async(data) => {
-    const {name, image, email, password} = data; 
-
+  const onSubmit = async (data) => {
+    const { name, image, email, password } = data;
     const imageFile = image[0];
 
-        try {
-      //1. Upload Image to imgbb
+    try {
+      // 1. Upload image to imgbb
       const imageURL = await uploadImage(imageFile);
-      //2. User Registration
-      const result = await createUser(email, password)
 
-      //3. Save username & profile photo
-      await updateUserProfile(
-        name, imageURL
-      )
-      console.log(result)
+      // 2. Register user
+      const result = await createUser(email, password);
 
-      navigate(from, { replace: true })
-      toast.success('Signup Successful')
+      // 3. Update user profile with name & photo
+      await updateUserProfile(name, imageURL);
+
+      console.log(result);
+
+      // 4. Redirect user to intended page
+      navigate(from, { replace: true });
+
+      toast.success('Signup Successful');
     } catch (err) {
-      console.log(err)
-      toast.error(err?.message)
+      console.error(err);
+      toast.error(err?.message || 'Signup Failed');
     }
-  }
+  };
 
   
 

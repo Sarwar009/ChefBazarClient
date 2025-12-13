@@ -36,6 +36,7 @@ export default function Dashboard() {
     const res = await axios.post(`${API_URL}/chef-requests`, {
       userEmail: user.email,
       userName: user.displayName,
+      requestedRole: role,
     });
 
     if (res.data.alreadyRequested) {
