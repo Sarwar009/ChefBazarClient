@@ -12,13 +12,15 @@ export default function ChefOrderRequests() {
 
   useEffect(() => {
     if (!roleData?.chefId) return;
+    console.log(roleData.chefId, 'roledata');
+    
 
     const fetchOrders = async () => {
       try {
         const res = await axios.get(
           `${API_URL}/orders/chef/${roleData.chefId}`
         );
-        setOrders(res.data); // ✅ safe, only updates after async fetch
+        setOrders(res.data);
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -28,33 +30,34 @@ export default function ChefOrderRequests() {
     };
 
     fetchOrders();
-
-    // Optional: live update every 10 seconds
-    const interval = setInterval(fetchOrders, 10000);
-    return () => clearInterval(interval);
   }, [roleData]);
 
   const updateStatus = async (orderId, newStatus) => {
-    try {
-      await axios.patch(`${API_URL}/orders/${orderId}/status`, {
-        status: newStatus,
-      });
+  try {
+    const res = await axios.patch(
+      `${API_URL}/orders/${orderId}/status`,
+      { status: newStatus }
+    );
+
+    if (res.status === 200) {
       setOrders((prev) =>
         prev.map((o) =>
           o._id === orderId ? { ...o, orderStatus: newStatus } : o
         )
       );
       toast.success(`Order ${newStatus}`);
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to update order");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to update order");
+  }
+};
 
   console.log(orders, 'orders');
   
-  if (loading) return <LoadingSpinner />;
   if (!orders.length) return <p className="text-center py-10">No orders yet</p>;
+  
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="container mx-auto px-4 py-10">

@@ -5,22 +5,24 @@ import toast from "react-hot-toast";
 import { Link } from "react-router";
 
 export default function MyMeals() {
-  const { user } = useAuth();
+  const { user, roleData } = useAuth();
   const [meals, setMeals] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;
 
-  useEffect(() => {
-  if (!user?.email) return;
+
+useEffect(() => {
+  if (!roleData?.chefId) return;
+
+  console.log("chefId 👉", roleData.chefId);
 
   axios
-    .get(`${API_URL}/meals/chef/${user.email}`)
+    .get(`${API_URL}/meals/chef/${roleData.chefId}`)
     .then(res => {
-      console.log("meals 👉", res.data);
       setMeals(res.data);
-    });
-}, [user]);
+    })
+    .catch(err => console.error(err));
+}, [roleData?.chefId]);
 
-console.log("USER 👉", user);
 
   // DELETE
   const handleDelete = async (id) => {

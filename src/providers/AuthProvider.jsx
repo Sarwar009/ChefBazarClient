@@ -137,11 +137,13 @@ const AuthProvider = ({ children }) => {
   };
 
   // roleData set
+
   useEffect(() => {
-  if (user?.email) {
-    axios.get(`${API_URL}/users/${user.email}`)
-      .then(res => setRoleData(res.data));
-  }
+  if (!user?.email) return;
+
+  axios.get(`${API_URL}/users/${user.email}`)
+    .then(res => setRoleData(res.data))
+    .catch(err => console.error(err));
 }, [user]);
 
 
@@ -157,7 +159,8 @@ const AuthProvider = ({ children }) => {
     signInWithGoogle,
     logOut,
     updateUserProfile,
-  }), [user, role, loading]);
+    roleData
+  }), [user, role, loading, roleData]);
 
   return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
 };

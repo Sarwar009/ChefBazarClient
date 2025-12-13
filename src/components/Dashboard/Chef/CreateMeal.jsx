@@ -42,39 +42,42 @@ export default function CreateMeal() {
   
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!imageURL) return toast.error("Please upload an image");
+  e.preventDefault();
 
-    const mealData = {
-      mealName: e.target.foodName.value,
-      chefName: e.target.chefName.value,
-      foodImage: imageURL,
-      foodPrice: parseFloat(e.target.price.value),
-      foodRating: parseFloat(e.target.rating.value),
-      ingredients: e.target.ingredients.value.split(",").map(i => i.trim()),
-      estimatedDeliveryTime: e.target.deliveryTime.value,
-      foodCategory: e.target.foodCategory.value,
-      foodDescription: e.target.description.value,
-      chefExperience: e.target.chefExperience.value,
-      chefId: roleData.chefId,
-      userEmail: user?.email,
-      createdAt: new Date().toISOString(),
-    };
+  if (!roleData?.chefId) {
+    return toast.error("You are not approved as a chef yet.");
+  }
 
-    try {
-      
-  console.log(mealData);
-      const res = await axios.post(`${API_URL}/meals`, mealData);
-      if (res.status === 200 || res.status === 201) {
-        toast.success("Meal created successfully!");
-        e.target.reset();
-        setImageURL(null);
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to create meal.");
-    }
+  console.log(roleData.chefId, 'roledata');
+  
+
+  const mealData = {
+    foodName: e.target.foodName.value,
+    chefName: e.target.chefName.value,
+    foodImage: imageURL,
+    price: parseFloat(e.target.price.value),
+    rating: parseFloat(e.target.rating.value),
+    ingredients: e.target.ingredients.value.split(",").map(i => i.trim()),
+    estimatedDeliveryTime: e.target.deliveryTime.value,
+    foodCategory: e.target.foodCategory.value,
+    foodDescription: e.target.description.value,
+    chefExperience: e.target.chefExperience.value,
+    chefId: roleData.chefId, // safe now
+    userEmail: user?.email,
+    createdAt: new Date().toISOString(),
   };
+
+  try {
+    await axios.post(`${API_URL}/meals`, mealData);
+    toast.success("Meal created successfully!");
+    e.target.reset();
+    setImageURL(null);
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to create meal.");
+  }
+};
+
 
   
 

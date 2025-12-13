@@ -8,7 +8,7 @@ import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 
 export default function Order() {
   const { id } = useParams();
-  const { user } = useAuth();
+  const { user, roleData } = useAuth();
   const [meal, setMeal] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0)
   const { register, handleSubmit, watch } = useForm({
@@ -59,6 +59,7 @@ export default function Order() {
               price: meal.foodPrice,
               userEmail: user?.email,
               orderStatus: "pending",
+              chefId: roleData.chefId,
               orderTime: new Date(),
             },
             {

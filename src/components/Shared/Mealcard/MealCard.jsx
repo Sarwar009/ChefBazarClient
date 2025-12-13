@@ -19,7 +19,7 @@ const MealCard = ({meal}) => {
       mealName: selectedMeal.mealName,
       chefId: selectedMeal.chefId,
       chefName: selectedMeal.chefName,
-      price: selectedMeal.foodPrice,
+      price: selectedMeal.price,
       foodImage: selectedMeal.foodImage,
     });
     console.log(res.data);
@@ -34,6 +34,9 @@ const MealCard = ({meal}) => {
     toast.error("Failed to add favorite!");
   }
 }
+
+console.log(meal, meal);
+
 
     return (
         <motion.div
@@ -62,15 +65,15 @@ const MealCard = ({meal}) => {
               <div className="p-5 flex flex-col flex-1 justify-between">
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 mb-1">
-                    {meal.mealName}
+                    {meal.foodName}
                   </h3>
                   <p>{meal.foodDescription}</p>
                   <p className="text-gray-500 text-sm mb-2">{meal.chef}</p>
                   <div className="text-orange-600 font-bold text-lg mb-2 flex items-center justify-between mt-3">
                   
-                    <p>৳ {meal.foodPrice}</p>
+                    <p>৳ {meal.price}</p>
                     <span className="text-yellow-500 font-semibold ">
-                    ⭐ {meal.foodRating}
+                    ⭐ {meal.Rating}
                   </span>
                   </div>
                 </div>
