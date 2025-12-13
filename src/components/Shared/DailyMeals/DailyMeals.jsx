@@ -32,6 +32,8 @@ export default function DailyMeals() {
   if (loading) return <p className="text-center py-10">Loading meals...</p>;
   if (meals.length === 0) return <p className="text-center py-10">No meals available!</p>;
 
+  console.log(meals, 'from daily meals');
+  
   return (
     <section className="py-4 px-4 max-w-6xl mx-auto">
       <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 text-center">
@@ -39,8 +41,8 @@ export default function DailyMeals() {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {meals.map((meal) => (
-          <MealCard meal={meal} />
+        {meals.map((meal, idx) => (
+          <MealCard key={idx} meal={meal} />
         ))}
       </div>
     </section>

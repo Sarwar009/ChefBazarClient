@@ -7,10 +7,13 @@ import useAuth from "../../hooks/useAuth";
 import UserMenu from "../../components/Dashboard/Sidebar/Menu/UserMenu";
 import AdminMenu from "../../components/Dashboard/Sidebar/Menu/AdminMenu";
 import ChefMenu from "../../components/Dashboard/Sidebar/Menu/ChefMenu";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 export default function Dashboard() {
   const { user, role } = useAuth();
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   if (!user) return <p>Login to see dashboard</p>;
   if (!role) return <p>no role</p>;
@@ -27,6 +30,24 @@ export default function Dashboard() {
         return <UserMenu />;
     }
   };
+
+  const handleChefRequest = async () => {
+  try {
+    const res = await axios.post(`${API_URL}/chef-requests`, {
+      userEmail: user.email,
+      userName: user.displayName,
+    });
+
+    if (res.data.alreadyRequested) {
+      toast.error("You already requested");
+    } else {
+      toast.success("Chef request sent!");
+    }
+  } catch (err) {
+    toast.error("Request failed");
+  }
+};
+
 
   return (
     <div className="drawer lg:drawer-open">
@@ -68,7 +89,7 @@ export default function Dashboard() {
 
             {role === "user" && (
               <div className="md:mx-6">
-                <Button label="Become a Chef" />
+                <Button label="Become a Chef"  onClick={handleChefRequest}/>
               </div>
             )}
 

@@ -9,8 +9,6 @@ import Meals from "../pages/Meals/Meals";
 import MealDetails from "../pages/MealDetails/MealDetails";
 import Order from "../pages/Order/Order";
 import AdminStatistics from "../components/Dashboard/Statistics/AdminStatistics";
-import ManageUser from "../components/Dashboard/ManageUser/ManageUser";
-import ManageRequest from "../components/Dashboard/ManageReq/ManageReq";
 import UserProfile from "../components/Dashboard/UserProfile";
 import MyProfile from "../components/Dashboard/MyProfile";
 import Dashboard from '../pages/Dashboard/Dashboard'
@@ -21,6 +19,9 @@ import MyReview from "../components/Dashboard/User/MyReview";
 import ManageOrder from "../components/Dashboard/Chef/ManageOrder";
 import CreateMeal from "../components/Dashboard/Chef/CreateMeal";
 import MyMeals from "../components/Dashboard/Chef/MyMeals";
+import UpdateMeal from "../components/Dashboard/Chef/UpdateMeal";
+import ManageUsers from "../components/Dashboard/Admin/ManageReq/ManageUser/ManageUser";
+import ManageRequests from "../components/Dashboard/Admin/ManageReq/ManageReq";
 
 export const router = createBrowserRouter([
   {
@@ -81,14 +82,14 @@ export const router = createBrowserRouter([
       {
         path: "request",
         element: <PrivateRoute requiredRole="admin">
-          <ManageRequest />
+          <ManageRequests />
         </PrivateRoute>
       },
       {
         path: 'manage-users',
         element: (
           <PrivateRoute requiredRole="admin">
-            <ManageUser />
+            <ManageUsers />
           </PrivateRoute>
         )
       },
@@ -113,6 +114,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute requiredRole="chef">
             <MyMeals />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: 'update-meal',
+        element: (
+          <PrivateRoute requiredRole="chef">
+            <UpdateMeal />
           </PrivateRoute>
         )
       },

@@ -13,9 +13,6 @@ export default function TrendingMeals() {
     async function fetchTrending() {
       try {
         const res = await axios.get(`${API_URL}/orders`);
-        console.log(res.data);
-        
-        // count total quantity per meal
         const countMap = {};
 
         res.data.forEach((order) => {
@@ -42,7 +39,8 @@ export default function TrendingMeals() {
     }
 
     fetchTrending();
-  }, [API_URL]);
+  }, []);
+  
 
   return (
     <section className="py-8 px-4 max-w-6xl mx-auto">
@@ -51,9 +49,9 @@ export default function TrendingMeals() {
         Most ordered by our customers
       </p>
       <div className="grid md:grid-cols-3 gap-6">
-        {trendingMeals.map((meal) => (
+        {trendingMeals.map((meal, idx) => (
           <motion.div
-            key={meal.foodId}
+            key={idx}
             whileHover={{ y: -8, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 300, damping: 25, duration: 0.3 }}

@@ -1,0 +1,45 @@
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
+
+export default function UpdateMeal() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [meal, setMeal] = useState({});
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    axios.get(`${API_URL}/meals/${id}`).then(res => setMeal(res.data));
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const updated = {
+      foodName: e.target.foodName.value,
+      price: e.target.price.value,
+      rating: e.target.rating.value,
+      estimatedDeliveryTime: e.target.time.value
+    };
+
+    const res = await axios.patch(`${API_URL}/meals/${id}`, updated);
+    if (res.data.modifiedCount > 0) {
+      toast.success("Meal updated!");
+      navigate("/dashboard/my-meals");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="max-w-xl mx-auto mt-10 bg-white p-6 rounded-xl shadow">
+      <input defaultValue={meal.foodName} name="foodName" className="input" />
+      <input defaultValue={meal.price} name="price" type="number" className="input" />
+      <input defaultValue={meal.rating} name="rating" type="number" className="input" />
+      <input defaultValue={meal.estimatedDeliveryTime} name="time" className="input" />
+
+      <button className="bg-green-600 text-white w-full py-2 rounded mt-4">
+        Update Meal
+      </button>
+    </form>
+  );
+}

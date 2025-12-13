@@ -7,16 +7,19 @@ import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 
 export default function CreateMeal() {
-  const { user, roleData } = useAuth();
+  const { user, role, roleData } = useAuth();
   const [imageURL, setImageURL] = useState(null);
   const [uploading, setUploading] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL;
-  const IMGBB_KEY = import.meta.env.VITE_IMGBB_KEY;
+  const IMGBB_KEY = import.meta.env.VITE_IMGBB_API_KEY;
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    
+    console.log('userEmail', user);
 
     setUploading(true);
     const formData = new FormData();
@@ -36,28 +39,31 @@ export default function CreateMeal() {
       setUploading(false);
     }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!imageURL) return toast.error("Please upload an image");
 
     const mealData = {
-      foodName: e.target.foodName.value,
+      mealName: e.target.foodName.value,
       chefName: e.target.chefName.value,
       foodImage: imageURL,
-      price: parseFloat(e.target.price.value),
-      rating: parseFloat(e.target.rating.value),
+      foodPrice: parseFloat(e.target.price.value),
+      foodRating: parseFloat(e.target.rating.value),
       ingredients: e.target.ingredients.value.split(",").map(i => i.trim()),
       estimatedDeliveryTime: e.target.deliveryTime.value,
       foodCategory: e.target.foodCategory.value,
       foodDescription: e.target.description.value,
       chefExperience: e.target.chefExperience.value,
-      chefId: roleData?.chefId,
+      chefId: roleData.chefId,
       userEmail: user?.email,
       createdAt: new Date().toISOString(),
     };
 
     try {
+      
+  console.log(mealData);
       const res = await axios.post(`${API_URL}/meals`, mealData);
       if (res.status === 200 || res.status === 201) {
         toast.success("Meal created successfully!");
@@ -69,6 +75,8 @@ export default function CreateMeal() {
       toast.error("Failed to create meal.");
     }
   };
+
+  
 
   // Input style with icon spacing
   const inputStyle = "pl-10 pr-3 py-3 w-full rounded-lg border border-gray-200 shadow-sm focus:ring-2 focus:ring-orange-400 focus:outline-none";
@@ -102,7 +110,7 @@ export default function CreateMeal() {
         {/* Image Upload */}
         <div>
           <label className="font-semibold mb-2 block">Food Image</label>
-          <input type="file" onChange={handleImageUpload} className="w-full mb-2" />
+          <input type="file" onChange={handleImageUpload} className="block mb-2 shadow p-3 text-gray-400 " />
           {uploading && <p className="text-sm text-gray-500 mt-1">Uploading...</p>}
           {imageURL && (
             <img src={imageURL} alt="Meal" className="w-48 h-48 object-cover rounded-xl mt-3 shadow-sm" />
@@ -155,7 +163,7 @@ export default function CreateMeal() {
 
         {/* Chef ID & User Email */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <input type="text" value={roleData?.chefId || "Pending Approval"} readOnly className={`${inputStyle} bg-gray-100`} placeholder="Chef ID" />
+          <input type="text" value={role?.chefId || "Pending Approval"} readOnly className={`${inputStyle} bg-gray-100`} placeholder="Chef ID" />
           <input type="email" value={user?.email} readOnly className={`${inputStyle} bg-gray-100`} placeholder="Your Email" />
         </div>
 

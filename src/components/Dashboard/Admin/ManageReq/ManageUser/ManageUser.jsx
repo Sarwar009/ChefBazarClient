@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import useAuth from "../../../hooks/useAuth";
+// import useAuth from "../../../../../hooks/useAuth";
 
 export default function ManageUsers() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const [users, setUsers] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;
 
