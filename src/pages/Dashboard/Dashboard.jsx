@@ -31,21 +31,24 @@ export default function Dashboard() {
     }
   };
 
-  const handleChefRequest = async () => {
+const targetRole = role === "user" ? "chef" : "admin";
+
+const handleChefRequest = async () => {
   try {
     const res = await axios.post(`${API_URL}/chef-requests`, {
       userEmail: user.email,
       userName: user.displayName,
-      requestedRole: role,
+      requestedRole: targetRole,
     });
 
     if (res.data.alreadyRequested) {
       toast.error("You already requested");
     } else {
-      toast.success("Chef request sent!");
+      toast.success("Request sent!");
     }
   } catch (err) {
     toast.error("Request failed");
+    console.log(err);
   }
 };
 

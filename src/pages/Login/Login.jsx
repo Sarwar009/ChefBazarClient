@@ -139,7 +139,7 @@ const Login = () => {
           Don&apos;t have an account yet?{' '}
           <Link
             state={from}
-            to='/signup'
+            to='/register'
             className='hover:underline hover:text-lime-500 text-gray-600'
           >
             Sign up

@@ -2,28 +2,58 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell } from "recharts";
 
+const COLORS = ["#f59e0b", "#22c55e"]; // Pending, Delivered
+
+const StatCard = ({ title, value }) => (
+  <div className="bg-white shadow rounded-lg p-4 text-center">
+    <h4 className="text-gray-500">{title}</h4>
+    <p className="text-2xl font-bold">{value}</p>
+  </div>
+);
+
 export default function PlatformStats() {
-  const [stats, setStats] = useState({});
+  const [stats, setStats] = useState(null);
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    axios.get(`${API_URL}/admin/stats`, { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } })
-      .then((res) => setStats(res.data));
-  }, []);
+  axios
+    .get(`${API_URL}/admin/stats`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+    })
+    .then((res) => {
+      console.log("Stats:", res.data);
+      setStats(res.data);
+    })
+    .catch((err) => console.error(err));
+}, []);
 
-  const paymentsData = [{ name: "Payments", amount: stats.totalPayments || 0 }];
+
+  if (!stats) return <p>Loading...</p>;
+
+  // Correct field names
+  const paymentsData = [{ name: "Payments", amount: stats.totalPaymentAmount || 0 }];
   const ordersData = [
-    { name: "Pending", value: stats.ordersPending || 0 },
-    { name: "Delivered", value: stats.ordersDelivered || 0 },
+    { name: "Pending", value: stats.pendingOrders || 0 },
+    { name: "Delivered", value: stats.deliveredOrders || 0 },
   ];
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Platform Statistics</h2>
+    <div className="max-w-7xl mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-6">Platform Statistics</h2>
+
+      {/* Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <StatCard title="Total Users" value={stats.totalUsers} />
+        <StatCard title="Total Payments" value={`৳ ${stats.totalPaymentAmount}`} />
+        <StatCard title="Orders Pending" value={stats.pendingOrders} />
+        <StatCard title="Orders Delivered" value={stats.deliveredOrders} />
+      </div>
+
+      {/* Charts */}
       <div className="grid md:grid-cols-2 gap-4">
         <div className="border p-4 rounded">
-          <h3 className="font-bold mb-2">Total Payments</h3>
-          <BarChart width={300} height={200} data={paymentsData}>
+          <h3 className="font-bold mb-2">Payments</h3>
+          <BarChart width={400} height={250} data={paymentsData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
@@ -34,16 +64,16 @@ export default function PlatformStats() {
 
         <div className="border p-4 rounded">
           <h3 className="font-bold mb-2">Orders</h3>
-          <PieChart width={300} height={200}>
-            <Pie dataKey="value" data={ordersData} cx={150} cy={100} outerRadius={80} label>
-              <Cell fill="#8884d8" />
-              <Cell fill="#82ca9d" />
+          <PieChart width={400} height={250}>
+            <Pie dataKey="value" data={ordersData} cx="50%" cy="50%" outerRadius={80} label>
+              {ordersData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index]} />
+              ))}
             </Pie>
+            <Tooltip />
           </PieChart>
         </div>
       </div>
     </div>
   );
 }
-
-
