@@ -32,11 +32,17 @@ export default function ChefOrderRequests() {
     fetchOrders();
   }, [roleData]);
 
-  const updateStatus = async (orderId, newStatus) => {
+const updateStatus = async (orderId, newStatus) => {
   try {
+    const token = localStorage.getItem("accessToken");
     const res = await axios.patch(
       `${API_URL}/orders/${orderId}/status`,
-      { status: newStatus }
+      { status: newStatus },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
 
     if (res.status === 200) {
@@ -52,6 +58,7 @@ export default function ChefOrderRequests() {
     toast.error("Failed to update order");
   }
 };
+
 
   console.log(orders, 'orders');
   

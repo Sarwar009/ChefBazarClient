@@ -35,6 +35,7 @@ useEffect(() => {
       toast.success("Meal deleted successfully!");
     }
   };
+  
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -56,14 +57,14 @@ useEffect(() => {
               className="h-40 w-full object-cover rounded-lg"
             />
 
-            <h3 className="text-xl font-bold mt-3">{meal.mealName}</h3>
-            <p className="text-gray-500">Chef: {meal.chefName}</p>
-            <p className="text-sm">Chef ID: {meal.chefId}</p>
+            <h3 className="text-xl font-bold mt-3">{meal.foodName}</h3>
+            <p><span className="font-bold">Chef:</span> {meal.chefName}</p>
+            <p className="text-sm"><span className="font-bold">Chef ID:</span> {meal.chefId}</p>
 
-            <p className="mt-2 font-semibold">💲 {meal.foodPrice}</p>
-            <p>⭐ {meal.rating}</p>
-            <p className="text-sm text-gray-600">
-              Ingredients: {meal.ingredients.join(", ")}
+            <p className="mt-2 font-semibold"><span className="font-bold">Price: </span>{meal.price}tk</p>
+            <p><span className="font-bold">Rating: </span> {meal.rating}</p>
+            <p className="text-sm">
+              <span className="font-bold">Ingredients:</span> {meal.ingredients.join(", ")}
             </p>
             <p className="text-sm">⏱ {meal.estimatedDeliveryTime}</p>
 

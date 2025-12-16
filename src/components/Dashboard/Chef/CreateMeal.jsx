@@ -62,7 +62,7 @@ export default function CreateMeal() {
     foodCategory: e.target.foodCategory.value,
     foodDescription: e.target.description.value,
     chefExperience: e.target.chefExperience.value,
-    chefId: roleData.chefId, // safe now
+    chefId: roleData.chefId,
     userEmail: user?.email,
     createdAt: new Date().toISOString(),
   };

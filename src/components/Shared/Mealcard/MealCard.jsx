@@ -71,7 +71,7 @@ const addToFavorites = async (selectedMeal) => {
                   
                     <p>৳ {meal.price}</p>
                     <span className="text-yellow-500 font-semibold ">
-                    ⭐ {meal.Rating}
+                    ⭐ {meal.rating}
                   </span>
                   </div>
                 </div>

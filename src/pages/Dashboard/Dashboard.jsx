@@ -33,7 +33,7 @@ export default function Dashboard() {
 
 const targetRole = role === "user" ? "chef" : "admin";
 
-const handleChefRequest = async () => {
+const handleRequest = async () => {
   try {
     const res = await axios.post(`${API_URL}/chef-requests`, {
       userEmail: user.email,
@@ -93,15 +93,14 @@ const handleChefRequest = async () => {
 
             {role === "user" && (
               <div className="md:mx-6">
-                <Button label="Become a Chef"  onClick={handleChefRequest}/>
+                <Button label="Become a Chef"  onClick={handleRequest}/>
               </div>
             )}
 
             {role === "chef" && (
               <div className="md:mx-6">
                 <Button
-                  label="Become Admin"
-                  onClick={() => navigate("/chef-specific-route")}
+                  label="Become Admin" onClick={handleRequest}
                 />
               </div>
             )}
