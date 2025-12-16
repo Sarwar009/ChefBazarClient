@@ -26,13 +26,11 @@ export default function DailyMeals() {
     fetchMeals();
   }, [API_URL]);
 
-  console.log(meals);
   
 
   if (loading) return <p className="text-center py-10">Loading meals...</p>;
   if (meals.length === 0) return <p className="text-center py-10">No meals available!</p>;
 
-  console.log(meals, 'from daily meals');
   
   return (
     <section className="py-4 px-4 max-w-6xl mx-auto">

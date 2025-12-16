@@ -16,13 +16,13 @@ export default function TrendingMeals() {
         const countMap = {};
 
         res.data.forEach((order) => {
-          const id = order.foodId;
+          const id = order.mealId;
           if (countMap[id]) {
-            countMap[id].quantity += order.quantity; // sum total quantity
+            countMap[id].quantity += order.quantity; 
           } else {
             countMap[id] = {
               ...order,
-              quantity: order.quantity, // initial quantity
+              quantity: order.quantity,
             };
           }
         });
@@ -41,6 +41,7 @@ export default function TrendingMeals() {
     fetchTrending();
   }, []);
   
+console.log(trendingMeals);
 
   return (
     <section className="py-8 px-4 max-w-6xl mx-auto">
@@ -55,7 +56,7 @@ export default function TrendingMeals() {
             whileHover={{ y: -8, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 300, damping: 25, duration: 0.3 }}
-            onClick={()=> navigate(`meals/${meal.foodId}`)}
+            onClick={()=> navigate(`meals/${meal.mealId}`)}
             className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
           >
             <img

@@ -15,7 +15,11 @@ export default function MyFavorites() {
     if (!user?.email) return;
 
     axios
-      .get(`${API_URL}/favorites/${user.email}`)
+      .get(`${API_URL}/favorites/${user.email}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
       .then((res) => {
         setFavorites(res.data);
         setLoading(false);
@@ -27,44 +31,43 @@ export default function MyFavorites() {
   }, [user]);
 
   // DELETE Favorite
-  
-const handleDelete = async (id) => {
-  const confirm = await Swal.fire({
-    title: "Are you sure?",
-    text: "This meal will be removed from your favorites.",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#e11d48",
-    cancelButtonColor: "#6b7280",
-    confirmButtonText: "Yes, remove it"
-  });
 
-  if (!confirm.isConfirmed) return;
+  const handleDelete = async (id) => {
+    const confirm = await Swal.fire({
+      title: "Are you sure?",
+      text: "This meal will be removed from your favorites.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#e11d48",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, remove it",
+    });
 
-  try {
-    const res = await axios.delete(`${API_URL}/favorites/${id}`);
+    if (!confirm.isConfirmed) return;
 
-    if (res.data.success) {
-      // instant UI update
-      setFavorites((prev) => prev.filter((item) => item._id !== id));
+    try {
+      const res = await axios.delete(`${API_URL}/favorites/${id}`);
 
+      if (res.data.success) {
+        // instant UI update
+        setFavorites((prev) => prev.filter((item) => item._id !== id));
+
+        Swal.fire({
+          icon: "success",
+          title: "Removed!",
+          text: "Meal removed from favorites.",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+    } catch (err) {
       Swal.fire({
-        icon: "success",
-        title: "Removed!",
-        text: "Meal removed from favorites.",
-        timer: 1500,
-        showConfirmButton: false,
+        icon: "error",
+        title: "Oops!",
+        text: "Failed to remove meal.",
       });
     }
-
-  } catch (err) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops!",
-      text: "Failed to remove meal.",
-    });
-  }
-};
+  };
 
   if (loading) {
     return (
@@ -111,7 +114,9 @@ const handleDelete = async (id) => {
                 </td>
 
                 <td className="py-3 px-4 border-b">
-                  {new Date(meal.dateAdded).toLocaleDateString()}
+                  {meal.createdAt
+                    ? new Date(meal.createdAt).toLocaleDateString()
+                    : "—"}
                 </td>
 
                 <td className="py-3 px-4 border-b text-center">
@@ -125,7 +130,6 @@ const handleDelete = async (id) => {
               </tr>
             ))}
           </tbody>
-
         </table>
       </div>
     </div>

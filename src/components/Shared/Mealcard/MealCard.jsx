@@ -11,18 +11,18 @@ const MealCard = ({meal}) => {
   const {user} = useAuth();
   const BackenAPI = import.meta.env.VITE_API_URL;
   
-    const addToFavorites = async (selectedMeal) => {
+const addToFavorites = async (selectedMeal) => {
   try {
     const res = await axios.post(`${BackenAPI}/favorites`, {
       userEmail: user.email,
-      mealId: selectedMeal._id,       
+      mealId: selectedMeal._id,
       mealName: selectedMeal.mealName,
       chefId: selectedMeal.chefId,
       chefName: selectedMeal.chefName,
       price: selectedMeal.price,
       foodImage: selectedMeal.foodImage,
+      createdAt: new Date(),
     });
-    console.log(res.data);
 
     if (res.data.alreadyExists) {
       toast.error("Already in Favorites!");
@@ -33,9 +33,7 @@ const MealCard = ({meal}) => {
     console.error(err);
     toast.error("Failed to add favorite!");
   }
-}
-
-console.log(meal, meal);
+};
 
 
     return (

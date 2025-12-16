@@ -51,8 +51,9 @@ export default function MostLovedFoods() {
           Our users’ favorite meals that they can’t stop loving
         </p>
         <div className=" grid md:grid-cols-3 gap-8">
-          {mostLoved.map((meal) => (
+          {mostLoved.map((meal, idx) => (
             <motion.div
+            key={idx}
               whileHover={{ y: -8, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 300, damping: 25, duration: 0.3 }}
