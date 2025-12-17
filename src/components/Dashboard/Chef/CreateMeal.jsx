@@ -89,7 +89,7 @@ export default function CreateMeal() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="max-w-4xl mx-auto bg-white rounded-2xl p-8 mt-6 shadow-sm"
+      className="max-w-4xl mx-auto rounded-2xl p-8 mt-6 shadow-sm"
     >
       <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent">
         Create New Meal
@@ -100,12 +100,12 @@ export default function CreateMeal() {
         {/* Meal Name & Chef Name */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="relative">
-            <HiOutlineClipboardList className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <HiOutlineClipboardList className="absolute left-3 top-1/2 transform -translate-y-1/2" />
             <input type="text" name="foodName" placeholder="Meal Name" className={inputStyle} required />
           </div>
 
           <div className="relative">
-            <HiOutlineUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <HiOutlineUser className="absolute left-3 top-1/2 transform -translate-y-1/2" />
             <input type="text" name="chefName" defaultValue={user?.displayName} placeholder="Chef Name" className={inputStyle} required />
           </div>
         </div>
@@ -113,8 +113,8 @@ export default function CreateMeal() {
         {/* Image Upload */}
         <div>
           <label className="font-semibold mb-2 block">Food Image</label>
-          <input type="file" onChange={handleImageUpload} className="block mb-2 shadow p-3 text-gray-400 " />
-          {uploading && <p className="text-sm text-gray-500 mt-1">Uploading...</p>}
+          <input type="file" onChange={handleImageUpload} className="block mb-2 shadow p-3 " />
+          {uploading && <p className="text-sm mt-1">Uploading...</p>}
           {imageURL && (
             <img src={imageURL} alt="Meal" className="w-48 h-48 object-cover rounded-xl mt-3 shadow-sm" />
           )}
@@ -123,12 +123,12 @@ export default function CreateMeal() {
         {/* Price & Rating */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="relative">
-            <HiOutlineCurrencyDollar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <HiOutlineCurrencyDollar className="absolute left-3 top-1/2 transform -translate-y-1/2 " />
             <input type="number" step="0.01" name="price" placeholder="Price" className={inputStyle} required />
           </div>
 
           <div className="relative">
-            <HiOutlineStar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <HiOutlineStar className="absolute left-3 top-1/2 transform -translate-y-1/2 " />
             <input type="number" step="0.1" max="5" name="rating" placeholder="Rating 0-5" className={inputStyle} required />
           </div>
         </div>
@@ -142,12 +142,12 @@ export default function CreateMeal() {
         {/* Delivery Time & Category */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="relative">
-            <HiOutlineClock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <HiOutlineClock className="absolute left-3 top-1/2 transform -translate-y-1/2 " />
             <input type="text" name="deliveryTime" placeholder="Estimated Delivery Time" className={inputStyle} required />
           </div>
 
           <div className="relative">
-            <HiOutlineTag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <HiOutlineTag className="absolute left-3 top-1/2 transform -translate-y-1/2" />
             <input type="text" name="foodCategory" placeholder="Food Category" className={inputStyle} required />
           </div>
         </div>
@@ -166,12 +166,12 @@ export default function CreateMeal() {
 
         {/* Chef ID & User Email */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <input type="text" value={role?.chefId || "Pending Approval"} readOnly className={`${inputStyle} bg-gray-100`} placeholder="Chef ID" />
-          <input type="email" value={user?.email} readOnly className={`${inputStyle} bg-gray-100`} placeholder="Your Email" />
+          <input type="text" value={role?.chefId || "Pending Approval"} readOnly className={`${inputStyle}`} placeholder="Chef ID" />
+          <input type="email" value={user?.email} readOnly className={`${inputStyle} `} placeholder="Your Email" />
         </div>
 
         {/* Submit Button */}
-        <motion.button whileTap={{ scale: 0.95 }} className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-xl shadow">
+        <motion.button whileTap={{ scale: 0.95 }} className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-600 font-bold rounded-xl shadow">
           Create Meal
         </motion.button>
       </form>

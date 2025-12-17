@@ -40,7 +40,7 @@ const addToFavorites = async (selectedMeal) => {
         <motion.div
               key={meal.id}
               whileHover={{ scale: 1.08 }}
-              className="loved-card bg-white rounded-3xl shadow-lg overflow-hidden group flex flex-col transition-all duration-300 relative"
+              className="loved-card rounded-3xl shadow-lg overflow-hidden group flex flex-col transition-all duration-300 relative"
             >
             <button
                   className="absolute top-3 right-3 z-50 text-red-500 hover:text-red-700 cursor-pointer"
@@ -62,11 +62,11 @@ const addToFavorites = async (selectedMeal) => {
               {/* Content */}
               <div className="p-5 flex flex-col flex-1 justify-between">
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">
+                  <h3 className="text-xl font-bold mb-1">
                     {meal.foodName}
                   </h3>
                   <p>{meal.foodDescription}</p>
-                  <p className="text-gray-500 text-sm mb-2">{meal.chef}</p>
+                  <p className=" text-sm mb-2">{meal.chef}</p>
                   <div className="text-orange-600 font-bold text-lg mb-2 flex items-center justify-between mt-3">
                   
                     <p>৳ {meal.price}</p>

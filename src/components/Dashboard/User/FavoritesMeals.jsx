@@ -81,7 +81,7 @@ export default function MyFavorites() {
     return (
       <div className="text-center py-20">
         <h2 className="text-2xl font-bold">No Favorite Meals Yet</h2>
-        <p className="text-gray-500 mt-2">Add meals to see them here!</p>
+        <p className="mt-2">Add meals to see them here!</p>
       </div>
     );
   }
@@ -91,8 +91,8 @@ export default function MyFavorites() {
       <h2 className="text-3xl font-bold mb-6">My Favorite Meals</h2>
 
       <div className="overflow-x-auto shadow rounded-lg">
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead className="bg-gray-100">
+        <table className="min-w-full border border-gray-200">
+          <thead>
             <tr>
               <th className="py-3 px-4 border-b text-left">Meal Name</th>
               <th className="py-3 px-4 border-b text-left">Chef Name</th>
@@ -122,7 +122,7 @@ export default function MyFavorites() {
                 <td className="py-3 px-4 border-b text-center">
                   <button
                     onClick={() => handleDelete(meal._id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg"
+                    className="bg-red-500 hover:bg-red-600  px-3 py-1 rounded-lg"
                   >
                     Delete
                   </button>

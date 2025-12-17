@@ -31,13 +31,13 @@ export default function UpdateMeal() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xl mx-auto mt-10 bg-white p-6 rounded-xl shadow">
+    <form onSubmit={handleSubmit} className="max-w-xl mx-auto mt-10 p-6 rounded-xl shadow">
       <input defaultValue={meal.foodName} name="foodName" className="input" />
       <input defaultValue={meal.price} name="price" type="number" className="input" />
       <input defaultValue={meal.rating} name="rating" type="number" className="input" />
       <input defaultValue={meal.estimatedDeliveryTime} name="time" className="input" />
 
-      <button className="bg-green-600 text-white w-full py-2 rounded mt-4">
+      <button className="bg-green-600 w-full py-2 rounded mt-4">
         Update Meal
       </button>
     </form>

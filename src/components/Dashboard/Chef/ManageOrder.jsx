@@ -59,6 +59,16 @@ const updateStatus = async (orderId, newStatus) => {
   }
 };
 
+const formatDateTime = (date) => {
+  return new Date(date).toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
 
   console.log(orders, 'orders');
   
@@ -79,9 +89,10 @@ const updateStatus = async (orderId, newStatus) => {
             quantity,
             orderStatus,
             userEmail,
-            createdAt,
+            orderTime,
             userAddress,
             paymentStatus,
+            
           } = order;
 
           // Button logic
@@ -90,7 +101,7 @@ const updateStatus = async (orderId, newStatus) => {
           const isDelivered = orderStatus === "delivered";
 
           return (
-            <div key={_id} className="bg-white p-4 rounded-xl shadow-sm">
+            <div key={_id} className="p-4 rounded-xl shadow-sm">
               <h3 className="text-xl font-bold">{foodName}</h3>
               <p>Price: ${price}</p>
               <p>Quantity: {quantity}</p>
@@ -100,7 +111,7 @@ const updateStatus = async (orderId, newStatus) => {
               <p>User: {userEmail}</p>
               <p>Address: {userAddress}</p>
               <p>Payment: {paymentStatus}</p>
-              <p>Ordered at: {new Date(createdAt).toLocaleString()}</p>
+              <p>Ordered at: {formatDateTime(orderTime)}</p>
 
               <div className="flex gap-2 mt-4">
                 <button

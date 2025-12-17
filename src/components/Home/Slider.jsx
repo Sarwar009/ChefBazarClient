@@ -56,7 +56,7 @@ export default function Slider() {
                 initial={{ y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2 }}
-                className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-6"
+                className="absolute inset-0 flex flex-col justify-center items-center  text-center px-6"
               >
                 <h1 className="text-4xl md:text-6xl font-extrabold drop-shadow-xl mb-4">
                   {slide.title}

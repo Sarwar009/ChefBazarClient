@@ -30,11 +30,10 @@ export default function ManageRequests() {
   try {
     if (approve) {
       if (requestType === "chef") {
-        const chefId = "chef-" + Math.floor(1000 + Math.random() * 9000);
 
         await axios.patch(
           `${API_URL}/users/update-role`,
-          { email: userEmail, role: "chef", chefId },
+          { email: userEmail, role: "chef"},
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -100,7 +99,7 @@ export default function ManageRequests() {
 
       <div className="overflow-x-auto shadow-lg rounded-lg">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-gray-100">
+          <thead>
             <tr>
               <th className="p-3">User Name</th>
               <th className="p-3">User Email</th>
@@ -114,14 +113,14 @@ export default function ManageRequests() {
             {requests.map((r) => (
               <tr
                 key={r._id}
-                className="border-t hover:bg-gray-50 transition-colors"
+                className="border-t transition-colors"
               >
                 <td className="p-3">{r.userName}</td>
                 <td className="p-3">{r.userEmail || "-"}</td>
                 <td className="p-3 capitalize">{r.requestType || "-"}</td>
                 <td className="p-3">
                   <span
-                    className={`px-2 py-1 rounded text-white text-sm ${
+                    className={`px-2 py-1 rounded  text-sm ${
                       r.requestStatus === "approved"
                         ? "bg-green-500"
                         : r.requestStatus === "rejected"
@@ -140,19 +139,19 @@ export default function ManageRequests() {
                     <div className="flex justify-center gap-2">
                       <button
                         onClick={() => handleRequest(r, true)}
-                        className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors"
+                        className="bg-green-500 px-3 py-1 rounded hover:bg-green-600 transition-colors"
                       >
                         Accept
                       </button>
                       <button
                         onClick={() => handleRequest(r, false)}
-                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors"
+                        className="bg-red-500  px-3 py-1 rounded hover:bg-red-600 transition-colors"
                       >
                         Reject
                       </button>
                     </div>
                   ) : (
-                    <span className="text-gray-500">Processed</span>
+                    <span>Processed</span>
                   )}
                 </td>
               </tr>
@@ -161,7 +160,7 @@ export default function ManageRequests() {
               <tr>
                 <td
                   colSpan={6}
-                  className="text-center p-6 text-gray-400 font-medium"
+                  className="text-center p-6 font-medium"
                 >
                   No requests found
                 </td>

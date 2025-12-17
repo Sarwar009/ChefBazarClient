@@ -22,7 +22,7 @@ export default function Hero() {
         transition={{ duration: 1, ease: "easeOut" }}
       >
         <motion.h1
-          className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight"
+          className="text-5xl md:text-6xl font-extrabold text-base-content mb-6 leading-tight"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
@@ -30,7 +30,7 @@ export default function Hero() {
           Fresh Home-Cooked Meals <br className="hidden md:block" /> Delivered Daily
         </motion.h1>
         <motion.p
-          className="text-lg text-gray-700 mb-8"
+          className="text-lg text-base-content/80 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
@@ -44,7 +44,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.9, ease: "easeOut" }}
-          className="px-8 py-4 bg-linear-to-r from-emerald-500 to-lime-500 text-white font-semibold rounded-full shadow-lg hover:shadow-2xl transition-all duration-300"
+          className="px-8 py-4 bg-linear-to-r from-emerald-500 to-lime-500  font-semibold rounded-full shadow-lg hover:shadow-2xl transition-all duration-300"
         >
           Explore Meals
         </motion.button>

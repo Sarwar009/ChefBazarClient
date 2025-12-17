@@ -70,7 +70,7 @@ const BestSellers = () => {
 
   return (
     <section className="py-8 px-4 max-w-6xl mx-auto" ref={ref}>
-      <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-12">
+      <h2 className="text-4xl font-extrabold text-center mb-12">
         Best Sellers
       </h2>
 
@@ -79,12 +79,12 @@ const BestSellers = () => {
                   <motion.div
                     key={meal.id}
                     whileHover={{ scale: 1.08 }}
-                    className=" best-seller-card bg-orange-50 rounded-xl shadow-lg overflow-hidden cursor-pointer"
+                    className=" best-seller-card rounded-xl shadow-lg overflow-hidden cursor-pointer"
                   >
                     <img src={meal.image} alt={meal.name} className="w-full h-48 object-cover"/>
                     <div className="p-4">
                       <h3 className="font-semibold text-lg">{meal.name}</h3>
-                      <p className="text-gray-500 text-sm">{meal.description}</p>
+                      <p className="text-sm">{meal.description}</p>
                       <div className="flex my-2 justify-between">
                         <p className="font-bold">Age: {meal.age}</p>
                         <p className="text-green-500">⭐ {meal.rating}</p>

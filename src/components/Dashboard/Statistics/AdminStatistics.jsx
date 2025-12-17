@@ -5,8 +5,8 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cel
 const COLORS = ["#f59e0b", "#22c55e"]; // Pending, Delivered
 
 const StatCard = ({ title, value }) => (
-  <div className="bg-white shadow rounded-lg p-4 text-center">
-    <h4 className="text-gray-500">{title}</h4>
+  <div className=" shadow rounded-lg p-4 text-center">
+    <h4>{title}</h4>
     <p className="text-2xl font-bold">{value}</p>
   </div>
 );

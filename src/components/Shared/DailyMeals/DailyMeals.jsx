@@ -34,7 +34,7 @@ export default function DailyMeals() {
   
   return (
     <section className="py-4 px-4 max-w-6xl mx-auto">
-      <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 text-center">
+      <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-center">
         Today's Special Meals
       </h2>
 

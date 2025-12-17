@@ -8,7 +8,7 @@ export default function HomePageFreeDelivery() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.5 }}
       transition={{ duration: 1, ease: "easeOut" }}
-    className="bg-linear-to-r from-blue-500 rounded-3xl text-white text-center shadow-xl  via-blue-600 to-indigo-600 mt-8">
+    className="bg-linear-to-r from-blue-500 rounded-3xl text-center shadow-xl  via-blue-600 to-indigo-600 mt-8">
       <section
       className="max-w-6xl mx-auto px-6 py-20"
       
@@ -24,7 +24,7 @@ export default function HomePageFreeDelivery() {
         <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="px-8 py-4 bg-linear-to-r from-yellow-400 via-orange-500 to-red-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+        className="px-8 py-4 bg-linear-to-r from-yellow-400 via-orange-500 to-red-500 font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
       >
         Order now
       </motion.button>

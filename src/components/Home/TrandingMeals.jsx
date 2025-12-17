@@ -46,7 +46,7 @@ console.log(trendingMeals);
   return (
     <section className="py-8 px-4 max-w-6xl mx-auto">
       <h2 className="text-3xl font-bold mb-4 text-center">Trending Meals</h2>
-      <p className="text-center mb-12 text-gray-500">
+      <p className="text-center mb-12">
         Most ordered by our customers
       </p>
       <div className="grid md:grid-cols-3 gap-6">
@@ -57,7 +57,7 @@ console.log(trendingMeals);
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 300, damping: 25, duration: 0.3 }}
             onClick={()=> navigate(`meals/${meal.mealId}`)}
-            className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
+            className="rounded-xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
           >
             <img
               src={meal.foodImage}

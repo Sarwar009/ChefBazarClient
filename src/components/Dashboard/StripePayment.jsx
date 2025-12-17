@@ -2,10 +2,12 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export default function StripePayment({ order, setOrders }) {
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +18,7 @@ export default function StripePayment({ order, setOrders }) {
     try {
       // 1️⃣ Create payment intent
       const { data } = await axios.post(`${API_URL}/create-payment-intent`, {
-        amount: order.mealInfo.foodPrice * order.quantity
+        amount: order.totalPrice
       });
 
       // 2️⃣ Confirm card payment
@@ -31,12 +33,13 @@ export default function StripePayment({ order, setOrders }) {
         paymentInfo: result.paymentIntent
       });
 
-      toast.success("Payment successful!");
-
       // Update local state to mark order as paid
       setOrders(prev =>
         prev.map(o => (o._id === order._id ? { ...o, paymentStatus: "paid" } : o))
       );
+
+      // Redirect to payment success page
+      navigate(`/payment-success?orderId=${order._id}`);
 
     } catch (err) {
       console.error(err);
@@ -52,9 +55,9 @@ export default function StripePayment({ order, setOrders }) {
       <button
         onClick={handlePay}
         disabled={loading}
-        className="bg-green-500 text-white px-4 py-2 rounded disabled:opacity-50"
+        className=" px-4 py-2 rounded disabled:opacity-50"
       >
-        {loading ? "Processing..." : `Pay $${order.mealInfo.foodPrice * order.quantity}`}
+        {loading ? "Processing..." : `Pay $${order.totalPrice}`}
       </button>
     </div>
   );

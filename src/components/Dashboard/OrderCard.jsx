@@ -2,21 +2,26 @@ import StripePayment from "./StripePayment";
 
 export default function OrderCard({ order, setOrders }) {
   const {
-    mealInfo,
+    mealName,
+    foodImage,
+    price,
     orderStatus,
     quantity,
     paymentStatus,
     chefName,
     chefId,
+    totalPrice,
   } = order;
 
   return (
-    <div className="bg-white shadow rounded-lg p-4 flex flex-col justify-between">
+    <div className=" shadow rounded-lg p-4 flex flex-col justify-between">
       <div>
-        <h3 className="font-bold text-lg mb-2">{mealInfo.foodName}</h3>
+        <img src={foodImage} alt={mealName} className="w-full h-32 object-cover rounded mb-2" />
+        <h3 className="font-bold text-lg mb-2">{mealName}</h3>
         <p><strong>Status:</strong> {orderStatus}</p>
-        <p><strong>Price:</strong> ${mealInfo.foodPrice}</p>
+        <p><strong>Price per item:</strong> ${price}</p>
         <p><strong>Quantity:</strong> {quantity}</p>
+        <p><strong>Total:</strong> ${totalPrice}</p>
         <p><strong>Chef:</strong> {chefName} ({chefId})</p>
         <p><strong>Payment:</strong> {paymentStatus}</p>
       </div>

@@ -1,6 +1,6 @@
 // src/pages/dashboard/Dashboard.jsx
 import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Button from "../../components/Shared/Button/Button";
 import useAuth from "../../hooks/useAuth";
 
@@ -9,10 +9,11 @@ import AdminMenu from "../../components/Dashboard/Sidebar/Menu/AdminMenu";
 import ChefMenu from "../../components/Dashboard/Sidebar/Menu/ChefMenu";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useTheme } from "../../providers/ThemeProvider";
 
 export default function Dashboard() {
   const { user, role } = useAuth();
-  const navigate = useNavigate();
+    const { theme, toggleTheme } = useTheme();
   const API_URL = import.meta.env.VITE_API_URL;
 
   if (!user) return <p>Login to see dashboard</p>;
@@ -60,7 +61,7 @@ const handleRequest = async () => {
       {/* Main Content */}
       <div className="drawer-content flex flex-col min-h-screen">
         {/* Navbar */}
-        <nav className="navbar w-full bg-base-300">
+        <nav className="navbar w-full">
           <label
             htmlFor="my-drawer-4"
             aria-label="open sidebar"
@@ -80,6 +81,7 @@ const handleRequest = async () => {
               <path d="M14 10l2 2l-2 2" />
             </svg>
           </label>
+          
 
           <div className="w-full flex flex-col md:flex-row md:justify-between">
             <div>
@@ -90,8 +92,11 @@ const handleRequest = async () => {
                 {user.displayName} ({role})
               </h3>
             </div>
-
-            {role === "user" && (
+            <div className="flex items-center">
+              <button onClick={toggleTheme} className="bg-gray-600 btn btn-ghost btn-md rounded-4xl">
+          {theme === 'light' ? '🌙' : '☀️'}
+        </button>
+        {role === "user" && (
               <div className="md:mx-6">
                 <Button label="Become a Chef"  onClick={handleRequest}/>
               </div>
@@ -104,6 +109,9 @@ const handleRequest = async () => {
                 />
               </div>
             )}
+            </div>
+
+            
           </div>
         </nav>
 
@@ -115,7 +123,7 @@ const handleRequest = async () => {
       {/* Sidebar */}
       <div className="drawer-side is-drawer-close:overflow-visible">
         <label htmlFor="my-drawer-4" className="drawer-overlay" aria-label="close sidebar"/>
-        <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-20 is-drawer-open:w-64">
+        <div className="flex min-h-full flex-col items-start is-drawer-close:w-20 is-drawer-open:w-64">
           {renderSidebarMenu()}
         </div>
       </div>

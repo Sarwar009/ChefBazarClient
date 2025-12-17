@@ -50,9 +50,8 @@ export default function MealDetails() {
     })
     .then((res) => {
       Swal.fire("Success", "Review submitted successfully!", "success");
-      reset(); // clear form
+      reset(); 
 
-      // If backend returns insertedId, add review to state
       const insertedId = res.data.insertedId;
       if (insertedId) {
         setReviews((prev) => [
@@ -60,7 +59,6 @@ export default function MealDetails() {
           { _id: insertedId, ...reviewPayload },
         ]);
       } else {
-        // fallback: refetch reviews from backend
         axios.get(`${API_URL}/reviews/${id}`).then((res) => setReviews(res.data));
       }
     })
@@ -76,7 +74,7 @@ console.log(reviews, 'review');
   if (!meal)
     return (
       <div className="flex justify-center items-center h-screen">
-        <p className="text-lg font-medium text-gray-500">Loading...</p>
+        <p className="text-lg font-medium">Loading...</p>
       </div>
     );
 
@@ -88,8 +86,7 @@ console.log(reviews, 'review');
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Meal Info */}
-      <div className="grid md:grid-cols-2 gap-8 bg-white shadow-lg rounded-lg p-6">
+      <div className="grid md:grid-cols-2 gap-8 shadow-lg rounded-lg p-6">
         <img
           src={meal.foodImage}
           alt={meal.foodName}
@@ -97,34 +94,34 @@ console.log(reviews, 'review');
         />
         <div className="flex flex-col justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">
+            <h2 className="text-3xl font-bold mb-2">
               {meal.foodName}
             </h2>
-            <p className="text-gray-600 mb-1">
+            <p className=" mb-1">
               <span className="font-semibold">Chef:</span> {meal.chefName}
             </p>
-            <p className="text-gray-600 mb-1">
+            <p className=" mb-1">
               <span className="font-semibold">Price:</span> ${meal.price}
             </p>
-            <p className="text-gray-600 mb-1">
+            <p className=" mb-1">
               <span className="font-semibold">Rating:</span> {meal.rating} ⭐
             </p>
-            <p className="text-gray-600 mb-1">
+            <p className=" mb-1">
               <span className="font-semibold">Ingredients:</span>{" "}
               {ingredients.length > 0 ? ingredients.join(", ") : "N/A"}
             </p>
-            <p className="text-gray-600 mb-1">
+            <p className=" mb-1">
               <span className="font-semibold">Delivery Time:</span>{" "}
               {meal.estimatedDeliveryTime}
             </p>
-            <p className="text-gray-600 mb-1">
+            <p className=" mb-1">
               <span className="font-semibold">Chef Experience:</span>{" "}
               {meal.chefExperience}
             </p>
           </div>
           <button
             onClick={() => navigate(`/order/${id}`)}
-            className="mt-4 bg-green-600 hover:bg-green-700 transition-colors text-white font-semibold px-6 py-3 rounded-lg shadow-md w-full md:w-auto"
+            className="mt-4 bg-green-600 hover:bg-green-700 transition-colors  font-semibold px-6 py-3 rounded-lg shadow-md w-full md:w-auto"
           >
             Order Now
           </button>
@@ -133,13 +130,13 @@ console.log(reviews, 'review');
 
       {/* Reviews */}
       <div className="mt-12">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">Reviews</h3>
+        <h3 className="text-2xl font-bold  mb-4">Reviews</h3>
         <div className="flex flex-col gap-4">
           {reviews.length > 0 ? (
             reviews.map((rev, idx) => (
               <div
                 key={idx}
-                className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200"
+                className=" p-4 rounded-lg shadow-sm border border-gray-200"
               >
                 <div className="flex items-center gap-4 mb-2">
                   <img
@@ -148,10 +145,10 @@ console.log(reviews, 'review');
                     className="w-12 h-12 rounded-full object-cover border border-gray-300"
                   />
                   <div className="flex flex-col">
-                    <p className="font-semibold text-gray-700">
+                    <p className="font-semibold">
                       {rev.reviewerName || "Anonymous"}
                     </p>
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-sm">
                       {rev.date
                         ? new Date(rev.date).toLocaleDateString()
                         : ""}
@@ -161,20 +158,20 @@ console.log(reviews, 'review');
                     {rev.rating} ⭐
                   </p>
                 </div>
-                <p className="text-gray-700">{rev.comment}</p>
+                <p>{rev.comment}</p>
               </div>
             ))
           ) : (
-            <p className="text-gray-500">No reviews yet.</p>
+            <p>No reviews yet.</p>
           )}
         </div>
 
         {/* Review Form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="mt-8 flex flex-col gap-3 bg-white p-6 rounded-lg shadow-md"
+          className="mt-8 flex flex-col gap-3 p-6 rounded-lg shadow-md"
         >
-          <h4 className="text-lg font-semibold text-gray-800 mb-2">
+          <h4 className="text-lg font-semibold mb-2">
             Write a Review
           </h4>
           <input
@@ -190,7 +187,7 @@ console.log(reviews, 'review');
           />
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold px-6 py-3 rounded-lg shadow-md"
+            className="bg-blue-600 hover:bg-blue-700 transition-colors  font-semibold px-6 py-3 rounded-lg shadow-md"
           >
             Submit Review
           </button>

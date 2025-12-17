@@ -1,8 +1,10 @@
 import { Link, NavLink } from "react-router";
 import useAuth from "../../../hooks/useAuth";
+import { useTheme } from "../../../providers/ThemeProvider";
 import avatarImg from "../../../assets/images/placeholder.jpg";
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const navItems = (
     <>
@@ -15,7 +17,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-base-100 shadow-sm sticky top-0 z-60">
+    <div className="navbar shadow-sm sticky top-0 z-60 bg-white text-black">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -50,6 +52,9 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1 gap-3 text-md">{navItems}</ul>
       </div>
       <div className="navbar-end">
+        <button onClick={toggleTheme} className="bg-gray-300 btn btn-ghost btn-md rounded-4xl">
+          {theme === 'light' ? '🌙' : '☀️'}
+        </button>
         <div className="hidden md:block px-3">
           {/* Avatar */}
           <img

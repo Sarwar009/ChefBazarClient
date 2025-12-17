@@ -8,6 +8,7 @@ import { createBrowserRouter } from "react-router";
 import Meals from "../pages/Meals/Meals";
 import MealDetails from "../pages/MealDetails/MealDetails";
 import Order from "../pages/Order/Order";
+import PaymentSuccess from "../pages/PaymentSuccess/PaymentSuccess";
 import AdminStatistics from "../components/Dashboard/Statistics/AdminStatistics";
 import UserProfile from "../components/Dashboard/UserProfile";
 import MyProfile from "../components/Dashboard/MyProfile";
@@ -50,6 +51,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Order />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/payment-success",
+        element: (
+          <PrivateRoute>
+            <PaymentSuccess />
           </PrivateRoute>
         ),
       },

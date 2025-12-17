@@ -19,7 +19,7 @@ const AdminMenu = () => {
   const navigate = useNavigate ();
 
   return (
-    <div className="flex h-screen flex-col items-start bg-base-200 is-drawer-close:w-18 is-drawer-open:w-64">
+    <div className="flex h-screen flex-col items-start is-drawer-close:w-18 is-drawer-open:w-64">
       {/* Sidebar content here */}
       <ul className="menu w-full  grow gap-3">
         <li className="py-4">

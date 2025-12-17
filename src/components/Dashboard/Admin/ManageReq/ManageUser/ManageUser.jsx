@@ -56,9 +56,9 @@ export default function ManageUsers() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="p-6 bg-white rounded-xl shadow"
+      className="p-6  rounded-xl shadow"
     >
-      <h2 className="text-3xl font-semibold mb-6 text-gray-800">
+      <h2 className="text-3xl font-semibold mb-6">
         Manage Users
       </h2>
 
@@ -87,7 +87,7 @@ export default function ManageUsers() {
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-200 rounded-lg">
-          <thead className="bg-gray-50">
+          <thead>
             <tr>
               <th className="px-4 py-3 text-left">Name</th>
               <th className="px-4 py-3 text-left">Email</th>
@@ -112,7 +112,7 @@ export default function ManageUsers() {
                   {user.displayName}
                 </td>
 
-                <td className="px-4 py-3 text-gray-600">
+                <td className="px-4 py-3">
                   {user.email}
                 </td>
 
@@ -139,12 +139,12 @@ export default function ManageUsers() {
                   user.status !== "fraud" ? (
                     <button
                       onClick={() => makeFraud(user._id)}
-                      className="px-4 py-1.5 text-sm text-white bg-red-500 hover:bg-red-600 rounded-lg"
+                      className="px-4 py-1.5 text-sm bg-red-500 hover:bg-red-600 rounded-lg"
                     >
                       Make Fraud
                     </button>
                   ) : (
-                    <span className="text-gray-400 text-sm">
+                    <span className="text-sm">
                       N/A
                     </span>
                   )}

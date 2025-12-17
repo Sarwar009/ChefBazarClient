@@ -20,7 +20,7 @@ const OrderBtn = ({ meal }) => {
   return (
     <button
       onClick={handleOrder}
-      className="mt-5 px-5 py-2 bg-linear-to-r from-emerald-500 to-lime-500 text-white rounded-full font-semibold shadow-lg hover:scale-105 transition-transform cursor-pointer"
+      className="mt-5 px-5 py-2 bg-linear-to-r from-emerald-500 to-lime-500  rounded-full font-semibold shadow-lg hover:scale-105 transition-transform cursor-pointer"
     >
       Order Now
     </button>

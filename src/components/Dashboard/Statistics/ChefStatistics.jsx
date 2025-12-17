@@ -73,7 +73,7 @@ if (role !== "chef") {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="bg-white shadow-xl p-6 rounded-xl flex flex-col items-center"
+          className="shadow-xl p-6 rounded-xl flex flex-col items-center"
         >
           <FaBowlFood className="text-4xl text-orange-600 mb-4" />
           <h3 className="text-lg font-semibold">Total Meals</h3>
@@ -85,7 +85,7 @@ if (role !== "chef") {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="bg-white shadow-xl p-6 rounded-xl flex flex-col items-center"
+          className="shadow-xl p-6 rounded-xl flex flex-col items-center"
         >
           <FaClipboardList className="text-4xl text-blue-600 mb-4" />
           <h3 className="text-lg font-semibold">Total Orders</h3>
@@ -97,7 +97,7 @@ if (role !== "chef") {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="bg-white shadow-xl p-6 rounded-xl flex flex-col items-center"
+          className="shadow-xl p-6 rounded-xl flex flex-col items-center"
         >
           <FaStarHalfStroke className="text-4xl text-yellow-500 mb-4" />
           <h3 className="text-lg font-semibold">Average Rating</h3>
@@ -109,7 +109,7 @@ if (role !== "chef") {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9 }}
-          className="bg-white shadow-xl p-6 rounded-xl flex flex-col items-center"
+          className="shadow-xl p-6 rounded-xl flex flex-col items-center"
         >
           <FaChartLine className="text-4xl text-green-600 mb-4" />
           <h3 className="text-lg font-semibold">Total Revenue</h3>

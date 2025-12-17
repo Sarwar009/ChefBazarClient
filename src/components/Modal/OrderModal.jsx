@@ -10,7 +10,7 @@ const OrderModal = ({ isOpen, onClose, handleOrderConfirm, totalPrice }) => {
           Confirm Your Order
         </h2>
 
-        <p className="text-center text-gray-700 mb-4">
+        <p className="text-center mb-4">
           Total Price: <span className="font-bold">${totalPrice}</span>
         </p>
 

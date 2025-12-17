@@ -42,7 +42,7 @@ useEffect(() => {
       <h2 className="text-3xl font-bold mb-6 text-center">My Meals</h2>
       <div className="text-center">
         {meals.length === 0 && <p>No meals created yet</p>}
-        <button className="bg-blue-500 text-white px-3 py-1 rounded-lg my-4 hover:bg-blue-700">
+        <button className="bg-blue-500 px-3 py-1 rounded-lg my-4 hover:bg-blue-700">
           <Link to='/dashboard/create-meal'>
             Create Meal
           </Link>
@@ -51,7 +51,7 @@ useEffect(() => {
 
       <div className="grid md:grid-cols-3 gap-6">
         {meals.map((meal) => (
-          <div key={meal._id} className="bg-white shadow-lg rounded-xl p-4">
+          <div key={meal._id} className=" shadow-lg rounded-xl p-4">
             <img
               src={meal.foodImage}
               className="h-40 w-full object-cover rounded-lg"
@@ -71,7 +71,7 @@ useEffect(() => {
             <div className="flex gap-2 mt-4">
               <button
                 onClick={() => handleDelete(meal._id)}
-                className="bg-red-500 text-white px-3 py-1 rounded-lg"
+                className="bg-red-500 px-3 py-1 rounded-lg"
               >
                 Delete
               </button>
@@ -80,7 +80,7 @@ useEffect(() => {
                 onClick={() =>
                   (window.location.href = `/dashboard/update-meal/${meal._id}`)
                 }
-                className="bg-blue-500 text-white px-3 py-1 rounded-lg"
+                className="bg-blue-500 px-3 py-1 rounded-lg"
               >
                 Update
               </button>

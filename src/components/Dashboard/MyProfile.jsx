@@ -14,12 +14,12 @@ export default function MyProfile() {
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45 }}
-      className="bg-white rounded-2xl shadow-md p-6"
+      className=" rounded-2xl shadow-md p-6"
     >
       <h2 className="text-2xl font-bold mb-4 text-center">My Profile</h2>
 
       <div className="flex flex-col gap-6 items-center justify-center">
-        <div className="w-28 h-28 rounded-full bg-gray-100 overflow-hidden flex-shrink-0">
+        <div className="w-28 h-28 rounded-full overflow-hidden flex-shrink-0">
           <img
             src={user.photoURL}
             alt="avatar"
@@ -39,7 +39,7 @@ export default function MyProfile() {
       <div className="mt-6 space-x-3 text-center">
         <button
           onClick={() => navigate("/dashboard/update-profile")}
-          className="px-4 py-2 bg-emerald-500 text-white rounded-lg shadow hover:scale-105 transition cursor-pointer"
+          className="px-4 py-2 rounded-lg shadow hover:scale-105 transition cursor-pointer"
         >
           Edit Profile
         </button>

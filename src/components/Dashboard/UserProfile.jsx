@@ -36,7 +36,7 @@ export default function UserProfile() {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="max-w-lg mx-auto bg-white shadow-xl rounded-xl p-6"
+      className="max-w-lg mx-auto shadow-xl rounded-xl p-6"
     >
       <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r 
        from-purple-500 to-blue-500 text-transparent bg-clip-text">
@@ -77,7 +77,7 @@ export default function UserProfile() {
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          className="btn w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white text-lg font-bold"
+          className="btn w-full bg-gradient-to-r from-purple-500 to-blue-500  text-lg font-bold"
         >
           Update Profile
         </motion.button>

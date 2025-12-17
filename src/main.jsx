@@ -4,6 +4,7 @@ import './index.css'
 import { router } from './routes/Routes.jsx'
 import { RouterProvider } from 'react-router'
 import AuthProvider from './providers/AuthProvider.jsx'
+import ThemeProvider from './providers/ThemeProvider.jsx'
 import { Toaster } from 'react-hot-toast'
 import {
   QueryClient,
@@ -20,11 +21,13 @@ createRoot(document.getElementById('root')).render(
   <Elements stripe={stripePromise}>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-      <RouterProvider router={router} />
-      <Toaster position='top-right' reverseOrder={false} />
-    </AuthProvider>
+        <ThemeProvider>
+          <RouterProvider router={router} />
+          <Toaster position='top-right' reverseOrder={false} />
+        </ThemeProvider>
+      </AuthProvider>
     </QueryClientProvider>
   </Elements>
-    
+
   </StrictMode>
 )
