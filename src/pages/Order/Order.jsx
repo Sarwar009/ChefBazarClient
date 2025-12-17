@@ -15,7 +15,6 @@ export default function Order() {
   const { register, handleSubmit, watch } = useForm({
     defaultValues: { quantity: 1 },
   });
-  console.log(roleData.chefId, "chef");
   
 
   const quantity = watch("quantity") || 1;
@@ -32,6 +31,7 @@ export default function Order() {
       .catch((err) => console.error(err));
   }, [id]);
 
+  console.log(meal, "meals");
   
 
   const userName =
@@ -65,7 +65,7 @@ export default function Order() {
           userAddress: data.userAddress,
           orderStatus: "pending",
           paymentStatus: "pending",
-          chefId: roleData?.chefId || null,
+          chefId: meal?.chefId || null,
           orderTime: new Date().toISOString(),
         };
 

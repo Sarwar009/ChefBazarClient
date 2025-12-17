@@ -8,13 +8,13 @@ export default function OrderCard({ order, setOrders }) {
     orderStatus,
     quantity,
     paymentStatus,
-    chefName,
     chefId,
     totalPrice,
   } = order;
 
+
   return (
-    <div className=" shadow rounded-lg p-4 flex flex-col justify-between">
+    <div className="bg-white text-black shadow rounded-lg p-4 flex flex-col justify-between">
       <div>
         <img src={foodImage} alt={mealName} className="w-full h-32 object-cover rounded mb-2" />
         <h3 className="font-bold text-lg mb-2">{mealName}</h3>
@@ -22,7 +22,7 @@ export default function OrderCard({ order, setOrders }) {
         <p><strong>Price per item:</strong> ${price}</p>
         <p><strong>Quantity:</strong> {quantity}</p>
         <p><strong>Total:</strong> ${totalPrice}</p>
-        <p><strong>Chef:</strong> {chefName} ({chefId})</p>
+        <p><strong>Chef:</strong> ({chefId})</p>
         <p><strong>Payment:</strong> {paymentStatus}</p>
       </div>
 

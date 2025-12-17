@@ -17,9 +17,16 @@ export default function StripePayment({ order, setOrders }) {
 
     try {
       // 1️⃣ Create payment intent
-      const { data } = await axios.post(`${API_URL}/create-payment-intent`, {
-        amount: order.totalPrice
-      });
+      const { data } = await axios.post(
+  `${API_URL}/create-payment-intent`,
+  { amount: order.totalPrice },
+  {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  }
+);
+
 
       // 2️⃣ Confirm card payment
       const result = await stripe.confirmCardPayment(data.clientSecret, {
