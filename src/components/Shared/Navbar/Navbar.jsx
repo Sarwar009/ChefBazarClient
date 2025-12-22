@@ -44,9 +44,10 @@ const Navbar = () => {
             {navItems}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">
+        <Link to='/' className="btn btn-ghost text-xl">
+          <img src='./chefBazar.png' alt="" className="w-10 h-12"/>
           <h3 className="bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">Chef Bazaar</h3>
-        </a>
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 gap-3 text-md">{navItems}</ul>

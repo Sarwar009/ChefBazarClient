@@ -49,7 +49,6 @@ export default function MyFavorites() {
       const res = await axiosSecure.delete(`${API_URL}/favorites/${id}`);
 
       if (res.data.success) {
-        // instant UI update
         setFavorites((prev) => prev.filter((item) => item._id !== id));
 
         Swal.fire({
@@ -105,7 +104,7 @@ export default function MyFavorites() {
           <tbody>
             {favorites.map((meal) => (
               <tr key={meal._id} className="hover:bg-gray-50">
-                <td className="py-3 px-4 border-b">{meal.mealName}</td>
+                <td className="py-3 px-4 border-b">{meal.foodName}</td>
 
                 <td className="py-3 px-4 border-b">{meal.chefName}</td>
 

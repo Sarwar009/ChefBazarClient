@@ -1,36 +1,65 @@
-// Reviews.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import axiosSecure from '../../../api/AxiosSecure'
 
-const demoReviews = [
-  { id: 1, name: "Sadia Rahman", image: "https://i.pravatar.cc/100?img=5", rating: 5, text: "Delicious and hygienic. Homey taste!" },
-  { id: 2, name: "Hasib Khan", image: "https://i.pravatar.cc/100?img=10", rating: 5, text: "Fast delivery and great portions." },
-  { id: 3, name: "Mira Chowdhury", image: "https://i.pravatar.cc/100?img=15", rating: 4, text: "Loved the biryani — authentic!" },
-  { id: 4, name: "Arafat", image: "https://i.pravatar.cc/100?img=20", rating: 5, text: "Consistent quality, highly recommended." }
-];
+export default function Reviews() {
+  const [reviews, setReviews] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL;
 
-export default function Reviews({ reviews = demoReviews }) {
-  
+  useEffect(() => {
+    axiosSecure
+      .get('/reviews')
+      .then(res => setReviews(res.data))
+      .catch(err => console.error("Failed to load reviews", err));
+  }, [API_URL]);
+
+  if (reviews.length === 0) {
+    return (
+      <section className="py-16 text-center">
+        <p>No reviews yet</p>
+      </section>
+    );
+  }
 
   return (
     <section className="py-16 px-4 max-w-6xl mx-auto">
-      <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-center">Customer Reviews</h2>
+      <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-center">
+        Customer Reviews
+      </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {reviews.map((r) => (
           <motion.div
-            key={r.id}
-            className="review-card p-5 rounded-xl shadow border border-gray-100 flex gap-4"
+            key={r._id}
+            className="p-5 rounded-xl shadow border border-gray-100 flex gap-4"
             whileHover={{ y: -6 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
           >
-            <img src={r.image} alt={r.name} className="w-16 h-16 rounded-full object-cover" />
-            <div>
+            <img
+              src={r.reviewerImage || r.foodImage}
+              alt={r.reviewerName}
+              className="w-16 h-16 rounded-full object-cover"
+            />
+
+            <div className="flex-1">
               <div className="flex items-center justify-between">
-                <h4 className="font-semibold">{r.name}</h4>
-                <div className="text-yellow-400">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</div>
+                <h4 className="font-semibold">{r.reviewerName}</h4>
+
+                <div className="text-yellow-400 text-sm">
+                  {"★".repeat(Number(r.rating))}
+                  {"☆".repeat(5 - Number(r.rating))}
+                </div>
               </div>
-              <p className=" mt-2">{r.text}</p>
+
+              <p className="text-sm mt-1">
+                <span className="font-medium">{r.foodCategory}</span>
+              </p>
+
+              <p className="mt-2">{r.comment}</p>
+
+              <p className="text-xs mt-2">
+                {new Date(r.date).toLocaleDateString()}
+              </p>
             </div>
           </motion.div>
         ))}

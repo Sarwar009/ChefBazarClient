@@ -25,29 +25,39 @@ export default function MyReviews() {
       .catch(() => Swal.fire("Error", "Failed to load reviews", "error"));
   }, [user]);
 
-  // Delete review
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Delete this review?",
-      text: "This action cannot be undone.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axiosSecure
-          .delete(`${API_URL}/reviews/${id}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-          })
-          .then(() => {
-            setReviews((prev) => prev.filter((r) => r._id !== id));
-            Swal.fire("Deleted!", "Your review has been deleted.", "success");
-          });
+ const handleDelete = (id) => {
+  Swal.fire({
+    title: "Delete this review?",
+    text: "This action cannot be undone.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        const res = await axiosSecure.delete(`${API_URL}/reviews/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        });
+
+        // Update state instantly without page reload
+        setReviews((prev) => prev.filter((r) => r._id !== id));
+
+        Swal.fire("Deleted!", "Your review has been deleted.", "success");
+      } catch (err) {
+        console.error(err);
+        Swal.fire(
+          "Error",
+          err.response?.data?.message || "Failed to delete review.",
+          "error"
+        );
       }
-    });
-  };
+    }
+  });
+};
+
+
 
   // Update review
   const handleEdit = (review) => {
@@ -96,12 +106,12 @@ export default function MyReviews() {
           >
             <img
               src={rev.foodImage}
-              alt={rev.mealName}
+              alt={rev.foodName}
               className="w-full h-48 object-cover"
             />
             <div className="p-5">
               <h3 className="font-bold text-xl  mb-2">
-                {rev.mealName}
+                {rev.foodName}
               </h3>
               <p className="text-yellow-500 font-semibold mb-2">
                 ⭐ {rev.rating} / 5
@@ -131,8 +141,8 @@ export default function MyReviews() {
 
       {/* Modal for Editing */}
       {editingReview && (
-        <div className="fixed inset-0 flex justify-center items-center z-50">
-          <div className=" rounded-2xl p-6 w-96 shadow-lg relative">
+        <div className="fixed inset-0 flex justify-center items-center">
+          <div className=" rounded-2xl p-6 w-96 shadow-lg relative bg-green-500">
             <h3 className="text-xl font-bold mb-4">Update Review</h3>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <label className="font-bold">Rating</label>

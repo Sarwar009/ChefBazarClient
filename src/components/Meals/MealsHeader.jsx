@@ -1,16 +1,15 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 export default function MealsHeader({ meals, onSearch, onSort, onFilter }) {
   const [searchText, setSearchText] = useState("");
 
-  // const categories = [meals.foodCategory];
-
-  // console.log(categories);
-  
+  const uniqueCategories = useMemo(
+    () => [...new Set(meals.map((m) => m.foodCategory))],
+    [meals]
+  );
 
   return (
     <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
-
       {/* Search */}
       <input
         type="text"
@@ -28,8 +27,11 @@ export default function MealsHeader({ meals, onSearch, onSort, onFilter }) {
         onChange={(e) => onFilter(e.target.value)}
         className="border px-4 py-2 rounded-lg w-full md:w-1/4"
       >
-        {meals.map((cat) => (
-          <option key={cat._id}>{cat.foodCategory}</option>
+        <option value="All">All</option>
+        {uniqueCategories.map((cat) => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
         ))}
       </select>
 
@@ -38,10 +40,10 @@ export default function MealsHeader({ meals, onSearch, onSort, onFilter }) {
         onChange={(e) => onSort(e.target.value)}
         className="border px-4 py-2 rounded-lg w-full md:w-1/4"
       >
-        <option value="asc">High to low ↑</option>
-        <option value="desc">Low to high ↓</option>
+        <option value="">Sort By</option>
+        <option value="price-low">Low to High ↑</option>
+        <option value="price-high">High to Low ↓</option>
       </select>
-
     </div>
   );
 }

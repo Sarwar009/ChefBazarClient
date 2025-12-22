@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import axiosSecure from "../../api/AxiosSecure";
+import toast from "react-hot-toast";
 
 export default function MealDetails() {
   const { id } = useParams();
@@ -22,14 +23,12 @@ export default function MealDetails() {
 
   const onSubmit = (data) => {
   if (!user) return navigate("/login");
-
-  console.log(data);
   
   // Prepare review payload
   const reviewPayload = {
   foodId: id,
   foodImage: meal.foodImage,
-  mealName: meal.mealName,
+  foodName: meal.foodName,
   foodCategory: meal.foodCategory,
   chefName: meal.chefName,
   reviewerName: user.displayName || user.name || "User",
@@ -66,9 +65,31 @@ export default function MealDetails() {
       console.error(err);
       Swal.fire("Error", "Failed to submit review", "error");
     });
-}; console.log(user, 'user');
+}; 
 
-console.log(reviews, 'review');
+const addToFavorites = async (selectedMeal) => {
+  try {
+    const res = await axiosSecure.post('/favorites', {
+      userEmail: user.email,
+      mealId: selectedMeal._id,
+      mealName: selectedMeal.foodName,
+      chefId: selectedMeal.chefId,
+      chefName: selectedMeal.chefName,
+      price: selectedMeal.price,
+      foodImage: selectedMeal.foodImage,
+      createdAt: new Date(),
+    });
+
+    if (res.data.alreadyExists) {
+      toast.error("Already in Favorites!");
+    } else {
+      toast.success("Added to Favorites!");
+    }
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to add favorite!");
+  }
+};
 
 
   if (!meal)
@@ -101,6 +122,9 @@ console.log(reviews, 'review');
               <span className="font-semibold">Chef:</span> {meal.chefName}
             </p>
             <p className=" mb-1">
+              <span className="font-semibold">ChefId:</span> {meal.chefId}
+            </p>
+            <p className=" mb-1">
               <span className="font-semibold">Price:</span> ${meal.price}
             </p>
             <p className=" mb-1">
@@ -109,6 +133,9 @@ console.log(reviews, 'review');
             <p className=" mb-1">
               <span className="font-semibold">Ingredients:</span>{" "}
               {ingredients.length > 0 ? ingredients.join(", ") : "N/A"}
+            </p>
+            <p className=" mb-1">
+              <span className="font-semibold">Delivery Area: </span> Dhaka
             </p>
             <p className=" mb-1">
               <span className="font-semibold">Delivery Time:</span>{" "}
@@ -124,6 +151,12 @@ console.log(reviews, 'review');
             className="mt-4 bg-green-600 hover:bg-green-700 transition-colors  font-semibold px-6 py-3 rounded-lg shadow-md w-full md:w-auto"
           >
             Order Now
+          </button>
+          <button
+            onClick={() => addToFavorites(meal)}
+            className="mt-4 bg-green-400 hover:bg-green-700 transition-colors  font-semibold px-6 py-3 rounded-lg shadow-md w-full md:w-auto"
+          >
+            Add to favorites
           </button>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from "framer-motion";
-import { FaHeart} from 'react-icons/fa'
+import { FaHeart, FaLocationArrow, FaSearchLocation} from 'react-icons/fa'
 import useAuth from '../../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import MealDetailsBtn from '../Button/MealDetailsBtn';
@@ -35,6 +35,8 @@ const addToFavorites = async (selectedMeal) => {
 };
 
 
+
+
     return (
         <motion.div
               key={meal.id}
@@ -61,9 +63,13 @@ const addToFavorites = async (selectedMeal) => {
               {/* Content */}
               <div className="p-5 flex flex-col flex-1 justify-between">
                 <div>
-                  <h3 className="text-xl font-bold mb-1">
+                  <div className='flex justify-between'>
+                    <h3 className="text-xl font-bold mb-1">
                     {meal.foodName}
                   </h3>
+                  <p className='flex gap-2 items-center'><FaSearchLocation size='18'/><span>Dhaka</span></p>
+                  </div>
+                  <p className='font-bold'>ChefId : {meal.chefId}</p>
                   <p>{meal.foodDescription}</p>
                   <p className=" text-sm mb-2">{meal.chef}</p>
                   <div className="text-orange-600 font-bold text-lg mb-2 flex items-center justify-between mt-3">
