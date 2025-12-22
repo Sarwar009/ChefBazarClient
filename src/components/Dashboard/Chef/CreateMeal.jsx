@@ -1,10 +1,10 @@
 // src/pages/Chef/CreateMeal.jsx
 import { useState } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
 import { HiOutlineClipboardList, HiOutlineUser, HiOutlineCurrencyDollar, HiOutlineStar, HiOutlineClock, HiOutlineTag } from "react-icons/hi";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
+import axiosSecure from "../../../api/AxiosSecure";
 
 export default function CreateMeal() {
   const { user, role, roleData } = useAuth();
@@ -26,7 +26,7 @@ export default function CreateMeal() {
     formData.append("image", file);
 
     try {
-      const res = await axios.post(
+      const res = await axiosSecure.post(
         `https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`,
         formData
       );
@@ -68,7 +68,7 @@ export default function CreateMeal() {
   };
 
   try {
-    await axios.post(`${API_URL}/meals`, mealData);
+    await axiosSecure.post(`${API_URL}/meals`, mealData);
     toast.success("Meal created successfully!");
     e.target.reset();
     setImageURL(null);

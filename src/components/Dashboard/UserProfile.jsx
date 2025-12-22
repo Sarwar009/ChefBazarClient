@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
-import axios from "axios";
 import toast from "react-hot-toast";
+import axiosSecure from "../../api/AxiosSecure";
 
 export default function UserProfile() {
   const { user, updateUserProfile, setUser } = useAuth();
@@ -18,7 +18,7 @@ export default function UserProfile() {
 
       setUser({ ...user, displayName: name, photoURL: photo });
 
-      await axios.put(`${import.meta.env.VITE_API_URL}/update-user`, {
+      await axiosSecure.put(`${import.meta.env.VITE_API_URL}/update-user`, {
         email: user.email,
         name,
         photo,

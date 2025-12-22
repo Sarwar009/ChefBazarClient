@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
+import axiosSecure from "../../api/AxiosSecure";
 
 export default function Order() {
   const { id } = useParams();
-  const { user, roleData } = useAuth();
+  const { user } = useAuth();
   const [meal, setMeal] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -25,7 +25,7 @@ export default function Order() {
   }, [quantity, meal]);
 
   useEffect(() => {
-    axios
+    axiosSecure
       .get(`${API_URL}/meals/${id}`)
       .then((res) => setMeal(res.data))
       .catch((err) => console.error(err));
@@ -69,7 +69,7 @@ export default function Order() {
           orderTime: new Date().toISOString(),
         };
 
-        axios
+        axiosSecure
           .post(`${API_URL}/orders`, orderPayload, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

@@ -4,7 +4,6 @@ import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
 import PrivateRoute from "./PrivateRoute";
 import MainLayout from "../layouts/MainLayout";
-import { createBrowserRouter } from "react-router";
 import Meals from "../pages/Meals/Meals";
 import MealDetails from "../pages/MealDetails/MealDetails";
 import Order from "../pages/Order/Order";
@@ -23,6 +22,7 @@ import MyMeals from "../components/Dashboard/Chef/MyMeals";
 import UpdateMeal from "../components/Dashboard/Chef/UpdateMeal";
 import ManageUsers from "../components/Dashboard/Admin/ManageReq/ManageUser/ManageUser";
 import ManageRequests from "../components/Dashboard/Admin/ManageReq/ManageReq";
+import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter([
   {

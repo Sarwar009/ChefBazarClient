@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import axiosSecure from '../api/AxiosSecure';
 
 const useAddToFavorites = () => {
   const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ const useAddToFavorites = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/favorites`, {
+      const res = await axiosSecure.post(`${API_URL}/favorites`, {
         userEmail: user.email,
         mealId: meal._id,
         mealName: meal.mealName,

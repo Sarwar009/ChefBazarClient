@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import { Link } from "react-router";
+import axiosSecure from "../../../api/AxiosSecure";
 
 export default function MyMeals() {
-  const { user, roleData } = useAuth();
+  const { roleData } = useAuth();
   const [meals, setMeals] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,7 +15,7 @@ useEffect(() => {
 
   console.log("chefId 👉", roleData.chefId);
 
-  axios
+  axiosSecure
     .get(`${API_URL}/meals/chef/${roleData.chefId}`)
     .then(res => {
       setMeals(res.data);
@@ -29,7 +29,7 @@ useEffect(() => {
     const confirm = window.confirm("Delete this meal?");
     if (!confirm) return;
 
-    const res = await axios.delete(`${API_URL}/meals/${id}`);
+    const res = await axiosSecure.delete(`${API_URL}/meals/${id}`);
     if (res.data.deletedCount > 0) {
       setMeals((prev) => prev.filter((meal) => meal._id !== id));
       toast.success("Meal deleted successfully!");

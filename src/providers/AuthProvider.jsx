@@ -11,12 +11,10 @@ import {
 } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
 import { AuthContext } from "./AuthContext";
-import axios from "axios";
+import axiosSecure from "../api/AxiosSecure";
 
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
-
-const API_URL = import.meta.env.VITE_API_URL;
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -24,147 +22,162 @@ const AuthProvider = ({ children }) => {
   const [roleData, setRoleData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Create User
+  // ================= REGISTER =================
   const createUser = async (email, password) => {
     setLoading(true);
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const firebaseUser = userCredential.user;
+      const { user: firebaseUser } =
+        await createUserWithEmailAndPassword(auth, email, password);
 
-      // register in backend
-      await axios.post(`${API_URL}/register`, {
+      // save user in DB
+      await axiosSecure.post("/register", {
         email: firebaseUser.email,
-        displayName: firebaseUser.displayName || firebaseUser.email.split("@")[0],
+        displayName:
+          firebaseUser.displayName || firebaseUser.email.split("@")[0],
       });
 
-      // fetch JWT & role
-      const res = await axios.post(`${API_URL}/jwt`, { email: firebaseUser.email });
-      localStorage.setItem("accessToken", res.data.token);
-      setRole(res.data.role);
+      // get JWT cookie
+      const res = await axiosSecure.post("/jwt", {
+        email: firebaseUser.email,
+      });
+
       setUser(firebaseUser);
+      setRole(res.data.role);
     } catch (err) {
-      console.error(err);
+      console.error("Create user error:", err);
+      setUser(null);
+      setRole(null);
     } finally {
       setLoading(false);
     }
   };
 
-  // Sign in
+  // ================= LOGIN =================
   const signIn = async (email, password) => {
     setLoading(true);
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const firebaseUser = userCredential.user;
+      const { user: firebaseUser } =
+        await signInWithEmailAndPassword(auth, email, password);
 
-      const res = await axios.post(`${API_URL}/jwt`, { email: firebaseUser.email });
-      localStorage.setItem("accessToken", res.data.token);
-      setRole(res.data.role);
+      const res = await axiosSecure.post("/jwt", {
+        email: firebaseUser.email,
+      });
+
       setUser(firebaseUser);
+      setRole(res.data.role);
     } catch (err) {
-      console.error(err);
+      console.error("Login error:", err);
       setUser(null);
       setRole(null);
-      localStorage.removeItem("accessToken");
     } finally {
       setLoading(false);
     }
   };
 
-  // Google Sign In
+  // ================= GOOGLE LOGIN =================
   const signInWithGoogle = async () => {
     setLoading(true);
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const firebaseUser = result.user;
+      const { user: firebaseUser } =
+        await signInWithPopup(auth, googleProvider);
 
-      await axios.post(`${API_URL}/register`, {
+      await axiosSecure.post("/register", {
         email: firebaseUser.email,
-        displayName: firebaseUser.displayName || firebaseUser.email.split("@")[0],
+        displayName:
+          firebaseUser.displayName || firebaseUser.email.split("@")[0],
       });
 
-      const res = await axios.post(`${API_URL}/jwt`, { email: firebaseUser.email });
-      localStorage.setItem("accessToken", res.data.token);
-      setRole(res.data.role);
+      const res = await axiosSecure.post("/jwt", {
+        email: firebaseUser.email,
+      });
+
       setUser(firebaseUser);
+      setRole(res.data.role);
     } catch (err) {
-      console.error(err);
+      console.error("Google login error:", err);
       setUser(null);
       setRole(null);
-      localStorage.removeItem("accessToken");
     } finally {
       setLoading(false);
     }
   };
 
-  // Auth state change
+  // ================= AUTH STATE =================
+  // ⚠️ NO /jwt call here (VERY IMPORTANT)
   useEffect(() => {
-    setLoading(true); // start loading
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        try {
-          const res = await axios.post(`${API_URL}/jwt`, { email: currentUser.email });
-          localStorage.setItem("accessToken", res.data.token);
-          localStorage.setItem("userId", res.data._id);
-          setRole(res.data.role);
-        } catch (err) {
-          console.error(err);
-          setRole(null);
-          localStorage.removeItem("accessToken");
-        }
-      } else {
-        setUser(null);
-        setRole(null);
-        localStorage.removeItem("accessToken");
-      }
-      setLoading(false); // ✅ set loading false only after JWT fetch
+    const unsubscribe = onAuthStateChanged(auth, currentUser => {
+      setUser(currentUser || null);
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
+  // ================= LOAD USER ROLE DATA =================
+  useEffect(() => {
+    if (!user?.email) {
+      setRoleData(null);
+      return;
+    }
+
+    axiosSecure
+      .get(`/users/${encodeURIComponent(user.email)}`)
+      .then(res => {
+        setRoleData(res.data);
+        setRole(res.data.role);
+      })
+      .catch(err => {
+        console.error("Role fetch error:", err);
+        setRole(null);
+        setRoleData(null);
+      });
+  }, [user]);
+
+  // ================= LOGOUT =================
   const logOut = async () => {
     setLoading(true);
-    await signOut(auth);
-    setUser(null);
-    setRole(null);
-    localStorage.removeItem("accessToken");
-    setLoading(false);
+    try {
+      await axiosSecure.post("/logout");
+      await signOut(auth);
+    } catch (err) {
+      console.error("Logout error:", err);
+    } finally {
+      setUser(null);
+      setRole(null);
+      setRoleData(null);
+      setLoading(false);
+    }
   };
 
+  // ================= UPDATE PROFILE =================
   const updateUserProfile = (name, photo) => {
-    return updateProfile(auth.currentUser, { displayName: name, photoURL: photo });
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    });
   };
 
-  // roleData set
+  // ================= CONTEXT VALUE =================
+  const authInfo = useMemo(
+    () => ({
+      user,
+      role,
+      roleData,
+      loading,
+      createUser,
+      signIn,
+      signInWithGoogle,
+      logOut,
+      updateUserProfile,
+    }),
+    [user, role, roleData, loading]
+  );
 
-  useEffect(() => {
-  if (!user?.email) return;
-
-  axios.get(`${API_URL}/users/${user.email}`)
-    .then(res => setRoleData(res.data))
-    .catch(err => console.error(err));
-}, [user]);
-
-
-  const authInfo = useMemo(() => ({
-    user,
-    role,
-    loading,
-    setUser,
-    setRole,
-    setLoading,
-    createUser,
-    signIn,
-    signInWithGoogle,
-    logOut,
-    updateUserProfile,
-    roleData
-  }), [user, role, loading, roleData]);
-
-  return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={authInfo}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;
-
-

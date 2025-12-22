@@ -1,85 +1,60 @@
 // src/pages/Admin/ManageRequests.jsx
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
+import axiosSecure from "../../../../api/AxiosSecure";
 
 export default function ManageRequests() {
   const [requests, setRequests] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetchRequests();
-  }, []);
+  let isMounted = true;
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(`${API_URL}/admin/requests`, {
+      const res = await axiosSecure.get(`${API_URL}/admin/requests`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
-      setRequests(res.data);
+
+      if (isMounted) {
+        setRequests(res.data);
+      }
     } catch (err) {
       console.error(err);
       Swal.fire("Error", "Failed to fetch requests", "error");
     }
   };
 
-  const handleRequest = async (request, approve) => {
-  const { _id, userEmail, requestType } = request;
+  fetchRequests();
+
+  return () => {
+    isMounted = false;
+  };
+}, [API_URL]);
+
+const handleRequest = async (request, approve) => {
   try {
-    if (approve) {
-      if (requestType === "chef") {
-
-        await axios.patch(
-          `${API_URL}/users/update-role`,
-          { email: userEmail, role: "chef"},
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-          }
-        );
-      } else if (requestType === "admin") {
-        await axios.patch(
-          `${API_URL}/users/update-role`,
-          { email: userEmail, role: "admin" },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-          }
-        );
+    await axiosSecure.patch(
+      `${API_URL}/admin/requests/${request._id}`,
+      { requestStatus: approve ? "approved" : "rejected" },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       }
+    );
 
-      await axios.patch(
-        `${API_URL}/admin/requests/${_id}`,
-        { requestStatus: "approved" },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-
-      Swal.fire("Success", "Request approved successfully", "success");
-    } else {
-      await axios.patch(
-        `${API_URL}/admin/requests/${_id}`,
-        { requestStatus: "rejected" },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
-
-      Swal.fire("Rejected", "Request rejected", "info");
-    }
+    Swal.fire(
+      "Success",
+      `Request ${approve ? "approved" : "rejected"} successfully`,
+      approve ? "success" : "info"
+    );
 
     setRequests((prev) =>
       prev.map((r) =>
-        r._id === _id
+        r._id === request._id
           ? { ...r, requestStatus: approve ? "approved" : "rejected" }
           : r
       )
@@ -89,6 +64,7 @@ export default function ManageRequests() {
     Swal.fire("Error", "Something went wrong", "error");
   }
 };
+
 
 
   return (

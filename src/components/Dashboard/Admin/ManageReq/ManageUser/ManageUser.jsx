@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
+import axiosSecure from "../../../../../api/AxiosSecure";
 
 export default function ManageUsers() {
   const [users, setUsers] = useState([]);
@@ -10,7 +10,7 @@ export default function ManageUsers() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    axios
+    axiosSecure
       .get(`${API_URL}/users`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
       })
@@ -28,7 +28,7 @@ export default function ManageUsers() {
 
     if (!confirm.isConfirmed) return;
 
-    await axios.patch(
+    await axiosSecure.patch(
       `${API_URL}/users/${id}/fraud`,
       {},
       { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } }

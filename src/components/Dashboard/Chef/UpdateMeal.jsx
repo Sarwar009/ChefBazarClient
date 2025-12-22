@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import toast from "react-hot-toast";
+import axiosSecure from "../../../api/AxiosSecure";
 
 export default function UpdateMeal() {
   const { id } = useParams();
@@ -10,7 +10,7 @@ export default function UpdateMeal() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    axios.get(`${API_URL}/meals/${id}`).then(res => setMeal(res.data));
+    axiosSecure.get(`${API_URL}/meals/${id}`).then(res => setMeal(res.data));
   }, []);
 
   const handleSubmit = async (e) => {
@@ -23,7 +23,7 @@ export default function UpdateMeal() {
       estimatedDeliveryTime: e.target.time.value
     };
 
-    const res = await axios.patch(`${API_URL}/meals/${id}`, updated);
+    const res = await axiosSecure.patch(`${API_URL}/meals/${id}`, updated);
     if (res.data.modifiedCount > 0) {
       toast.success("Meal updated!");
       navigate("/dashboard/my-meals");

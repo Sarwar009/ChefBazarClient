@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
+import axiosSecure from "../../../api/AxiosSecure";
 
 export default function MyFavorites() {
   const { user } = useAuth();
@@ -14,7 +14,7 @@ export default function MyFavorites() {
   useEffect(() => {
     if (!user?.email) return;
 
-    axios
+    axiosSecure
       .get(`${API_URL}/favorites/${user.email}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -46,7 +46,7 @@ export default function MyFavorites() {
     if (!confirm.isConfirmed) return;
 
     try {
-      const res = await axios.delete(`${API_URL}/favorites/${id}`);
+      const res = await axiosSecure.delete(`${API_URL}/favorites/${id}`);
 
       if (res.data.success) {
         // instant UI update

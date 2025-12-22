@@ -12,7 +12,7 @@ const Login = () => {
   const location = useLocation()
   const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const from = location.state || '/'
+  const from = location.state?.from?.pathname || '/'
 
   if (loading) return <LoadingSpinner />
   if (user) return <Navigate to={from} replace={true} />

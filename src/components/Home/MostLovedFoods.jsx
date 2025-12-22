@@ -1,39 +1,37 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
 import MealCard from "../Shared/Mealcard/MealCard";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import useAddToFavorites from "../../hooks/useAddToFavorites";
+import axiosSecure from "../../api/AxiosSecure";
 
 export default function MostLovedFoods() {
   const [mostLoved, setMostLoved] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
   const { addToFavorites } = useAddToFavorites();
-
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     async function fetchMeals() {
       try {
-        const res = await axios.get(`${API_URL}/meals`);
-        
+        const res = await axiosSecure.get(`${API_URL}/meals`);
 
-        const topFavorites = [...res.data]
+        const mealsArray = Array.isArray(res.data.meals) ? res.data.meals : [];
+        const topFavorites = mealsArray
           .sort((a, b) => b.foodRating - a.foodRating)
           .slice(0, 6);
+
         setMostLoved(topFavorites);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching most loved foods:", error);
+      } finally {
         setLoading(false);
       }
     }
     fetchMeals();
   }, [API_URL]);
-
-  
 
   const handleAddToFavorites = (meal) => {
     addToFavorites(meal, user);
@@ -50,16 +48,15 @@ export default function MostLovedFoods() {
         <p className="text-center mb-12">
           Our users’ favorite meals that they can’t stop loving
         </p>
-        <div className=" grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8">
           {mostLoved.map((meal, idx) => (
             <motion.div
-            key={idx}
+              key={meal._id || idx}
               whileHover={{ y: -8, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 300, damping: 25, duration: 0.3 }}
             >
               <MealCard
-                key={meal._id}
                 meal={meal}
                 addToFavorites={handleAddToFavorites}
               />

@@ -5,7 +5,6 @@ import Silder from "../../components/Home/Slider"
 import DailyMeals from "../../components/Shared/DailyMeals/DailyMeals"
 import Reviews from "../../components/Shared/Review/Review"
 import BestSellers from "../../components/Home/BestSellers"
-import TrandingMeals from "../../components/Home/TrandingMeals"
 import MostLovedFoods from "../../components/Home/MostLovedFoods"
 import HomePageFreeDelivery from "../../components/Home/HomePageFreeDelivery"
 
@@ -36,14 +35,6 @@ const Home = () => {
         viewport={{ once: true }}
       >
         <HomePageFreeDelivery />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        viewport={{ once: true }}
-      >
-        <TrandingMeals />
       </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 50 }}

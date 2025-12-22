@@ -1,11 +1,10 @@
 import React from 'react';
 import { motion } from "framer-motion";
 import { FaHeart} from 'react-icons/fa'
-import axios from 'axios';
 import useAuth from '../../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import MealDetailsBtn from '../Button/MealDetailsBtn';
-import OrderBtn from '../Button/OrderBtn';
+import axiosSecure from '../../../api/AxiosSecure';
 
 const MealCard = ({meal}) => {
   const {user} = useAuth();
@@ -13,7 +12,7 @@ const MealCard = ({meal}) => {
   
 const addToFavorites = async (selectedMeal) => {
   try {
-    const res = await axios.post(`${BackenAPI}/favorites`, {
+    const res = await axiosSecure.post(`${BackenAPI}/favorites`, {
       userEmail: user.email,
       mealId: selectedMeal._id,
       mealName: selectedMeal.mealName,

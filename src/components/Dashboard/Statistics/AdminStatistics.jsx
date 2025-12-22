@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell } from "recharts";
+import axiosSecure from "../../../api/AxiosSecure";
 
 const COLORS = ["#f59e0b", "#22c55e"]; // Pending, Delivered
 
@@ -16,7 +16,7 @@ export default function PlatformStats() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-  axios
+  axiosSecure
     .get(`${API_URL}/admin/stats`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
     })

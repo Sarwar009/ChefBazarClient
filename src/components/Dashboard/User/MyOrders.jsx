@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { toast } from "react-hot-toast";
 import OrderCard from "../OrderCard";
 import useAuth from "../../../hooks/useAuth";
+import axiosSecure from "../../../api/AxiosSecure";
 
 export default function MyOrders() {
   const {user} = useAuth();
@@ -16,7 +16,7 @@ export default function MyOrders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`${API_URL}/orders/user/${user.email}`, {
+        const res = await axiosSecure.get(`${API_URL}/orders/user/${user.email}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
         });
         setOrders(res.data);

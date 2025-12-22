@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
 import {
   FaBowlFood,
   FaClipboardList,
@@ -8,6 +7,7 @@ import {
   FaChartLine
 } from "react-icons/fa6";
 import useAuth from "../../../hooks/useAuth";
+import axiosSecure from "../../../api/AxiosSecure";
 
 export default function ChefStatistics() {
   const {role, user, loading} = useAuth()
@@ -30,7 +30,7 @@ export default function ChefStatistics() {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get(`${API_URL}/dashboard/chef/stats/${user.uid}`);
+      const res = await axiosSecure.get(`${API_URL}/dashboard/chef/stats/${user.uid}`);
       setStats(res.data);
     } catch (err) {
       console.error("Error loading chef stats:", err);

@@ -1,8 +1,12 @@
-import MealCard from "../Shared/Mealcard/MealCard";
+import MealCard from '../Shared/Mealcard/MealCard'
 
-export default function MealsGrid({ meals }) {
+export default function MealsGrid({ meals = [] }) {
+  if (!Array.isArray(meals) || meals.length === 0) {
+    return <p className="text-center">No meals found</p>;
+  }
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    <div className="grid md:grid-cols-3 gap-6">
       {meals.map((meal) => (
         <MealCard key={meal._id} meal={meal} />
       ))}

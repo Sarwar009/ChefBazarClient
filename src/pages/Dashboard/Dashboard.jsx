@@ -8,8 +8,8 @@ import UserMenu from "../../components/Dashboard/Sidebar/Menu/UserMenu";
 import AdminMenu from "../../components/Dashboard/Sidebar/Menu/AdminMenu";
 import ChefMenu from "../../components/Dashboard/Sidebar/Menu/ChefMenu";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { useTheme } from "../../providers/ThemeProvider";
+import axiosSecure from "../../api/AxiosSecure";
 
 export default function Dashboard() {
   const { user, role } = useAuth();
@@ -36,7 +36,7 @@ const targetRole = role === "user" ? "chef" : "admin";
 
 const handleRequest = async () => {
   try {
-    const res = await axios.post(`${API_URL}/chef-requests`, {
+    const res = await axiosSecure.post('/chef-requests', {
       userEmail: user.email,
       userName: user.displayName,
       requestedRole: targetRole,

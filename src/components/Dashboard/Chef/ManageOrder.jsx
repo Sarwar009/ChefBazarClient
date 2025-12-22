@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import LoadingSpinner from "../../Shared/LoadingSpinner";
+import axiosSecure from "../../../api/AxiosSecure";
 
 export default function ChefOrderRequests() {
   const { roleData } = useAuth();
@@ -17,7 +17,7 @@ export default function ChefOrderRequests() {
 
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(
+        const res = await axiosSecure.get(
           `${API_URL}/orders/chef/${roleData.chefId}`
         );
         setOrders(res.data);
@@ -35,7 +35,7 @@ export default function ChefOrderRequests() {
 const updateStatus = async (orderId, newStatus) => {
   try {
     const token = localStorage.getItem("accessToken");
-    const res = await axios.patch(
+    const res = await axiosSecure.patch(
       `${API_URL}/orders/${orderId}/status`,
       { status: newStatus },
       {

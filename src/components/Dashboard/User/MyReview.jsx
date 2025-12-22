@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
+import axiosSecure from "../../../api/AxiosSecure";
 
 export default function MyReviews() {
   const { user } = useAuth();
@@ -19,8 +19,8 @@ export default function MyReviews() {
   // Fetch user reviews
   useEffect(() => {
     if (!user) return;
-    axios
-      .get(`${API_URL}/reviews/user/${user.email}`)
+    axiosSecure
+      .get(`/reviews/user/${user.email}`)
       .then((res) => setReviews(res.data))
       .catch(() => Swal.fire("Error", "Failed to load reviews", "error"));
   }, [user]);
@@ -35,7 +35,7 @@ export default function MyReviews() {
       confirmButtonText: "Yes, delete it",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
+        axiosSecure
           .delete(`${API_URL}/reviews/${id}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -58,7 +58,7 @@ export default function MyReviews() {
   const onSubmit = (data) => {
     if (!editingReview) return;
 
-    axios
+    axiosSecure
       .patch(
         `${API_URL}/reviews/${editingReview._id}`,
         { rating: data.rating, comment: data.comment },

@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
-import axios from 'axios'
 import useAuth from './useAuth'
+import axiosSecure from '../api/AxiosSecure'
 
-const axiosInstance = axios.create({
+const axiosInstance = axiosSecure.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 })
@@ -13,11 +13,10 @@ const useAxiosSecure = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!loading && user?.accessToken) {
+    if (!loading && user) {
       // Add request interceptor
       const requestInterceptor = axiosInstance.interceptors.request.use(
         config => {
-          config.headers.Authorization = `Bearer ${user.accessToken}`
           return config
         }
       )

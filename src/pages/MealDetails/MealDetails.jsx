@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
+import axiosSecure from "../../api/AxiosSecure";
 
 export default function MealDetails() {
   const { id } = useParams();
@@ -16,8 +16,8 @@ export default function MealDetails() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    axios.get(`${API_URL}/meals/${id}`).then((res) => setMeal(res.data));
-    axios.get(`${API_URL}/reviews/${id}`).then((res) => setReviews(res.data));
+    axiosSecure.get(`${API_URL}/meals/${id}`).then((res) => setMeal(res.data));
+    axiosSecure.get(`${API_URL}/reviews/${id}`).then((res) => setReviews(res.data));
   }, [id, API_URL]);
 
   const onSubmit = (data) => {
@@ -42,7 +42,7 @@ export default function MealDetails() {
 
 
   // Post review to backend
-  axios
+  axiosSecure
     .post(`${API_URL}/reviews`, reviewPayload, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -59,7 +59,7 @@ export default function MealDetails() {
           { _id: insertedId, ...reviewPayload },
         ]);
       } else {
-        axios.get(`${API_URL}/reviews/${id}`).then((res) => setReviews(res.data));
+        axiosSecure.get(`${API_URL}/reviews/${id}`).then((res) => setReviews(res.data));
       }
     })
     .catch((err) => {

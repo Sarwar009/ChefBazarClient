@@ -1,8 +1,8 @@
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import axiosSecure from '../../api/AxiosSecure';
 
 export default function StripePayment({ order, setOrders }) {
   const stripe = useStripe();
@@ -16,8 +16,7 @@ export default function StripePayment({ order, setOrders }) {
     setLoading(true);
 
     try {
-      // 1️⃣ Create payment intent
-      const { data } = await axios.post(
+      const { data } = await axiosSecure.post(
   `${API_URL}/create-payment-intent`,
   { amount: order.totalPrice },
   {
@@ -27,25 +26,20 @@ export default function StripePayment({ order, setOrders }) {
   }
 );
 
-
-      // 2️⃣ Confirm card payment
       const result = await stripe.confirmCardPayment(data.clientSecret, {
         payment_method: { card: elements.getElement(CardElement) },
       });
 
       if (result.error) throw new Error(result.error.message);
 
-      // 3️⃣ Update order payment status
-      await axios.patch(`${API_URL}/orders/${order._id}/pay`, {
+      await axiosSecure.patch(`${API_URL}/orders/${order._id}/pay`, {
         paymentInfo: result.paymentIntent
       });
 
-      // Update local state to mark order as paid
       setOrders(prev =>
         prev.map(o => (o._id === order._id ? { ...o, paymentStatus: "paid" } : o))
       );
 
-      // Redirect to payment success page
       navigate(`/payment-success?orderId=${order._id}`);
 
     } catch (err) {
@@ -68,4 +62,4 @@ export default function StripePayment({ order, setOrders }) {
       </button>
     </div>
   );
-}
+};
