@@ -12,10 +12,10 @@ const MealCard = ({meal}) => {
   
 const addToFavorites = async (selectedMeal) => {
   try {
-    const res = await axiosSecure.post(`${BackenAPI}/favorites`, {
+    const res = await axiosSecure.post("/favorites", {
       userEmail: user.email,
       mealId: selectedMeal._id,
-      mealName: selectedMeal.mealName,
+      mealName: selectedMeal.foodName,
       chefId: selectedMeal.chefId,
       chefName: selectedMeal.chefName,
       price: selectedMeal.price,

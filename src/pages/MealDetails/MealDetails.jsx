@@ -21,8 +21,8 @@ export default function MealDetails() {
   }, []);
 
   useEffect(() => {
-    axiosSecure.get(`${API_URL}/meals/${id}`).then((res) => setMeal(res.data));
-    axiosSecure.get(`${API_URL}/reviews/${id}`).then((res) => setReviews(res.data));
+    axiosSecure.get(`/meals/${id}`).then((res) => setMeal(res.data));
+    axiosSecure.get(`/reviews/${id}`).then((res) => setReviews(res.data));
   }, [id, API_URL]);
 
   const onSubmit = (data) => {
@@ -46,7 +46,7 @@ export default function MealDetails() {
 
   // Post review to backend
   axiosSecure
-    .post(`${API_URL}/reviews`, reviewPayload, {
+    .post("/reviews", reviewPayload, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
@@ -62,7 +62,7 @@ export default function MealDetails() {
           { _id: insertedId, ...reviewPayload },
         ]);
       } else {
-        axiosSecure.get(`${API_URL}/reviews/${id}`).then((res) => setReviews(res.data));
+        axiosSecure.get(`/reviews/${id}`).then((res) => setReviews(res.data));
       }
     })
     .catch((err) => {

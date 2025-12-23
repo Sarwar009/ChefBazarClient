@@ -22,7 +22,7 @@ export default function UserProfile() {
 
       setUser({ ...user, displayName: name, photoURL: photo });
 
-      await axiosSecure.put(`${import.meta.env.VITE_API_URL}/update-user`, {
+      await axiosSecure.put("/update-user", {
         email: user.email,
         name,
         photo,

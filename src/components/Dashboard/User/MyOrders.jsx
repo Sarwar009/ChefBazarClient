@@ -20,7 +20,7 @@ export default function MyOrders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axiosSecure.get(`${API_URL}/orders/user/${user.email}`, {
+        const res = await axiosSecure.get(`/orders/user/${user.email}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
         });
         setOrders(res.data);

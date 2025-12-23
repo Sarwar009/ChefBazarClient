@@ -39,7 +39,7 @@ export default function MyReviews() {
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
-        const res = await axiosSecure.delete(`${API_URL}/reviews/${id}`, {
+        const res = await axiosSecure.delete(`/reviews/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
@@ -74,7 +74,7 @@ export default function MyReviews() {
 
     axiosSecure
       .patch(
-        `${API_URL}/reviews/${editingReview._id}`,
+        `/reviews/${editingReview._id}`,
         { rating: data.rating, comment: data.comment },
         {
           headers: {

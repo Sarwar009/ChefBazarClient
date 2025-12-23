@@ -13,13 +13,11 @@ export default function MyFavorites() {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     if (!user?.email) return;
 
     axiosSecure
-      .get(`${API_URL}/favorites/${user.email}`, {
+      .get(`/favorites/${user.email}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -37,40 +35,38 @@ export default function MyFavorites() {
   // DELETE Favorite
 
   const handleDelete = async (id) => {
-    const confirm = await Swal.fire({
-      title: "Are you sure?",
-      text: "This meal will be removed from your favorites.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#e11d48",
-      cancelButtonColor: "#6b7280",
-      confirmButtonText: "Yes, remove it",
+  const confirm = await Swal.fire({
+    title: "Are you sure?",
+    text: "This meal will be removed from your favorites.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#e11d48",
+    cancelButtonColor: "#6b7280",
+    confirmButtonText: "Yes, remove it",
+  });
+
+  if (!confirm.isConfirmed) return;
+
+  // 🔥 Optimistic UI update (instant remove)
+  const previousFavorites = [...favorites];
+  setFavorites(prev => prev.filter(item => item._id !== id));
+
+  toast.success("Removed from favorites");
+
+  try {
+    await axiosSecure.delete(`/favorites/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
     });
+  } catch (err) {
+    // ❌ rollback if server fails
+    setFavorites(previousFavorites);
 
-    if (!confirm.isConfirmed) return;
+    toast.error("Failed to remove meal");
+  }
+};
 
-    try {
-      const res = await axiosSecure.delete(`${API_URL}/favorites/${id}`);
-
-      if (res.data.success) {
-        setFavorites((prev) => prev.filter((item) => item._id !== id));
-
-        Swal.fire({
-          icon: "success",
-          title: "Removed!",
-          text: "Meal removed from favorites.",
-          timer: 1500,
-          showConfirmButton: false,
-        });
-      }
-    } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops!",
-        text: "Failed to remove meal.",
-      });
-    }
-  };
 
   if (loading) {
     return (
@@ -89,7 +85,7 @@ export default function MyFavorites() {
     );
   }
 
-  console.log(favorites);
+  console.log(favorites, 'fav');
   
 
   return (
@@ -111,7 +107,7 @@ export default function MyFavorites() {
           <tbody>
             {favorites.map((meal) => (
               <tr key={meal._id} className="hover:bg-gray-50">
-                <td className="py-3 px-4 border-b">{meal.foodName}</td>
+                <td className="py-3 px-4 border-b">{meal.mealName}</td>
 
                 <td className="py-3 px-4 border-b">{meal.chefName}</td>
 

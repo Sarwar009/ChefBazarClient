@@ -24,13 +24,13 @@ export default function ChefStatistics() {
   
 
   useEffect(() => {
-  if (loading) return;       // still loading → WAIT
-  if (!user) return;         // no user → STOP
-  if (role !== "chef") return;  // not chef → STOP
+  if (loading) return;     
+  if (!user) return;        
+  if (role !== "chef") return;  
 
   const fetchStats = async () => {
     try {
-      const res = await axiosSecure.get(`${API_URL}/dashboard/chef/stats/${user.uid}`);
+      const res = await axiosSecure.get(`/dashboard/chef/stats/${user.uid}`);
       setStats(res.data);
     } catch (err) {
       console.error("Error loading chef stats:", err);

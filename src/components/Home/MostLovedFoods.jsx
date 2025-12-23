@@ -16,7 +16,7 @@ export default function MostLovedFoods() {
   useEffect(() => {
     async function fetchMeals() {
       try {
-        const res = await axiosSecure.get(`${API_URL}/meals`);
+        const res = await axiosSecure.get("/meals");
 
         const mealsArray = Array.isArray(res.data.meals) ? res.data.meals : [];
         const topFavorites = mealsArray

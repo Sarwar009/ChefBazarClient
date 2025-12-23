@@ -17,7 +17,7 @@ export default function StripePayment({ order, setOrders }) {
 
     try {
       const { data } = await axiosSecure.post(
-  `${API_URL}/create-payment-intent`,
+  '/create-payment-intent',
   { amount: order.totalPrice },
   {
     headers: {
@@ -32,7 +32,7 @@ export default function StripePayment({ order, setOrders }) {
 
       if (result.error) throw new Error(result.error.message);
 
-      await axiosSecure.patch(`${API_URL}/orders/${order._id}/pay`, {
+      await axiosSecure.patch(`/orders/${order._id}/pay`, {
         paymentInfo: result.paymentIntent
       });
 

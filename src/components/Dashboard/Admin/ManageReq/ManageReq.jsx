@@ -16,7 +16,7 @@ export default function ManageRequests() {
 
   const fetchRequests = async () => {
     try {
-      const res = await axiosSecure.get(`${API_URL}/admin/requests`, {
+      const res = await axiosSecure.get("/admin/requests", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -41,7 +41,7 @@ export default function ManageRequests() {
 const handleRequest = async (request, approve) => {
   try {
     await axiosSecure.patch(
-      `${API_URL}/admin/requests/${request._id}`,
+      `/admin/requests/${request._id}`,
       { requestStatus: approve ? "approved" : "rejected" },
       {
         headers: {

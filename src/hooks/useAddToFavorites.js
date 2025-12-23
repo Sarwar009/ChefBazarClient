@@ -14,7 +14,7 @@ const useAddToFavorites = () => {
 
     setLoading(true);
     try {
-      const res = await axiosSecure.post(`${API_URL}/favorites`, {
+      const res = await axiosSecure.post("/favorites", {
         userEmail: user.email,
         mealId: meal._id,
         mealName: meal.mealName,

@@ -21,7 +21,7 @@ export default function PlatformStats() {
 
   useEffect(() => {
   axiosSecure
-    .get(`${API_URL}/admin/stats`, {
+    .get("/admin/stats", {
       headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
     })
     .then((res) => {

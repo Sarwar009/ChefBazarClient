@@ -37,7 +37,7 @@ export default function Order() {
   // Load meal data
   useEffect(() => {
     axiosSecure
-      .get(`${API_URL}/meals/${id}`)
+      .get(`/meals/${id}`)
       .then((res) => setMeal(res.data))
       .catch((err) => console.error(err));
   }, [id]);
@@ -83,7 +83,7 @@ export default function Order() {
         };
 
         axiosSecure
-          .post(`${API_URL}/orders`, orderPayload, {
+          .post("/orders", orderPayload, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },

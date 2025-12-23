@@ -15,7 +15,7 @@ export default function ManageUsers() {
 
   useEffect(() => {
     axiosSecure
-      .get(`${API_URL}/users`, {
+      .get("/users", {
         headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` },
       })
       .then((res) => setUsers(res.data));
@@ -33,7 +33,7 @@ export default function ManageUsers() {
     if (!confirm.isConfirmed) return;
 
     await axiosSecure.patch(
-      `${API_URL}/users/${id}/fraud`,
+      `/users/${id}/fraud`,
       {},
       { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` } }
     );

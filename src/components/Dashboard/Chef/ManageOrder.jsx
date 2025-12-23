@@ -22,7 +22,7 @@ export default function ChefOrderRequests() {
     const fetchOrders = async () => {
       try {
         const res = await axiosSecure.get(
-          `${API_URL}/orders/chef/${roleData.chefId}`
+          `/orders/chef/${roleData.chefId}`
         );
         setOrders(res.data);
         setLoading(false);
@@ -40,7 +40,7 @@ const updateStatus = async (orderId, newStatus) => {
   try {
     const token = localStorage.getItem("accessToken");
     const res = await axiosSecure.patch(
-      `${API_URL}/orders/${orderId}/status`,
+      `/orders/${orderId}/status`,
       { status: newStatus },
       {
         headers: {

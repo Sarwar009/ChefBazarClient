@@ -14,7 +14,6 @@ const useAxiosSecure = () => {
 
   useEffect(() => {
     if (!loading && user) {
-      // Add request interceptor
       const requestInterceptor = axiosInstance.interceptors.request.use(
         config => {
           return config

@@ -28,7 +28,7 @@ export default function MealsPage() {
     const loadMeals = async () => {
       try {
         setPageLoading(true);
-        const res = await axiosSecure.get(`${API_URL}/meals`, {
+        const res = await axiosSecure.get("/meals", {
           params: {
             page: currentPage,
             limit: ITEMS_PER_PAGE,
