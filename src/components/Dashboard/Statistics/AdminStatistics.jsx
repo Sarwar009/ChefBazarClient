@@ -12,6 +12,10 @@ const StatCard = ({ title, value }) => (
 );
 
 export default function PlatformStats() {
+  useEffect(() => {
+    document.title = "Admin Statistics - Chef Bazar";
+  }, []);
+
   const [stats, setStats] = useState(null);
   const API_URL = import.meta.env.VITE_API_URL;
 

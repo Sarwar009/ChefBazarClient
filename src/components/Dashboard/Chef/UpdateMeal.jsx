@@ -4,6 +4,10 @@ import toast from "react-hot-toast";
 import axiosSecure from "../../../api/AxiosSecure";
 
 export default function UpdateMeal() {
+  useEffect(() => {
+    document.title = "Update Meal - Chef Bazar";
+  }, []);
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [meal, setMeal] = useState({});

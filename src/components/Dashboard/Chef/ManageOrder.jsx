@@ -5,6 +5,10 @@ import LoadingSpinner from "../../Shared/LoadingSpinner";
 import axiosSecure from "../../../api/AxiosSecure";
 
 export default function ChefOrderRequests() {
+  useEffect(() => {
+    document.title = "Manage Orders - Chef Bazar";
+  }, []);
+
   const { roleData } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -1,5 +1,5 @@
-// src/pages/dashboard/Dashboard.jsx
-import React from "react";
+
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Button from "../../components/Shared/Button/Button";
 import useAuth from "../../hooks/useAuth";
@@ -12,6 +12,10 @@ import { useTheme } from "../../providers/ThemeProvider";
 import axiosSecure from "../../api/AxiosSecure";
 
 export default function Dashboard() {
+  useEffect(() => {
+    document.title = "Dashboard - Chef Bazar";
+  }, []);
+
   const { user, role } = useAuth();
     const { theme, toggleTheme } = useTheme();
   const API_URL = import.meta.env.VITE_API_URL;
@@ -123,7 +127,7 @@ const handleRequest = async () => {
       {/* Sidebar */}
       <div className="drawer-side is-drawer-close:overflow-visible">
         <label htmlFor="my-drawer-4" className="drawer-overlay" aria-label="close sidebar"/>
-        <div className="flex min-h-full flex-col items-start is-drawer-close:w-20 is-drawer-open:w-64">
+        <div className="flex min-h-full flex-col items-start is-drawer-close:w-20 is-drawer-open:w-64 bg-green-800">
           {renderSidebarMenu()}
         </div>
       </div>

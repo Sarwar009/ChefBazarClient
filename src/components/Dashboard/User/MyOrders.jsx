@@ -5,13 +5,17 @@ import useAuth from "../../../hooks/useAuth";
 import axiosSecure from "../../../api/AxiosSecure";
 
 export default function MyOrders() {
+  useEffect(() => {
+    document.title = "My Orders - Chef Bazar";
+  }, []);
+
   const {user} = useAuth();
   const [orders, setOrders] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;
-  
+
 
   console.log(orders, "orders");
-  
+
 
   useEffect(() => {
     const fetchOrders = async () => {

@@ -5,6 +5,10 @@ import Swal from "sweetalert2";
 import axiosSecure from "../../../api/AxiosSecure";
 
 export default function MyFavorites() {
+  useEffect(() => {
+    document.title = "Favorite Meals - Chef Bazar";
+  }, []);
+
   const { user } = useAuth();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -84,6 +88,9 @@ export default function MyFavorites() {
       </div>
     );
   }
+
+  console.log(favorites);
+  
 
   return (
     <div className="container mx-auto px-4 py-10">

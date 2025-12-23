@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { HiOutlineClipboardList, HiOutlineUser, HiOutlineCurrencyDollar, HiOutlineStar, HiOutlineClock, HiOutlineTag } from "react-icons/hi";
 import useAuth from "../../../hooks/useAuth";
@@ -8,6 +8,10 @@ import axiosSecure from "../../../api/AxiosSecure";
 import axios from "axios";
 
 export default function CreateMeal() {
+  useEffect(() => {
+    document.title = "Create Meal - Chef Bazar";
+  }, []);
+
   const { user, roleData } = useAuth();
   const [imageURL, setImageURL] = useState(null);
   const [uploading, setUploading] = useState(false);

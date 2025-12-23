@@ -56,7 +56,7 @@ export default function StripePayment({ order, setOrders }) {
       <button
         onClick={handlePay}
         disabled={loading}
-        className=" px-4 py-2 rounded disabled:opacity-50"
+        className=" px-4 py-2 rounded disabled:opacity-50 bg-emerald-500"
       >
         {loading ? "Processing..." : `Pay $${order.totalPrice}`}
       </button>

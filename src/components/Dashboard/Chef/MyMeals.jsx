@@ -5,6 +5,10 @@ import { Link } from "react-router";
 import axiosSecure from "../../../api/AxiosSecure";
 
 export default function MyMeals() {
+  useEffect(() => {
+    document.title = "My Meals - Chef Bazar";
+  }, []);
+
   const { roleData } = useAuth();
   const [meals, setMeals] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;

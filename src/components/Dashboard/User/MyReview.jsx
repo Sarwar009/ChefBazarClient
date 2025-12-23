@@ -5,6 +5,10 @@ import useAuth from "../../../hooks/useAuth";
 import axiosSecure from "../../../api/AxiosSecure";
 
 export default function MyReviews() {
+  useEffect(() => {
+    document.title = "My Reviews - Chef Bazar";
+  }, []);
+
   const { user } = useAuth();
   const [reviews, setReviews] = useState([]);
   const [editingReview, setEditingReview] = useState(null);

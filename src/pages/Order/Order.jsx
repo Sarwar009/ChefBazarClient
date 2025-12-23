@@ -7,6 +7,10 @@ import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import axiosSecure from "../../api/AxiosSecure";
 
 export default function Order() {
+  useEffect(() => {
+    document.title = "Order - Chef Bazar";
+  }, []);
+
   const { id } = useParams();
   const { user } = useAuth();
   const [meal, setMeal] = useState(null);

@@ -1,4 +1,5 @@
 import { Link, Navigate, useLocation, useNavigate } from 'react-router'
+import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 import LoadingSpinner from '../../components/Shared/LoadingSpinner'
 import useAuth from '../../hooks/useAuth'
@@ -7,6 +8,10 @@ import { TbFidgetSpinner } from 'react-icons/tb'
 import { useForm } from 'react-hook-form'
 
 const Login = () => {
+  useEffect(() => {
+    document.title = "Login - Chef Bazar";
+  }, []);
+
   const { signIn, signInWithGoogle, loading, user, setLoading } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()

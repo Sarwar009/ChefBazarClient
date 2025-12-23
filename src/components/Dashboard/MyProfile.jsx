@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 
 export default function MyProfile() {
+  useEffect(() => {
+    document.title = "My Profile - Chef Bazar";
+  }, []);
+
   const { user, role } = useAuth();
   const navigate = useNavigate();
 

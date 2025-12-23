@@ -3,6 +3,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
 export default function PaymentSuccess() {
+  useEffect(() => {
+    document.title = "Payment Success - Chef Bazar";
+  }, []);
+
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get("orderId");

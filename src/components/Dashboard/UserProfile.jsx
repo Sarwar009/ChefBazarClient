@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import axiosSecure from "../../api/AxiosSecure";
 
 export default function UserProfile() {
+  useEffect(() => {
+    document.title = "Update Profile - Chef Bazar";
+  }, []);
+
   const { user, updateUserProfile, setUser } = useAuth();
 
   const [name, setName] = useState(user?.displayName || "");

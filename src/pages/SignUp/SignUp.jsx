@@ -15,7 +15,7 @@ const SignUp = () => {
   const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
-    document.title = "Sign Up - PlantNet";
+    document.title = "Sign Up - Chef Bazar";
   }, []);
 
   const {

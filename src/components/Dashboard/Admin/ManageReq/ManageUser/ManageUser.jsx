@@ -4,6 +4,10 @@ import Swal from "sweetalert2";
 import axiosSecure from "../../../../../api/AxiosSecure";
 
 export default function ManageUsers() {
+  useEffect(() => {
+    document.title = "Manage Users - Chef Bazar";
+  }, []);
+
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");

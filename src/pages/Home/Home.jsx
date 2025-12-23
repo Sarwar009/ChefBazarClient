@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import Hero from "../../components/Home/Hero"
 import WhyChooseus from "../../components/Home/WhyChoosUs"
 import Silder from "../../components/Home/Slider"
@@ -10,6 +11,9 @@ import HomePageFreeDelivery from "../../components/Home/HomePageFreeDelivery"
 
 
 const Home = () => {
+  useEffect(() => {
+    document.title = "Home - Chef Bazar";
+  }, []);
   return (
     <div>
       <Silder />

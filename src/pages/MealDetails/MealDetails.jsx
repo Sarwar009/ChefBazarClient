@@ -17,6 +17,10 @@ export default function MealDetails() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
+    document.title = "Meal Details - Chef Bazar";
+  }, []);
+
+  useEffect(() => {
     axiosSecure.get(`${API_URL}/meals/${id}`).then((res) => setMeal(res.data));
     axiosSecure.get(`${API_URL}/reviews/${id}`).then((res) => setReviews(res.data));
   }, [id, API_URL]);

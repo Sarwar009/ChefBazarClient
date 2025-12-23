@@ -4,6 +4,10 @@ import Swal from "sweetalert2";
 import axiosSecure from "../../../../api/AxiosSecure";
 
 export default function ManageRequests() {
+  useEffect(() => {
+    document.title = "Manage Requests - Chef Bazar";
+  }, []);
+
   const [requests, setRequests] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;
 
