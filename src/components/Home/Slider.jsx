@@ -1,4 +1,4 @@
-// Slider.jsx — Swiper + Framer Motion (text stays on every slide)
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import { motion } from "framer-motion";
@@ -58,7 +58,7 @@ export default function Slider() {
                 transition={{ duration: 1.2 }}
                 className="absolute inset-0 flex flex-col justify-center items-center  text-center px-6"
               >
-                <h1 className="text-4xl md:text-6xl font-extrabold drop-shadow-xl mb-4">
+                <h1 className="text-4xl text-white md:text-6xl font-extrabold drop-shadow-xl mb-4">
                   {slide.title}
                 </h1>
                 <p className="text-lg md:text-2xl opacity-90">{slide.subtitle}</p>

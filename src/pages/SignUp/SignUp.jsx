@@ -65,8 +65,8 @@ const SignUp = () => {
     }
   };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-white">
-      <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Sign Up</h1>
           <p className="text-sm text-gray-400">Welcome to ChefBazaar</p>
@@ -86,7 +86,7 @@ const SignUp = () => {
                 type="text"
                 id="name"
                 placeholder="Enter Your Name Here"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500"
                 data-temp-mail-org="0"
                 {...register("name", {
                   required: "Name is required",
@@ -106,7 +106,7 @@ const SignUp = () => {
             <div>
               <label
                 htmlFor="image"
-                className="block mb-2 text-sm font-medium text-gray-700"
+                className="block mb-2 text-sm font-medium"
               >
                 Profile Image
               </label>
@@ -114,18 +114,18 @@ const SignUp = () => {
                 type="file"
                 id="image"
                 accept="image/*"
-                className="block w-full text-sm text-gray-500
+                className="block w-full text-sm
       file:mr-4 file:py-2 file:px-4
       file:rounded-md file:border-0
       file:text-sm file:font-semibold
       file:bg-lime-50 file:text-lime-700
       hover:file:bg-lime-100
-      bg-gray-100 border border-dashed border-lime-300 rounded-md cursor-pointer
+      border border-dashed border-lime-300 rounded-md cursor-pointer
       focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-400
       py-2"
                 {...register("image", { required: false })}
               />
-              <p className="mt-1 text-xs text-gray-400">
+              <p className="mt-1 text-xs">
                 PNG, JPG or JPEG (max 2MB)
               </p>
             </div>
@@ -137,7 +137,7 @@ const SignUp = () => {
                 type="email"
                 id="email"
                 placeholder="Enter Your Email Here"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500"
                 data-temp-mail-org="0"
                 {...register("email", {
                   required: "Email is required",
@@ -165,7 +165,7 @@ const SignUp = () => {
                 autoComplete="new-password"
                 id="password"
                 placeholder="*******"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 "
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
@@ -186,7 +186,7 @@ const SignUp = () => {
               <input
                 type="text"
                 placeholder="Enter Your Address"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500"
                 {...register("address")}
               />
             </div>

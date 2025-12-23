@@ -127,7 +127,7 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: 'update-meal',
+        path: 'update-meal/:id',
         element: (
           <PrivateRoute requiredRole="chef">
             <UpdateMeal />

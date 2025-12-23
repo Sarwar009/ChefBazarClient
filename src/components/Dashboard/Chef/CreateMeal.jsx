@@ -1,13 +1,14 @@
-// src/pages/Chef/CreateMeal.jsx
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { HiOutlineClipboardList, HiOutlineUser, HiOutlineCurrencyDollar, HiOutlineStar, HiOutlineClock, HiOutlineTag } from "react-icons/hi";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import axiosSecure from "../../../api/AxiosSecure";
+import axios from "axios";
 
 export default function CreateMeal() {
-  const { user, role, roleData } = useAuth();
+  const { user, roleData } = useAuth();
   const [imageURL, setImageURL] = useState(null);
   const [uploading, setUploading] = useState(false);
 
@@ -17,7 +18,6 @@ export default function CreateMeal() {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
     
     console.log('userEmail', user);
 
@@ -26,7 +26,7 @@ export default function CreateMeal() {
     formData.append("image", file);
 
     try {
-      const res = await axiosSecure.post(
+      const res = await axios.post(
         `https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`,
         formData
       );
@@ -68,7 +68,7 @@ export default function CreateMeal() {
   };
 
   try {
-    await axiosSecure.post(`${API_URL}/meals`, mealData);
+    await axiosSecure.post('/meals', mealData);
     toast.success("Meal created successfully!");
     e.target.reset();
     setImageURL(null);
@@ -81,7 +81,6 @@ export default function CreateMeal() {
 
   
 
-  // Input style with icon spacing
   const inputStyle = "pl-10 pr-3 py-3 w-full rounded-lg border border-gray-200 shadow-sm focus:ring-2 focus:ring-orange-400 focus:outline-none";
 
   return (
@@ -166,7 +165,7 @@ export default function CreateMeal() {
 
         {/* Chef ID & User Email */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <input type="text" value={role?.chefId || "Pending Approval"} readOnly className={`${inputStyle}`} placeholder="Chef ID" />
+          <input type="text" value={roleData?.chefId || "Pending Approval"} readOnly className={`${inputStyle}`} placeholder="Chef ID" />
           <input type="email" value={user?.email} readOnly className={`${inputStyle} `} placeholder="Your Email" />
         </div>
 

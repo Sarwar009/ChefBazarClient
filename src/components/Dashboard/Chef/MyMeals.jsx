@@ -16,7 +16,7 @@ useEffect(() => {
   console.log("chefId 👉", roleData.chefId);
 
   axiosSecure
-    .get(`${API_URL}/meals/chef/${roleData.chefId}`)
+    .get(`/meals/chef/${roleData.chefId}`)
     .then(res => {
       setMeals(res.data);
     })
@@ -29,7 +29,7 @@ useEffect(() => {
     const confirm = window.confirm("Delete this meal?");
     if (!confirm) return;
 
-    const res = await axiosSecure.delete(`${API_URL}/meals/${id}`);
+    const res = await axiosSecure.delete(`/meals/${id}`);
     if (res.data.deletedCount > 0) {
       setMeals((prev) => prev.filter((meal) => meal._id !== id));
       toast.success("Meal deleted successfully!");

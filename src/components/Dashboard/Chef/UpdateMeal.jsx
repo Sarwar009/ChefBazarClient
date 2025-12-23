@@ -10,7 +10,7 @@ export default function UpdateMeal() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    axiosSecure.get(`${API_URL}/meals/${id}`).then(res => setMeal(res.data));
+    axiosSecure.get(`/meals/${id}`).then(res => setMeal(res.data));
   }, []);
 
   const handleSubmit = async (e) => {
@@ -23,7 +23,7 @@ export default function UpdateMeal() {
       estimatedDeliveryTime: e.target.time.value
     };
 
-    const res = await axiosSecure.patch(`${API_URL}/meals/${id}`, updated);
+    const res = await axiosSecure.patch(`/meals/${id}`, updated);
     if (res.data.modifiedCount > 0) {
       toast.success("Meal updated!");
       navigate("/dashboard/my-meals");

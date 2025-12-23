@@ -17,12 +17,10 @@ const Login = () => {
   if (loading) return <LoadingSpinner />
   if (user) return <Navigate to={from} replace={true} />
 
-  // form submit handler
   const onSubmit = async data => {
     const { email, password } = data
 
     try {
-      //User Login
       await signIn(email, password)
 
       navigate(from, { replace: true })
@@ -33,10 +31,8 @@ const Login = () => {
     }
   }
 
-  // Handle Google Signin
   const handleGoogleSignIn = async () => {
     try {
-      //User Registration using google
       await signInWithGoogle()
       navigate(from, { replace: true })
       toast.success('Login Successful')
@@ -47,8 +43,8 @@ const Login = () => {
     }
   }
   return (
-    <div className='flex justify-center items-center min-h-screen bg-white'>
-      <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 '>
+    <div className='flex justify-center items-center min-h-screen'>
+      <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 '>
         <div className='mb-8 text-center'>
           <h1 className='my-3 text-4xl font-bold'>Log In</h1>
           <p className='text-sm'>
@@ -76,7 +72,7 @@ const Login = () => {
                 })}
                 id='email'
                 placeholder='Enter Your Email Here'
-                className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200'
+                className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500'
                 data-temp-mail-org='0'
               />
               {errors.email && <p className='text-red-500 text-sm'>{errors.email.message}</p>}
@@ -96,7 +92,7 @@ const Login = () => {
                 autoComplete='current-password'
                 id='password'
                 placeholder='*******'
-                className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200'
+                className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500'
               />
               {errors.password && <p className='text-red-500 text-sm'>{errors.password.message}</p>}
             </div>
