@@ -61,7 +61,7 @@ export default function Slider() {
                 <h1 className="text-4xl text-white md:text-6xl font-extrabold drop-shadow-xl mb-4">
                   {slide.title}
                 </h1>
-                <p className="text-lg md:text-2xl opacity-90">{slide.subtitle}</p>
+                <p className="text-lg md:text-2xl text-white opacity-90">{slide.subtitle}</p>
               </motion.div>
             </div>
           </SwiperSlide>

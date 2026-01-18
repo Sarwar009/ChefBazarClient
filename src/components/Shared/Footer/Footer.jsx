@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,6 +28,12 @@ export default function Footer() {
       }
     );
   }, []);
+
+  const socialIcons = [
+  { icon: <FaFacebookF />, link: "https://facebook.com" },
+  { icon: <FaInstagram />, link: "https://instagram.com" },
+  { icon: <FaTwitter />, link: "https://twitter.com" },
+];
 
   return (
     <footer
@@ -97,18 +104,14 @@ export default function Footer() {
           >
             <h3 className="text-xl font-semibold mb-3">Follow Us</h3>
             <div className="flex space-x-4">
-              {["facebook", "instagram", "twitter"].map((icon) => (
+              {socialIcons.map((icon) => (
                 <motion.a
                   key={icon}
-                  href="#"
+                  href={icon.link}
                   whileHover={{ scale: 1.15 }}
                   className="p-2 rounded-full bg-gray-800 hover:bg-emerald-500 transition"
                 >
-                  <img
-                    src={`https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/${icon}.svg`}
-                    className="w-5 invert"
-                    alt={icon}
-                  />
+                  {icon.icon}
                 </motion.a>
               ))}
             </div>

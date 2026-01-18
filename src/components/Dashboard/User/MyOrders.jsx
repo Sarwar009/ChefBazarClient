@@ -5,23 +5,25 @@ import useAuth from "../../../hooks/useAuth";
 import axiosSecure from "../../../api/AxiosSecure";
 
 export default function MyOrders() {
+  const [activePaymentOrderId, setActivePaymentOrderId] = useState(null);
+
   useEffect(() => {
     document.title = "My Orders - Chef Bazar";
   }, []);
 
-  const {user} = useAuth();
+  const { user } = useAuth();
   const [orders, setOrders] = useState([]);
   const API_URL = import.meta.env.VITE_API_URL;
 
-
   console.log(orders, "orders");
-
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const res = await axiosSecure.get(`/orders/user/${user.email}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         });
         setOrders(res.data);
       } catch (err) {
@@ -33,7 +35,6 @@ export default function MyOrders() {
   }, []);
 
   console.log(orders);
-  
 
   return (
     <div className="max-w-7xl mx-auto p-4">
@@ -42,17 +43,19 @@ export default function MyOrders() {
         {orders.length === 0 ? (
           <p className="text-center">No orders yet.</p>
         ) : (
-          <div  className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {
-              orders.map(order => (
-            <OrderCard key={order._id} order={order} setOrders={setOrders} />
-          ))
-            }
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {orders.map((order) => (
+              <OrderCard
+                key={order._id}
+                order={order}
+                setOrders={setOrders}
+                activePaymentOrderId={activePaymentOrderId}
+                setActivePaymentOrderId={setActivePaymentOrderId}
+              />
+            ))}
           </div>
-          
         )}
       </div>
     </div>
   );
 }
-

@@ -8,6 +8,9 @@ import Reviews from "../../components/Shared/Review/Review"
 import BestSellers from "../../components/Home/BestSellers"
 import MostLovedFoods from "../../components/Home/MostLovedFoods"
 import HomePageFreeDelivery from "../../components/Home/HomePageFreeDelivery"
+import HowitWorks from "../../components/Home/HowitWorks";
+import Statistics from "../../components/Home/Statistics";
+import NewsletterCTA from "../../components/Home/Newsletter";
 
 
 const Home = () => {
@@ -54,6 +57,22 @@ const Home = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         viewport={{ once: true }}
       >
+        <Statistics />
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        viewport={{ once: true }}
+      >
+        <HowitWorks />
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        viewport={{ once: true }}
+      >
         <BestSellers />
       </motion.div>
       <motion.div
@@ -71,6 +90,14 @@ const Home = () => {
         viewport={{ once: true }}
       >
         <Reviews />
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        viewport={{ once: true }}
+      >
+        <NewsletterCTA />
       </motion.div>
     </div>
   )

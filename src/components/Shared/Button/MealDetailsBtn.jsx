@@ -2,15 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 
 const MealDetailsBtn = ({ mealId }) => {
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleDetails = () => {
-    if (!user) {
-      navigate('/login');
-    } else {
       navigate(`/meals/${mealId}`);
-    }
+    
   };
 
   return (

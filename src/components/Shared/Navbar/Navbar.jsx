@@ -10,17 +10,17 @@ const Navbar = () => {
     <>
       <NavLink to="/">Home</NavLink>
       <NavLink to="/meals">Meals</NavLink>
-      {
-        user && (<NavLink to="/dashboard">Dashboard</NavLink>)
-      }
+      <NavLink to="/about">About</NavLink>
+      <NavLink to="/contact">Contact</NavLink>
+      {user && <NavLink to="/dashboard">Dashboard</NavLink>}
     </>
   );
 
   return (
-    <div className="navbar shadow-sm sticky top-0 z-60 bg-white text-black">
+    <div className="navbar sticky top-0 z-50 bg-base-100 shadow-lg border-b border-base-300 px-4 md:px-8">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div tabIndex={0} role="button" className="btn lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -44,17 +44,22 @@ const Navbar = () => {
             {navItems}
           </ul>
         </div>
-        <Link to='/' className="btn btn-ghost text-xl">
-          <img src='./chefBazar.png' alt="" className="w-10 h-12"/>
-          <h3 className="bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">Chef Bazaar</h3>
+        <Link to="/" className="py-4">
+          <button className=" flex items-center gap-2 cursor-pointer">
+            <img src="./chefBazar.png" width="30px" alt="Chef Bazar" />
+            <span>Chef Bazar</span>
+          </button>
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-3 text-md">{navItems}</ul>
+        <ul className="menu menu-horizontal px-1 gap-3 text-md font-medium">{navItems}</ul>
       </div>
       <div className="navbar-end">
-        <button onClick={toggleTheme} className="bg-gray-300 btn btn-ghost btn-md rounded-4xl">
-          {theme === 'light' ? '🌙' : '☀️'}
+        <button
+          onClick={toggleTheme}
+          className="bg-gray-300 btn btn-ghost btn-md rounded-4xl"
+        >
+          {theme === "light" ? "🌙" : "☀️"}
         </button>
         <div className="hidden md:block px-3">
           {/* Avatar */}
@@ -68,22 +73,20 @@ const Navbar = () => {
           />
         </div>
 
-        {
-          user ? (
-            <button onClick={logOut} className="btn btn-outline btn-sm ml-2">
-              Logout
-            </button>
-          ) : (
-            <>
-              <Link to="/login" className="btn btn-outline btn-sm ml-2">
+        {user ? (
+          <button onClick={logOut} className="btn btn-outline btn-sm ml-2">
+            Logout
+          </button>
+        ) : (
+          <>
+            <Link to="/login" className="btn btn-outline btn-sm ml-2">
               Login
             </Link>
             <Link to="/register" className="btn btn-outline btn-sm ml-2">
               Register
             </Link>
-            </>
-          )
-        }
+          </>
+        )}
       </div>
     </div>
   );

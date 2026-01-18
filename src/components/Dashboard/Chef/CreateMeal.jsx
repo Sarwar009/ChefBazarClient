@@ -52,7 +52,7 @@ export default function CreateMeal() {
     return toast.error("You are not approved as a chef yet.");
   }
 
-  console.log(roleData.chefId, 'roledata');
+  console.log(roleData, 'roledata');
   
 
   const mealData = {
@@ -169,7 +169,7 @@ export default function CreateMeal() {
 
         {/* Chef ID & User Email */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <input type="text" value={roleData?.chefId || "Pending Approval"} readOnly className={`${inputStyle}`} placeholder="Chef ID" />
+          <input type="text" value={roleData ? roleData.chefId : "Pending Request"} readOnly className={`${inputStyle}`} placeholder="Chef ID" />
           <input type="email" value={user?.email} readOnly className={`${inputStyle} `} placeholder="Your Email" />
         </div>
 

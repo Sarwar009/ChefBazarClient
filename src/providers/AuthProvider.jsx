@@ -114,24 +114,27 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   // ================= LOAD USER ROLE DATA =================
-  useEffect(() => {
-    if (!user?.email) {
-      setRoleData(null);
-      return;
-    }
+ useEffect(() => {
+  if (!user?.email) {
+    setRoleData(null);
+    setRole(null);
+    return;
+  }
 
-    axiosSecure
-      .get(`/users/${encodeURIComponent(user.email)}`)
-      .then(res => {
-        setRoleData(res.data);
-        setRole(res.data.role);
-      })
-      .catch(err => {
-        console.error("Role fetch error:", err);
-        setRole(null);
-        setRoleData(null);
-      });
-  }, [user]);
+  axiosSecure.get(`/users/${encodeURIComponent(user.email.toLowerCase())}`)
+    .then(res => {
+      setRoleData(res.data);
+      setRole(res.data.role); // <-- important
+    })
+    .catch(err => {
+      console.error("Role fetch error:", err);
+      setRoleData({ role: "user", chefId: null });
+      setRole("user"); // fallback
+    });
+}, [user]);
+
+
+
 
   // ================= LOGOUT =================
   const logOut = async () => {
@@ -169,6 +172,7 @@ const AuthProvider = ({ children }) => {
       signInWithGoogle,
       logOut,
       updateUserProfile,
+      setUser,
     }),
     [user, role, roleData, loading]
   );

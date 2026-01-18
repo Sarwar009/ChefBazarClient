@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import axiosSecure from "../../api/AxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router";
 
 export default function UserProfile() {
   useEffect(() => {
@@ -13,6 +14,7 @@ export default function UserProfile() {
 
   const [name, setName] = useState(user?.displayName || "");
   const [photo, setPhoto] = useState(user?.photoURL || "");
+  const navigate = useNavigate()
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -29,6 +31,7 @@ export default function UserProfile() {
       });
 
       toast.success("Profile updated successfully!");
+      
     } catch (err) {
       console.error(err);
       toast.error("Failed to update profile!");
@@ -82,6 +85,7 @@ export default function UserProfile() {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           className="btn w-full bg-gradient-to-r from-purple-500 to-blue-500  text-lg font-bold"
+          onClick={() => navigate("/dashboard/my-profile")}
         >
           Update Profile
         </motion.button>

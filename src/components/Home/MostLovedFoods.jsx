@@ -14,24 +14,19 @@ export default function MostLovedFoods() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    async function fetchMeals() {
-      try {
-        const res = await axiosSecure.get("/meals");
-
-        const mealsArray = Array.isArray(res.data.meals) ? res.data.meals : [];
-        const topFavorites = mealsArray
-          .sort((a, b) => b.foodRating - a.foodRating)
-          .slice(0, 6);
-
-        setMostLoved(topFavorites);
-      } catch (error) {
-        console.error("Error fetching most loved foods:", error);
-      } finally {
-        setLoading(false);
-      }
+  async function fetchMeals() {
+    try {
+      const res = await axiosSecure.get("/meals/most-loved");
+      setMostLoved(Array.isArray(res.data) ? res.data : []);
+    } catch (error) {
+      console.error("Error fetching most loved foods:", error);
+    } finally {
+      setLoading(false);
     }
-    fetchMeals();
-  }, [API_URL]);
+  }
+  fetchMeals();
+}, []);
+
 
   const handleAddToFavorites = (meal) => {
     addToFavorites(meal, user);
@@ -48,11 +43,11 @@ export default function MostLovedFoods() {
         <p className="text-center mb-12">
           Our users’ favorite meals that they can’t stop loving
         </p>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-4 gap-4">
           {mostLoved.map((meal, idx) => (
             <motion.div
               key={meal._id || idx}
-              whileHover={{ y: -8, scale: 1.02 }}
+              whileHover={{ y: -4, scale: 1 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 300, damping: 25, duration: 0.3 }}
             >

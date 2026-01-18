@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import MealsHeader from "../../components/Meals/MealsHeader";
 import MealsGrid from "../../components/Meals/MealsGrid";
@@ -6,24 +6,22 @@ import useAuth from "../../hooks/useAuth";
 import axiosSecure from "../../api/AxiosSecure";
 
 export default function MealsPage() {
-  useEffect(() => {
-    document.title = "Meals - ChefBazzar";
-  }, []);
-
+  const { loading } = useAuth();
   const [meals, setMeals] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortOrder, setSortOrder] = useState("");
   const [pageLoading, setPageLoading] = useState(true);
-  const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalMeals, setTotalMeals] = useState(0);
 
-  const API_URL = import.meta.env.VITE_API_URL;
-  const { loading } = useAuth();
+  useEffect(() => {
+    document.title = "Meals - ChefBazzar";
+  }, []);
 
-  const ITEMS_PER_PAGE = 10;
+  const ITEMS_PER_PAGE = 9;
 
-  // Fetch meals from backend
+  // Fetch all meals once
   useEffect(() => {
     const loadMeals = async () => {
       try {
@@ -32,19 +30,11 @@ export default function MealsPage() {
           params: {
             page: currentPage,
             limit: ITEMS_PER_PAGE,
-            search: searchText || undefined,
-            category: selectedCategory !== "All" ? selectedCategory : undefined,
-            sort:
-              sortOrder === "price-low"
-                ? "asc"
-                : sortOrder === "price-high"
-                ? "desc"
-                : undefined,
           },
         });
 
-        setMeals(Array.isArray(res.data.meals) ? res.data.meals : []);
-        setTotal(res.data.total || 0);
+        setMeals(res.data.meals || []);
+        setTotalMeals(res.data.total || 0);
       } catch (err) {
         console.error("Failed to load meals:", err);
       } finally {
@@ -53,48 +43,60 @@ export default function MealsPage() {
     };
 
     loadMeals();
-  }, [API_URL, currentPage, searchText, selectedCategory, sortOrder]);
+  }, [currentPage]);
 
-  const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(totalMeals / ITEMS_PER_PAGE);
 
-  const handleSearch = (text) => {
-    setSearchText(text);
-    setCurrentPage(1); // reset to page 1
-  };
+  // Frontend filtered & sorted meals
+  const displayedMeals = useMemo(() => {
+    let filtered = [...meals];
 
-  const handleFilter = (category) => {
-    setSelectedCategory(category);
-    setCurrentPage(1); // reset to page 1
-  };
+    // Filter by search
+    if (searchText) {
+      filtered = filtered.filter((meal) =>
+        meal.foodName.toLowerCase().includes(searchText.toLowerCase())
+      );
+    }
 
-  const handleSort = (order) => {
-    setSortOrder(order);
-    setCurrentPage(1); // reset to page 1
-  };
+    // Filter by category
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter(
+        (meal) => meal.foodCategory === selectedCategory
+      );
+    }
+
+    // Sort by price
+    if (sortOrder === "price-low") {
+      filtered.sort((a, b) => a.price - b.price);
+    } else if (sortOrder === "price-high") {
+      filtered.sort((a, b) => b.price - a.price);
+    }
+
+    return filtered;
+  }, [meals, searchText, selectedCategory, sortOrder]);
 
   if (loading || pageLoading) return <LoadingSpinner />;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <MealsHeader
-        onSearch={handleSearch}
-        onFilter={handleFilter}
-        onSort={handleSort}
-        meals={meals} // pass current meals for categories
+        meals={meals} // pass full meals for category list
+        onSearch={setSearchText}
+        onFilter={setSelectedCategory}
+        onSort={setSortOrder}
       />
 
-      <MealsGrid meals={meals} />
-
+      <MealsGrid meals={displayedMeals} />
       {totalPages > 1 && (
-        <div className="flex justify-center mt-8 gap-2">
+        <div className="flex justify-center mt-10 gap-2">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`px-3 py-1 border rounded ${
+              className={`px-4 py-2 rounded border ${
                 currentPage === page
-                  ? "bg-lime-500 text-white"
-                  : "hover:bg-gray-100"
+                  ? "bg-emerald-500 text-white"
+                  : "hover:bg-gray-100 hover:text-gray-700"
               }`}
             >
               {page}

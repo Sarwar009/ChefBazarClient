@@ -23,6 +23,8 @@ import UpdateMeal from "../components/Dashboard/Chef/UpdateMeal";
 import ManageUsers from "../components/Dashboard/Admin/ManageReq/ManageUser/ManageUser";
 import ManageRequests from "../components/Dashboard/Admin/ManageReq/ManageReq";
 import { createBrowserRouter } from "react-router";
+import AboutPage from "../pages/About/About";
+import ContactPage from "../pages/Contact/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -39,11 +41,17 @@ export const router = createBrowserRouter([
         element: <Meals />,
       },
       {
+        path: "/about",
+        element: <AboutPage />
+      },
+      {
+        path: "/contact",
+        element: <ContactPage />
+      },
+      {
         path: "/meals/:id",
         element: (
-          <PrivateRoute>
             <MealDetails />
-          </PrivateRoute>
         ),
       },
       {

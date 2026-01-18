@@ -10,18 +10,19 @@ import ChefMenu from "../../components/Dashboard/Sidebar/Menu/ChefMenu";
 import toast from "react-hot-toast";
 import { useTheme } from "../../providers/ThemeProvider";
 import axiosSecure from "../../api/AxiosSecure";
+import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 
 export default function Dashboard() {
   useEffect(() => {
     document.title = "Dashboard - Chef Bazar";
   }, []);
 
-  const { user, role } = useAuth();
+  const { user, role, loading } = useAuth();
     const { theme, toggleTheme } = useTheme();
-  const API_URL = import.meta.env.VITE_API_URL;
 
+  if (loading) return <LoadingSpinner /> ;
   if (!user) return <p>Login to see dashboard</p>;
-  if (!role) return <p>no role</p>;
+  if (!role) return <p className="text-center">No role detected</p>;
 
   const renderSidebarMenu = () => {
     switch (role) {
@@ -35,6 +36,7 @@ export default function Dashboard() {
         return <UserMenu />;
     }
   };
+  
 
 const targetRole = role === "user" ? "chef" : "admin";
 

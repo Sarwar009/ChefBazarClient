@@ -76,6 +76,7 @@ const Login = () => {
                   }
                 })}
                 id='email'
+                autoComplete='email'
                 placeholder='Enter Your Email Here'
                 className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500'
                 data-temp-mail-org='0'

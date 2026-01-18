@@ -77,7 +77,7 @@ export default function ManageUsers() {
         />
 
         <select
-          className="border rounded-lg px-4 py-2 w-full md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border rounded-lg px-4 py-2 w-full md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-500 "
           value={roleFilter}
           onChange={(e) => setRoleFilter(e.target.value)}
         >
@@ -90,7 +90,7 @@ export default function ManageUsers() {
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full border border-gray-200 rounded-lg">
+        <table className="w-full rounded-lg">
           <thead>
             <tr>
               <th className="px-4 py-3 text-left">Name</th>
@@ -108,9 +108,7 @@ export default function ManageUsers() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: index * 0.05 }}
-                className={`${
-                  index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                } hover:bg-gray-100`}
+                className='shadow'
               >
                 <td className="px-4 py-3 font-medium">
                   {user.displayName}

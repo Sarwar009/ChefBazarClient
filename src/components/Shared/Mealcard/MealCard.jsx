@@ -1,89 +1,104 @@
-import React from 'react';
+import React from "react";
 import { motion } from "framer-motion";
-import { FaHeart, FaLocationArrow, FaSearchLocation} from 'react-icons/fa'
-import useAuth from '../../../hooks/useAuth';
-import toast from 'react-hot-toast';
-import MealDetailsBtn from '../Button/MealDetailsBtn';
-import axiosSecure from '../../../api/AxiosSecure';
+import { FaHeart, FaSearchLocation } from "react-icons/fa";
+import useAuth from "../../../hooks/useAuth";
+import toast from "react-hot-toast";
+import MealDetailsBtn from "../Button/MealDetailsBtn";
+import axiosSecure from "../../../api/AxiosSecure";
 
-const MealCard = ({meal}) => {
-  const {user} = useAuth();
-  const BackenAPI = import.meta.env.VITE_API_URL;
-  
-const addToFavorites = async (selectedMeal) => {
-  try {
-    const res = await axiosSecure.post("/favorites", {
-      userEmail: user.email,
-      mealId: selectedMeal._id,
-      mealName: selectedMeal.foodName,
-      chefId: selectedMeal.chefId,
-      chefName: selectedMeal.chefName,
-      price: selectedMeal.price,
-      foodImage: selectedMeal.foodImage,
-      createdAt: new Date(),
-    });
+const MealCard = ({ meal }) => {
+  const { user } = useAuth();
 
-    if (res.data.alreadyExists) {
-      toast.error("Already in Favorites!");
-    } else {
-      toast.success("Added to Favorites!");
+  const addToFavorites = async (selectedMeal) => {
+    try {
+      const res = await axiosSecure.post("/favorites", {
+        userEmail: user?.email,
+        mealId: selectedMeal._id,
+        mealName: selectedMeal.foodName,
+        chefId: selectedMeal.chefId,
+        chefName: selectedMeal.chefName,
+        price: selectedMeal.price,
+        foodImage: selectedMeal.foodImage,
+        createdAt: new Date(),
+      });
+
+      if (res.data.alreadyExists) {
+        toast.error("Already in Favorites!");
+      } else {
+        toast.success("Added to Favorites!");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add favorite!");
     }
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to add favorite!");
-  }
+  };
+
+  return (
+    <motion.div
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 260, damping: 20 }}
+      className="relative loved-card rounded-3xl shadow-lg overflow-hidden flex flex-col h-full group"
+    >
+      {/* Favorite */}
+      <button
+        onClick={() => addToFavorites(meal)}
+        title="Add to favorites"
+        className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/80 backdrop-blur hover:scale-110 transition"
+      >
+        <FaHeart className="text-red-500" size={18} />
+      </button>
+
+      {/* Image */}
+      <div className="relative h-56 w-full overflow-hidden">
+        <motion.img
+          src={meal.foodImage}
+          alt={meal.foodName}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+      </div>
+
+      {/* Content */}
+      <div className="p-5 flex flex-col flex-1">
+        {/* Top info */}
+        <div>
+          <div className="flex justify-between items-start mb-1">
+            <h3 className="text-lg font-bold leading-tight line-clamp-1">
+              {meal.foodName}
+            </h3>
+
+            <div className="flex items-center gap-1 text-sm">
+              <FaSearchLocation />
+              <span>Dhaka</span>
+            </div>
+          </div>
+
+          <p className="text-sm font-medium mb-1">
+            Chef ID: {meal.chefId}
+          </p>
+
+          <p className="text-sm line-clamp-3 mb-3">
+            {meal.foodDescription}
+          </p>
+        </div>
+
+        {/* Bottom info */}
+        <div className="mt-auto">
+          <div className="flex items-center justify-between mb-3">
+            <p className="font-bold text-lg">
+              ৳ {meal.price}
+            </p>
+
+            <span className="font-semibold flex items-center gap-1">
+              ⭐ {meal.rating}
+            </span>
+          </div>
+
+          <MealDetailsBtn mealId={meal._id} />
+        </div>
+      </div>
+    </motion.div>
+  );
 };
-
-
-
-
-    return (
-        <motion.div
-              key={meal.id}
-              whileHover={{ scale: 1.08 }}
-              className="loved-card rounded-3xl shadow-lg overflow-hidden group flex flex-col transition-all duration-300 relative"
-            >
-            <button
-                  className="absolute top-3 right-3 z-50 text-red-500 hover:text-red-700 cursor-pointer"
-                  onClick={() => addToFavorites(meal)}
-                  title="add to favorites"
-                >
-                  <FaHeart size={24} />
-                </button>
-              {/* Image with hover zoom */}
-              <div className="relative h-56 w-full overflow-hidden">
-                <motion.img
-                  src={meal.foodImage}
-                  alt={meal.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent"></div>
-              </div>
-
-              {/* Content */}
-              <div className="p-5 flex flex-col flex-1 justify-between">
-                <div>
-                  <div className='flex justify-between'>
-                    <h3 className="text-xl font-bold mb-1">
-                    {meal.foodName}
-                  </h3>
-                  <p className='flex gap-2 items-center'><FaSearchLocation size='18'/><span>Dhaka</span></p>
-                  </div>
-                  <p className='font-bold'>ChefId : {meal.chefId}</p>
-                  <p>{meal.foodDescription}</p>
-                  <p className=" text-sm mb-2">{meal.chef}</p>
-                  <div className="text-orange-600 font-bold text-lg mb-2 flex items-center justify-between mt-3">
-                  
-                    <p>৳ {meal.price}</p>
-                    <span className="text-yellow-500 font-semibold ">
-                    ⭐ {meal.rating}
-                  </span>
-                  </div>
-                </div>
-                  <MealDetailsBtn mealId={meal._id} />
-              </div>
-            </motion.div>
-    );
-}
 
 export default MealCard;

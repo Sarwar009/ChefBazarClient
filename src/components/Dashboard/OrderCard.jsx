@@ -1,6 +1,7 @@
 import StripePayment from "./StripePayment";
 
-export default function OrderCard({ order, setOrders }) {
+export default function OrderCard({ order, setOrders, activePaymentOrderId,
+  setActivePaymentOrderId }) {
   const {
     foodName,
     foodImage,
@@ -35,8 +36,19 @@ export default function OrderCard({ order, setOrders }) {
 
       {/* Show Pay button only if order accepted & payment pending */}
       {orderStatus === "accepted" && paymentStatus !== "paid" && (
-        <StripePayment order={order} setOrders={setOrders} />
-      )}
+  <>
+    {activePaymentOrderId !== order._id ? (
+      <button
+        onClick={() => setActivePaymentOrderId(order._id)}
+        className="mt-3 px-4 py-2 bg-emerald-500 rounded"
+      >
+        Pay Now
+      </button>
+    ) : (
+      <StripePayment order={order} setOrders={setOrders} />
+    )}
+  </>
+)}
     </div>
   );
 }

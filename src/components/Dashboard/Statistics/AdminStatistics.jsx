@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell } from "recharts";
 import axiosSecure from "../../../api/AxiosSecure";
+import LoadingSpinner from "../../Shared/LoadingSpinner";
 
 const COLORS = ["#f59e0b", "#22c55e"]; // Pending, Delivered
 
@@ -32,7 +33,7 @@ export default function PlatformStats() {
 }, []);
 
 
-  if (!stats) return <p>Loading...</p>;
+  if (!stats) return <LoadingSpinner />;
 
   // Correct field names
   const paymentsData = [{ name: "Payments", amount: stats.totalPaymentAmount || 0 }];

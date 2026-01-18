@@ -3,32 +3,36 @@ import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
 import LoadingSpinner from "../../Shared/LoadingSpinner";
 import axiosSecure from "../../../api/AxiosSecure";
+import { motion } from "framer-motion";
 
 export default function ChefOrderRequests() {
+  const { roleData } = useAuth();
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     document.title = "Manage Orders - Chef Bazar";
   }, []);
 
-  const { roleData } = useAuth();
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const API_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
     if (!roleData?.chefId) return;
-    console.log(roleData.chefId, 'roledata');
-    
 
     const fetchOrders = async () => {
+      setLoading(true);
       try {
         const res = await axiosSecure.get(
-          `/orders/chef/${roleData.chefId}`
+          `/orders/chef/${roleData.chefId}`, 
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
         );
         setOrders(res.data);
-        setLoading(false);
       } catch (err) {
         console.error(err);
         toast.error("Failed to load orders");
+      } finally {
         setLoading(false);
       }
     };
@@ -36,55 +40,54 @@ export default function ChefOrderRequests() {
     fetchOrders();
   }, [roleData]);
 
-const updateStatus = async (orderId, newStatus) => {
-  try {
-    const token = localStorage.getItem("accessToken");
-    const res = await axiosSecure.patch(
-      `/orders/${orderId}/status`,
-      { status: newStatus },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (res.status === 200) {
-      setOrders((prev) =>
-        prev.map((o) =>
-          o._id === orderId ? { ...o, orderStatus: newStatus } : o
-        )
+  const updateStatus = async (orderId, newStatus) => {
+    try {
+      const res = await axiosSecure.patch(
+        `/orders/${orderId}/status`,
+        { status: newStatus },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
       );
-      toast.success(`Order ${newStatus}`);
+
+      if (res.status === 200) {
+        setOrders((prev) =>
+          prev.map((o) =>
+            o._id === orderId ? { ...o, orderStatus: newStatus } : o
+          )
+        );
+        toast.success(`Order ${newStatus}`);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update order");
     }
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to update order");
-  }
-};
+  };
 
-const formatDateTime = (date) => {
-  return new Date(date).toLocaleString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-};
+  const formatDateTime = (date) =>
+    new Date(date).toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
 
-  console.log(orders, 'orders');
-  
-  if (!orders.length) return <p className="text-center py-10">No orders yet</p>;
-  
   if (loading) return <LoadingSpinner />;
 
-  return (
-    <div className="container mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-6 text-center">Order Requests</h2>
+  if (!orders.length)
+    return <p className="text-center py-16 text-lg">No orders yet</p>;
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-10">
+      <h2 className="text-3xl md:text-4xl font-extrabold mb-8 text-center">
+        Order Requests
+      </h2>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         {orders.map((order) => {
           const {
             _id,
@@ -96,35 +99,40 @@ const formatDateTime = (date) => {
             orderTime,
             userAddress,
             paymentStatus,
-            
           } = order;
 
-          // Button logic
           const isCancelled = orderStatus === "cancelled";
           const isAccepted = orderStatus === "accepted";
           const isDelivered = orderStatus === "delivered";
 
           return (
-            <div key={_id} className="p-4 rounded-xl shadow-sm">
-              <h3 className="text-xl font-bold">{foodName}</h3>
-              <p>Price: ${price}</p>
-              <p>Quantity: {quantity}</p>
-              <p>
-                Status: <span className="font-semibold">{orderStatus}</span>
-              </p>
-              <p>User: {userEmail}</p>
-              <p>Address: {userAddress}</p>
-              <p>Payment: {paymentStatus}</p>
-              <p>Ordered at: {formatDateTime(orderTime)}</p>
+            <motion.div
+              key={_id}
+              className="rounded-2xl shadow-lg p-5 flex flex-col justify-between hover:scale-[1.02] transition-transform duration-300"
+              whileHover={{ scale: 1.02 }}
+            >
+              <div className="flex flex-col gap-2">
+                <h3 className="text-xl font-bold line-clamp-1">{foodName}</h3>
+                <p>Price: ৳ {price}</p>
+                <p>Quantity: {quantity}</p>
+                <p>
+                  Status: <span className="font-semibold">{orderStatus}</span>
+                </p>
+                <p>User: {userEmail}</p>
+                <p>Address: {userAddress}</p>
+                <p>Payment: {paymentStatus}</p>
+                <p>Ordered at: {formatDateTime(orderTime)}</p>
+              </div>
 
-              <div className="flex gap-2 mt-4">
+              {/* Buttons */}
+              <div className="flex flex-wrap gap-2 mt-4">
                 <button
                   onClick={() => updateStatus(_id, "cancelled")}
                   disabled={isCancelled || isAccepted || isDelivered}
-                  className={`px-3 py-1 rounded ${
+                  className={`flex-1 px-3 py-2 rounded-lg text-white font-medium transition ${
                     isCancelled || isAccepted || isDelivered
-                      ? "bg-gray-300 cursor-not-allowed"
-                      : "bg-red-500 text-white hover:bg-red-600"
+                      ? "bg-gray-500 cursor-not-allowed "
+                      : "bg-red-500 hover:bg-red-600 cursor-pointer"
                   }`}
                 >
                   Cancel
@@ -133,10 +141,10 @@ const formatDateTime = (date) => {
                 <button
                   onClick={() => updateStatus(_id, "accepted")}
                   disabled={isCancelled || isAccepted || isDelivered}
-                  className={`px-3 py-1 rounded ${
+                  className={`flex-1 px-3 py-2 rounded-lg text-white font-medium transition ${
                     isCancelled || isAccepted || isDelivered
-                      ? "bg-gray-300 cursor-not-allowed"
-                      : "bg-green-500 text-white hover:bg-green-600"
+                      ? "bg-gray-500 cursor-not-allowed"
+                      : "bg-green-500 hover:bg-green-600 cursor-pointer"
                   }`}
                 >
                   Accept
@@ -145,16 +153,16 @@ const formatDateTime = (date) => {
                 <button
                   onClick={() => updateStatus(_id, "delivered")}
                   disabled={!isAccepted || isCancelled || isDelivered}
-                  className={`px-3 py-1 rounded ${
+                  className={`flex-1 px-3 py-2 rounded-lg text-white font-medium transition ${
                     !isAccepted || isCancelled || isDelivered
-                      ? "bg-gray-300 cursor-not-allowed"
-                      : "bg-blue-500 text-white hover:bg-blue-600"
+                      ? "bg-linear-to-r from-yellow-400 via-orange-500 to-red-500 cursor-not-allowed"
+                      : "bg-green-500 hover:bg-green-600"
                   }`}
                 >
                   Deliver
                 </button>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>

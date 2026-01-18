@@ -16,14 +16,16 @@ export default function MealDetails() {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
-  useEffect(() => {
-    document.title = "Meal Details - Chef Bazar";
-  }, []);
+  
 
   useEffect(() => {
     axiosSecure.get(`/meals/${id}`).then((res) => setMeal(res.data));
     axiosSecure.get(`/reviews/${id}`).then((res) => setReviews(res.data));
+    
   }, [id, API_URL]);
+  useEffect(() => {
+  if (meal) document.title = `${meal.foodName} - Chef Bazar`;
+}, [meal]);
 
   const onSubmit = (data) => {
   if (!user) return navigate("/login");
@@ -94,6 +96,7 @@ const addToFavorites = async (selectedMeal) => {
     toast.error("Failed to add favorite!");
   }
 };
+
 
 
   if (!meal)
